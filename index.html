@@ -1,0 +1,2297 @@
+<!doctype html>
+<html lang="sr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Пип учи речи</title>
+<meta name="description" content="Игра за учење читања и писања (ћирилица) за децу од 5 до 6 година. Мали ванземаљац Пип учи речи.">
+<meta name="theme-color" content="#0e1238">
+<meta name="color-scheme" content="dark">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Пип">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Пип учи речи">
+<meta property="og:description" content="Игра за учење читања и писања (ћирилица) за децу од 5 до 6 година. Мали ванземаљац Пип учи речи.">
+<meta property="og:url" content="https://freshairservis.github.io/pip-uci-reci/">
+<meta property="og:image" content="https://freshairservis.github.io/pip-uci-reci/icons/icon-512.png">
+<meta property="og:locale" content="sr_RS">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&family=Rubik:wght@500;700&display=swap&subset=cyrillic" rel="stylesheet">
+<style>
+:root{color-scheme:dark;
+  --sky:#0e1238;--surface:#1a2058;--star:#ffd54a;--mint:#7ee0b5;--pink:#ff9ec7;--text:#f3f5ff;--muted:#a3abd6;
+  --line:rgba(243,245,255,.22);--glow:rgba(255,213,74,.5);
+  --body:"Andika","Atkinson Hyperlegible","Segoe UI",Roboto,system-ui,sans-serif;
+  --head:"Rubik","Segoe UI",Roboto,system-ui,sans-serif;
+  --emoji:"Noto Color Emoji","Apple Color Emoji","Segoe UI Emoji",sans-serif;
+  --pad-bg:#fffdf6;--pad-ink:#2b3170;--pad-guide:rgba(86,120,200,.40);--pad-model:rgba(90,110,200,.26);--pad-accent:#17a673}
+body[data-pl="2"]{--sky:#0c2444;--surface:#16396b}
+body[data-pl="3"]{--sky:#1d1242;--surface:#33206b}
+body[data-pl="4"]{--sky:#07282f;--surface:#0f4650}
+body[data-pl="5"]{--sky:#351433;--surface:#5a2250}
+body[data-pl="6"]{--sky:#151a33;--surface:#2b3358}
+body[data-pl="7"]{--sky:#062438;--surface:#0f4061}
+body[data-pl="8"]{--sky:#2b0f17;--surface:#542030}
+body[data-pl="9"]{--sky:#082a3a;--surface:#134c66}
+body[data-pl="10"]{--sky:#2a1036;--surface:#4b1f5e}
+/* galaxy 2: same stars + two soft nebulae, so the second galaxy looks like another place */
+body[data-gal="2"]{background-image:radial-gradient(ellipse 70% 38% at 88% 16%,rgba(196,120,255,.24),transparent 70%),radial-gradient(ellipse 60% 34% at 6% 78%,rgba(70,214,255,.17),transparent 70%),radial-gradient(1.5px 1.5px at 22px 38px,rgba(243,245,255,.6),transparent),radial-gradient(1px 1px at 120px 92px,rgba(243,245,255,.5),transparent),radial-gradient(1.3px 1.3px at 76px 132px,rgba(255,220,250,.45),transparent),radial-gradient(1px 1px at 160px 20px,rgba(243,245,255,.55),transparent);
+  background-size:100% 100%,100% 100%,170px 150px,170px 150px,170px 150px,170px 150px;background-repeat:no-repeat,no-repeat,repeat,repeat,repeat,repeat}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+html,body{height:100%;margin:0}
+body{background-color:var(--sky);color:var(--text);font-family:var(--body);font-size:18px;line-height:1.35;overflow:hidden;overscroll-behavior:none;touch-action:manipulation;-webkit-user-select:none;user-select:none;transition:background-color .8s;
+  background-image:radial-gradient(1.5px 1.5px at 22px 38px,rgba(243,245,255,.55),transparent),radial-gradient(1px 1px at 120px 92px,rgba(243,245,255,.45),transparent),radial-gradient(1.3px 1.3px at 76px 132px,rgba(243,245,255,.4),transparent),radial-gradient(1px 1px at 160px 20px,rgba(243,245,255,.5),transparent);
+  background-size:190px 160px}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:4px solid var(--star);outline-offset:3px}
+#app{height:100%;max-width:520px;margin:0 auto;display:flex;flex-direction:column;position:relative;
+  padding-block:max(10px,env(safe-area-inset-top,0px)) max(10px,env(safe-area-inset-bottom,0px));
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+@supports (height:100dvh){html,body,#app{height:100dvh}}
+.screen{flex:1;min-height:0;display:flex;flex-direction:column}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:64px;flex:none}
+.grp{display:flex;gap:10px}
+.ibtn{position:relative;width:64px;height:64px;border-radius:50%;border:2px solid var(--line);background:transparent;color:var(--muted);display:grid;place-items:center;padding:0;flex:none}
+.ibtn svg{width:30px;height:30px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+/* the child's "back" button: the same round arrow, top-left, on every screen (game, ship, wardrobe, pantry, album) */
+.ibtn.kback{color:var(--mint);border-color:var(--mint);border-width:3px;background:rgba(126,224,181,.10)}
+.ibtn.kback svg{stroke-width:3}
+.ph .kback{order:-1}
+.ph .kback+h2{flex:1}
+.ibtn .bdg{position:absolute;right:-4px;top:-4px;min-width:24px;height:24px;border-radius:12px;background:var(--star);color:var(--sky);font:700 14px/24px var(--head);text-align:center;padding:0 5px}
+.primary{position:relative;min-height:72px;width:100%;max-width:340px;border:0;border-radius:36px;background:var(--star);color:var(--sky);font:700 28px var(--head);display:flex;align-items:center;justify-content:center;gap:12px;padding:0 28px;box-shadow:0 6px 0 rgba(0,0,0,.25);cursor:pointer}
+.primary:active{transform:translateY(3px);box-shadow:0 3px 0 rgba(0,0,0,.25)}
+.primary svg{width:28px;height:28px;fill:currentColor}
+.primary input[type=file],.b2 input[type=file]{position:absolute;inset:0;opacity:0;width:100%;height:100%;cursor:pointer}
+.center{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center;min-height:0;overflow-y:auto}
+#strip{flex:none;background:var(--surface);border-left:5px solid var(--star);border-radius:12px;padding:8px 14px;margin-bottom:6px;font-size:18px;min-height:44px;display:flex;align-items:center}
+#count{font:700 20px var(--head);min-width:0}
+.homebot{flex:none;display:flex;flex-direction:column;align-items:center;gap:8px;padding-top:2px}
+/* Pip */
+.pip{width:var(--ps,96px);height:calc(var(--ps,96px)*1.08);flex:none}
+.pip svg{width:100%;height:100%;overflow:visible;display:block}
+/* 3D Pip (pipsprite.js): a canvas over the SVG; the SVG stays as the fallback until the sprites have loaded */
+.pip{position:relative}
+.pip canvas.pip-spr{position:absolute;pointer-events:none}
+.pip.spr svg>:not(.zz){visibility:hidden}
+.pip .ant path{stroke:var(--mint);stroke-width:4;fill:none;stroke-linecap:round}
+.pip .tip{fill:var(--star);filter:drop-shadow(0 0 5px var(--glow));animation:tip 2s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+.pip .t2{animation-delay:.9s}
+@keyframes tip{50%{opacity:.6}}
+.pip .body{fill:var(--mint)}
+.pip .belly{fill:rgba(255,255,255,.28)}
+.pip .cheek{fill:var(--star);opacity:.35}
+.pip .pupil{fill:var(--sky)}
+.pip .eye{transform-box:fill-box;transform-origin:center;transition:transform .25s,opacity .25s}
+.pip .m,.pip .lid{fill:none;stroke:var(--sky);stroke-width:3.5;stroke-linecap:round}
+.pip .m-h{fill:var(--sky)}
+.pip .m-h,.pip .m-t,.pip .lid{display:none}
+.pip .zz{fill:var(--star);font:700 20px var(--head);opacity:0}
+.pip[data-s=idle] svg{animation:float 3.2s ease-in-out infinite}
+@keyframes float{50%{transform:translateY(-6px)}}
+.pip[data-s=happy] svg{animation:bounce .6s ease-in-out 1}
+@keyframes bounce{40%{transform:translateY(-16px) scale(1.04)}}
+.pip[data-s=happy] .eye{transform:scaleY(.28)}
+.pip[data-s=happy] .m-n{display:none}.pip[data-s=happy] .m-h{display:block}
+.pip[data-s=thinking] svg{transform:rotate(-9deg);transform-origin:50% 90%;transition:transform .3s}
+.pip[data-s=thinking] .m-n{display:none}.pip[data-s=thinking] .m-t{display:block}
+.pip[data-s=thinking] .pupil{transform:translate(3px,-3px)}
+.pip[data-s=listen] .tip{animation:ears .45s ease-in-out infinite alternate}
+@keyframes ears{from{transform:scale(1);opacity:.8}to{transform:scale(1.55);opacity:1}}
+.pip[data-s=sleepy] svg{animation:float 6s ease-in-out infinite}
+.pip[data-s=sleepy] .eye{transform:scaleY(.45)}
+.pip[data-s=sleeping] svg{animation:breathe 4s ease-in-out infinite;transform-origin:50% 100%}
+@keyframes breathe{50%{transform:scale(1.03,1.05)}}
+.pip[data-s=sleeping] .eye{opacity:0}.pip[data-s=sleeping] .lid{display:block}
+.pip[data-s=sleeping] .zz{opacity:1;animation:zz 3s ease-in-out infinite}
+.pip[data-s=sleeping] .z2{animation-delay:1.4s}
+.pip[data-s=dance] svg{animation:dance .9s ease-in-out infinite;transform-origin:50% 90%}
+.pip[data-s=dance] .eye{transform:scaleY(.28)}
+.pip[data-s=dance] .m-n{display:none}.pip[data-s=dance] .m-h{display:block}
+.pip[data-s=dance] .tip{animation:ears .3s ease-in-out infinite alternate}
+@keyframes dance{0%,100%{transform:rotate(-9deg)}25%{transform:translateY(-14px) rotate(0)}50%{transform:rotate(9deg)}75%{transform:translateY(-14px) rotate(0)}}
+@keyframes zz{0%{opacity:0;transform:translateY(8px)}30%{opacity:1}100%{opacity:0;transform:translateY(-14px)}}
+/* part B states: eat (mouth chomps), yum, yuck (sour face + shiver), wave (arm), giggle (laughing eyes + shake) */
+.pip .arm,.pip .lgh,.pip .m-o{display:none}
+.pip .arm{fill:var(--mint);transform-box:fill-box;transform-origin:15% 95%}
+.pip .lgh{fill:none;stroke:var(--sky);stroke-width:3.5;stroke-linecap:round}
+.pip .m-o{fill:var(--sky)}
+.pip .body{transition:fill .3s}
+.pip[data-s=eat] .m-n,.pip[data-s=yum] .m-n,.pip[data-s=wave] .m-n,.pip[data-s=giggle] .m-n,.pip[data-s=yuck] .m-n{display:none}
+.pip[data-s=eat] .m-h{display:block;transform-box:fill-box;transform-origin:50% 0;animation:chomp .34s ease-in-out 4}
+@keyframes chomp{50%{transform:scaleY(.2)}}
+.pip[data-s=eat] svg{animation:munch .34s ease-in-out 4}
+@keyframes munch{50%{transform:scale(1.04,.96)}}
+.pip[data-s=eat] .cheek,.pip[data-s=yum] .cheek,.pip[data-s=giggle] .cheek{opacity:.75}
+.pip[data-s=yum] .eye,.pip[data-s=wave] .eye{transform:scaleY(.28)}
+.pip[data-s=yum] .m-h,.pip[data-s=wave] .m-h,.pip[data-s=giggle] .m-h{display:block}
+.pip[data-s=yum] svg{animation:bounce .55s ease-in-out 2}
+.pip[data-s=yuck] .m-o{display:block}
+.pip[data-s=yuck] .eye{transform:scale(.9,.35)}
+.pip[data-s=yuck] .body{fill:#b9e27a}
+.pip[data-s=yuck] svg{animation:shiver .09s linear 12}
+@keyframes shiver{25%{transform:translateX(-2.5px) rotate(-2deg)}75%{transform:translateX(2.5px) rotate(2deg)}}
+.pip[data-s=wave] .arm{display:block;animation:wave .42s ease-in-out 6 alternate}
+@keyframes wave{from{transform:rotate(-18deg)}to{transform:rotate(26deg)}}
+.pip[data-s=giggle] .eye{opacity:0}.pip[data-s=giggle] .lgh{display:block}
+.pip[data-s=giggle] svg{animation:giggle .15s ease-in-out 8;transform-origin:50% 90%}
+@keyframes giggle{25%{transform:rotate(-5deg) translateY(-2px)}75%{transform:rotate(5deg) translateY(-2px)}}
+.pip.no{animation:headno .5s ease-in-out}
+@keyframes headno{20%{transform:rotate(-10deg)}40%{transform:rotate(9deg)}60%{transform:rotate(-7deg)}80%{transform:rotate(5deg)}}
+#gamePip,#shipPip,#mapPip .pip{cursor:pointer;-webkit-tap-highlight-color:transparent}
+#mapPip .pip{pointer-events:auto}
+#gamePip{position:relative;z-index:6;transition:transform .3s;transform-origin:50% 25%}
+#gamePip.feed{transform:scale(1.3)}
+/* home / map */
+#map{position:relative;flex:1;min-height:0;margin:2px 0 4px}
+#mapSvg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+#mapSvg line{stroke:var(--line);stroke-width:2.5;stroke-dasharray:2 8;stroke-linecap:round;vector-effect:non-scaling-stroke}
+#mapSvg line.done{stroke:var(--mint)}
+.sstar{position:absolute;width:56px;height:56px;margin:-28px 0 0 -28px;border:0;background:none;padding:0;display:grid;place-items:center;border-radius:50%;z-index:1}
+.sstar svg{width:20px;height:20px;fill:var(--star);filter:drop-shadow(0 0 5px var(--glow));animation:tw 3.2s ease-in-out infinite;animation-delay:var(--d,0s)}
+.sstar.m svg{width:28px;height:28px}
+@keyframes tw{50%{opacity:.55;transform:scale(.8)}}
+#starLabel{position:absolute;left:0;right:0;bottom:2px;text-align:center;font:700 44px var(--body);letter-spacing:.08em;color:var(--star);text-shadow:0 2px 12px var(--sky),0 0 4px var(--sky);opacity:0;transition:opacity .3s;pointer-events:none;z-index:5}
+#starLabel.show{opacity:1}
+.planet{position:absolute;width:92px;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:3px;z-index:2;border:0;background:none;padding:0;color:inherit;border-radius:20px}
+.planet.wiggle .orb{animation:wig .4s}
+.planet:active .orb{transform:scale(.94)}
+.planet .orb{width:68px;height:68px;border-radius:50%;background:var(--pg);box-shadow:inset -9px -9px 16px rgba(0,0,0,.3),0 0 22px var(--pc);display:grid;place-items:center;font:700 28px var(--emoji);color:var(--sky)}
+.planet .nm{font:500 15px var(--head);color:var(--text);text-shadow:0 1px 5px var(--sky),0 0 3px var(--sky);white-space:nowrap}
+.planet.lock .orb{filter:grayscale(.75) brightness(.5);box-shadow:none}
+.planet.lock .nm{color:var(--muted)}
+.planet.cur .orb{outline:3px solid var(--star);outline-offset:4px}
+#mapPip{position:absolute;z-index:3;transform:translate(-50%,-50%);transition:left 1.5s ease-in-out,top 1.5s ease-in-out;pointer-events:none}
+#mapPip.hop .pip{animation:bounce .5s ease-in-out 3}
+#galBtn{position:absolute;left:0;top:0;z-index:4;width:92px;height:60px;border-radius:30px;border:2px solid var(--line);background:rgba(10,14,50,.45);display:flex;align-items:center;justify-content:center;gap:9px;padding:0}
+#galBtn i{width:14px;height:14px;border-radius:50%;border:2px solid var(--muted)}
+#galBtn i.on{background:var(--star);border-color:var(--star);box-shadow:0 0 8px var(--glow)}
+#galBtn svg{width:18px;height:18px;fill:none;stroke:var(--star);stroke-width:3;stroke-linecap:round;stroke-linejoin:round;margin-left:-2px}
+/* galaxy celebration */
+#party{z-index:82;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;background:radial-gradient(circle at 50% 48%,rgba(255,213,74,.34),rgba(255,158,199,.12) 32%,rgba(5,8,30,.92) 62%)}
+#party .cf{position:absolute;inset:0;pointer-events:none}
+#party .cf i{position:absolute;top:-24px;width:12px;height:16px;border-radius:3px;background:var(--c);opacity:0;animation:fall var(--t) linear var(--d) 2 both}
+#party .cf i.st{width:22px;height:22px;border-radius:0;clip-path:polygon(50% 0%,62% 36%,100% 36%,69% 58%,80% 94%,50% 72%,20% 94%,31% 58%,0% 36%,38% 36%)}
+@keyframes fall{0%{opacity:1;transform:translate(0,0) rotate(0)}100%{opacity:1;transform:translate(var(--x),110vh) rotate(var(--r))}}
+#party .pbig{filter:drop-shadow(0 0 30px var(--glow))}
+/* rocket bar */
+#rocket{flex:none;display:flex;align-items:center;gap:6px;height:38px;margin:0 0 6px}
+#rkPlanet{width:24px;height:24px;border-radius:50%;background:var(--pg);flex:none;box-shadow:0 0 8px var(--pc)}
+#track{flex:1;display:flex;gap:3px;align-items:center;justify-content:space-between;min-width:0}
+.slot{flex:1 1 0;max-width:28px;aspect-ratio:1;border-radius:50%;border:2px dashed var(--line);transition:background .3s}
+.slot.on{border:0;background:var(--star);filter:drop-shadow(0 0 5px var(--glow));clip-path:polygon(50% 0%,62% 36%,100% 36%,69% 58%,80% 94%,50% 72%,20% 94%,31% 58%,0% 36%,38% 36%)}
+#rkIcon{width:36px;height:36px;flex:none}
+#rkIcon svg{width:100%;height:100%;display:block;overflow:visible}
+#rkIcon.near svg{animation:shake .5s ease-in-out infinite}
+@keyframes shake{25%{transform:translateX(-2px) rotate(-3deg)}75%{transform:translateX(2px) rotate(3deg)}}
+.rk-body{fill:#f3f5ff}.rk-fin{fill:#ff7a8a}.rk-win{fill:#4fc3f7}.rk-flame{fill:var(--star)}
+/* stage / rounds */
+#stage{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column}
+.round{margin:auto;width:100%;display:flex;flex-direction:column;align-items:center;gap:16px;animation:rin .3s ease-out;padding:2px 0}
+@keyframes rin{from{opacity:0;transform:translateY(10px)}}
+.round.lk .tile,.round.lk .pic-btn,.round.lk .card,.round.lk .okbtn{opacity:.78}
+.newbadge{font:700 24px var(--head);background:var(--star);color:var(--sky);border-radius:20px;padding:4px 18px;animation:pop .6s ease-out}
+@keyframes pop{0%{transform:scale(.4);opacity:0}60%{transform:scale(1.15)}100%{transform:scale(1);opacity:1}}
+.pic{font:92px/1.1 var(--emoji);text-align:center;flex:none}
+button.pic{position:relative;border:0;background:none;color:inherit;padding:0 12px;border-radius:28px;cursor:pointer;transition:transform .2s}
+button.pic:active,.pic.pulse{transform:scale(1.07)}
+.pic .pk{position:absolute;right:-4px;bottom:6px;width:32px;height:32px;border-radius:50%;background:var(--surface);border:2px solid var(--line);color:var(--muted);display:grid;place-items:center;line-height:0}
+.pic .pk svg{width:18px;height:18px;fill:currentColor}
+.pic.nopic{filter:grayscale(.2)}
+#replayBtn.glow{border-color:var(--star);color:var(--star);box-shadow:0 0 16px var(--glow);animation:rglow 1.2s ease-in-out 2}
+@keyframes rglow{50%{box-shadow:0 0 4px var(--glow);transform:scale(1.06)}}
+.pic.sm{font-size:64px}
+@media (min-height:760px){.pic{font-size:116px}.pic.sm{font-size:72px}}
+.pic.flip{animation:flip .5s ease-out}
+@keyframes flip{from{transform:rotateY(90deg)}}
+.dots{display:flex;gap:8px;justify-content:center}
+.dots i{width:14px;height:14px;border-radius:50%;border:2px solid var(--line)}
+.dots i.hi{background:var(--star);border-color:var(--star);box-shadow:0 0 10px var(--glow)}
+.tiles{--c:4;display:flex;flex-wrap:wrap;justify-content:center;gap:10px;width:100%;max-width:calc(var(--c)*86px + (var(--c) - 1)*10px)}
+.tiles.t3{--c:3}
+.tile{flex:0 0 calc((100% - (var(--c) - 1)*10px)/var(--c));aspect-ratio:1;min-width:0;border-radius:22px;border:3px solid var(--line);background:var(--surface);color:var(--text);font:700 clamp(36px,12vw,52px)/1 var(--body);display:grid;place-items:center;padding:0;transition:transform .12s,opacity .25s}
+.tile:active{transform:scale(.94)}
+.tile.dim{opacity:.35}
+.tile.ok,.pic-btn.ok,.card.ok{background:var(--mint);border-color:var(--mint);color:var(--sky)}
+.tile.hint,.pic-btn.hint,.card.hint{border-color:var(--star);box-shadow:0 0 0 4px var(--glow),0 0 22px var(--glow);animation:hint 1.2s ease-in-out infinite}
+@keyframes hint{50%{box-shadow:0 0 0 2px var(--glow),0 0 10px var(--glow)}}
+.tile.used{opacity:0;pointer-events:none}
+.tile.wiggle,.pic-btn.wiggle,.card.wiggle{animation:wig .4s}
+.tile.pulse{border-color:var(--star);transform:translateY(-6px)}
+.tile.bad{border-color:var(--pink);color:var(--pink)}
+@keyframes wig{20%{transform:translateX(-7px) rotate(-3deg)}40%{transform:translateX(7px) rotate(3deg)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+.boxes{display:flex;gap:8px;justify-content:center;width:100%;max-width:358px}
+.box{flex:1 1 0;max-width:58px;min-width:0;aspect-ratio:.82;border:3px dashed var(--line);border-radius:14px;display:grid;place-items:center;font:700 clamp(30px,10vw,46px)/1 var(--body);transition:transform .2s,border-color .2s}
+.box.full{border:3px solid var(--mint);color:var(--mint)}
+.box.pulse{border-color:var(--star);transform:translateY(-6px)}
+.wordrow{display:flex;gap:8px;justify-content:center;width:100%;max-width:358px}
+.wordrow .tile{aspect-ratio:.86;flex:1 1 0;max-width:62px;font-size:clamp(30px,10vw,44px);border-radius:16px}
+.bigword{font:700 clamp(40px,14vw,64px)/1.1 var(--body);letter-spacing:.14em;padding-left:.14em;color:var(--text);text-align:center}
+.blend{min-height:64px;padding:0 30px;border-radius:32px;border:0;background:var(--star);color:var(--sky);font:700 24px var(--head);display:flex;align-items:center;gap:10px}
+.blend svg{width:28px;height:28px;fill:currentColor}
+.pics{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;width:100%;max-width:340px}
+.pic-btn{aspect-ratio:1;min-width:0;border-radius:20px;border:3px solid var(--line);background:var(--surface);font:44px/1 var(--emoji);padding:0;display:grid;place-items:center;transition:opacity .25s,transform .12s}
+.pic-btn:active{transform:scale(.94)}
+.pic-btn.dim,.card.dim{opacity:.35}
+.pics.p3{grid-template-columns:repeat(3,1fr);max-width:358px}
+.pics.p3 .pic-btn{aspect-ratio:1.05;font-size:36px;letter-spacing:-2px}
+@media (min-height:760px){.pics:not(.p3){grid-template-columns:1fr 1fr;max-width:280px}.pics:not(.p3) .pic-btn{font-size:64px}}
+.pics.q3{grid-template-columns:repeat(3,1fr);max-width:300px}
+.pics.q3 .pic-btn{font-size:52px}
+/* long words (8+ letters, galaxy 2): smaller letters so the row fits a 360 px phone */
+.wordrow.lg,.boxes.lg,.wstrip.lg{gap:4px}
+.wordrow.lg .tile{font-size:clamp(22px,7.4vw,34px);border-radius:12px}
+.boxes.lg .box,.wstrip.lg .box{font-size:clamp(22px,7.4vw,34px);border-radius:10px}
+.cards{display:flex;gap:12px;justify-content:center;width:100%}
+.card{flex:1 1 0;max-width:110px;min-width:0;height:96px;border-radius:22px;border:3px solid var(--line);background:var(--surface);display:grid;place-items:center;padding:0;transition:opacity .25s,transform .12s}
+.card svg{width:44px;height:44px;fill:var(--c,var(--star))}
+.card.sel{border-color:var(--star);background:rgba(255,213,74,.18)}
+.okbtn{width:84px;height:84px;border-radius:50%;border:0;background:var(--mint);color:var(--sky);display:grid;place-items:center;box-shadow:0 5px 0 rgba(0,0,0,.25)}
+.okbtn[disabled]{opacity:.3;box-shadow:none}
+.okbtn svg{width:44px;height:44px;fill:none;stroke:currentColor;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
+.sent{display:flex;flex-wrap:wrap;gap:4px 16px;justify-content:center;font:700 clamp(30px,9.5vw,44px)/1.15 var(--body);text-align:center}
+/* writing */
+.round.wr{flex:1;min-height:0;margin:0;gap:10px;justify-content:center}
+.wstrip{display:flex;gap:6px;justify-content:center;width:100%;flex:none}
+.wstrip .box{max-width:52px;aspect-ratio:.9;border-radius:12px;font-size:clamp(28px,9vw,40px)}
+.wstrip .box.act{border:3px solid var(--star);box-shadow:0 0 12px var(--glow)}
+.wstrip .box.help{border-color:var(--star);color:var(--star)}
+.wpad{flex:none;width:100%;display:flex;justify-content:center}
+.burst{position:fixed;width:0;height:0;pointer-events:none;z-index:70}
+.burst i{position:absolute;left:-3px;top:-3px;width:6px;height:26px;border-radius:3px;background:var(--star);opacity:0;animation:rays .65s ease-out forwards}
+@keyframes rays{0%{opacity:1;transform:rotate(var(--a)) translateY(-22px) scaleY(.4)}100%{opacity:0;transform:rotate(var(--a)) translateY(-84px) scaleY(1)}}
+.fly{position:fixed;width:34px;height:34px;pointer-events:none;z-index:70}
+.fly svg{width:100%;height:100%;fill:var(--star);filter:drop-shadow(0 0 8px var(--glow))}
+.say{font:500 22px/1.4 var(--head);max-width:22em;margin:0}
+#paperWord{font:700 clamp(56px,18vw,88px)/1.1 var(--body);letter-spacing:.2em;padding-left:.2em;color:var(--star)}
+.b2{min-height:56px;padding:0 18px;border-radius:14px;border:2px solid var(--line);background:var(--surface);font:700 17px var(--head);display:inline-flex;align-items:center;justify-content:center;position:relative;gap:8px}
+.b2:focus-within{outline:4px solid var(--star);outline-offset:3px}
+.b2.warn{border-color:var(--star)}
+.b2.wide{min-height:64px;font-size:20px;padding:0 28px;border-radius:32px}
+/* overlays */
+.overlay{position:fixed;inset:0;z-index:60;background:var(--sky);display:flex;justify-content:center}
+.overlay.clear{background:rgba(5,8,30,.88)}
+#sc,#album{z-index:65}#gate{z-index:70}
+.sheet{width:100%;max-width:520px;height:100%;overflow-y:auto;overflow-x:hidden;-webkit-user-select:text;user-select:text;
+  padding-block:max(16px,env(safe-area-inset-top,0px)) max(28px,env(safe-area-inset-bottom,0px));
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.sheet.center{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;text-align:center}
+#gate .sheet{gap:12px}
+#gateQ{max-width:15em}#gateQ b{white-space:nowrap}
+.gin{min-width:160px;height:64px;border-radius:16px;border:3px solid var(--line);background:var(--surface);font:700 40px/58px var(--head);letter-spacing:.1em;padding:0 16px;flex:none}
+#gateMsg{min-height:1.4em;margin:0}
+.gkeys{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;width:100%;max-width:300px;flex:none}
+.gkeys button{min-height:64px;border-radius:18px;border:2px solid var(--line);background:var(--surface);font:700 30px var(--head);display:grid;place-items:center;padding:0}
+.gkeys button:active{transform:scale(.95)}
+.gkeys .gok{background:var(--star);border-color:var(--star);color:var(--sky);font-size:18px}
+.gkeys button:disabled{opacity:.35}
+.gkeys svg{width:30px;height:30px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+h2{font:700 26px var(--head);margin:0}
+h3{font:700 19px var(--head);margin:26px 0 10px;color:var(--star)}
+.ph{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg.two button{flex:1 1 calc(50% - 6px)}
+.seg.five button{flex:1 1 calc(20% - 6px)}
+.seg button{flex:1;min-width:0;padding:0 8px;min-height:56px;border-radius:14px;border:2px solid var(--line);background:var(--surface);font:700 17px var(--head)}
+.seg button[aria-pressed=true]{background:var(--star);border-color:var(--star);color:var(--sky)}
+.field{width:100%;min-height:56px;border-radius:14px;border:2px solid var(--line);background:var(--surface);padding:0 14px;font-size:20px}
+.muted{color:var(--muted);font-size:16px;margin:6px 0}
+.rep p{margin:4px 0;font-size:17px}
+.rep table{width:100%;border-collapse:collapse;font-size:16px}
+.rep td,.rep th{padding:5px 4px;border-bottom:1px solid var(--line);text-align:left}
+.rep th{color:var(--muted);font-weight:500}
+.tog{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.tog button{min-height:56px;border-radius:14px;border:2px solid var(--line);background:var(--surface);font:500 15px var(--head);padding:4px 8px;text-align:left}
+.tog button[aria-pressed=true]{border-color:var(--mint);background:rgba(126,224,181,.16)}
+.tog button[aria-pressed=false]{opacity:.55}
+.tog .lk{color:var(--muted);font-size:13px;display:block}
+details{margin-top:22px;border-top:1px solid var(--line);padding-top:12px}
+summary{min-height:56px;display:flex;align-items:center;font:700 19px var(--head);color:var(--star);cursor:pointer}
+.diag{width:100%;max-width:340px;text-align:left;background:var(--surface);border-radius:14px;padding:10px 14px;font-size:15px;line-height:1.5}
+.diag b{color:var(--mint)}.diag .bad{color:var(--pink)}
+.bigspk{width:112px;height:112px;border-radius:50%;border:0;background:var(--star);color:var(--sky);display:grid;place-items:center;box-shadow:0 7px 0 rgba(0,0,0,.25)}
+.bigspk svg{width:60px;height:60px;fill:currentColor}
+.row{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;width:100%}
+/* album */
+.agrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.acard{border:2px solid var(--line);border-radius:16px;background:var(--surface);padding:8px;display:flex;flex-direction:column;gap:6px;align-items:center;color:var(--text);text-align:center}
+.acard .ph2{width:100%;aspect-ratio:4/3;border-radius:10px;background:#fffdf6;color:#2b3170;display:grid;place-items:center;font:700 clamp(26px,8vw,36px) var(--body);letter-spacing:.1em;overflow:hidden}
+.acard img{width:100%;height:100%;object-fit:contain;background:#fff}
+.acard small{font:500 15px var(--head);color:var(--muted)}
+#recallBox{width:min(88%,340px)}
+#recallBox .ph2{font-size:44px}
+/* launch */
+#launch{z-index:80;background:radial-gradient(ellipse at 50% 100%,#2a3188 0,var(--sky) 70%);overflow:hidden;flex-direction:column;align-items:center}
+#launch .lstars{position:absolute;inset:0;background-image:radial-gradient(2px 2px at 30px 40px,#fff,transparent),radial-gradient(1.5px 1.5px at 130px 90px,#fff,transparent),radial-gradient(2px 2px at 80px 150px,#fff,transparent),radial-gradient(1.5px 1.5px at 170px 20px,#fff,transparent);background-size:200px 170px;opacity:.7}
+#launch.go .lstars{animation:streak 1.1s linear infinite}
+@keyframes streak{to{background-position:0 680px}}
+#bigRocket{position:absolute;left:50%;bottom:14%;width:150px;height:240px;margin-left:-75px}
+#bigRocket svg{width:100%;height:100%;overflow:visible}
+#bigRocket .rk-flame{opacity:0;transform-box:fill-box;transform-origin:50% 0}
+#launch.shake #bigRocket{animation:shake .12s linear infinite}
+#launch.go #bigRocket .rk-flame,#launch.shake #bigRocket .rk-flame{opacity:1;animation:flame .15s ease-in-out infinite alternate}
+@keyframes flame{to{transform:scaleY(1.5)}}
+#launchTxt{position:absolute;top:14%;left:0;right:0;text-align:center;font:700 34px var(--head);color:var(--star);text-shadow:0 2px 14px var(--sky);opacity:0;transition:opacity .6s;padding:0 16px}
+#launchTxt.show{opacity:1}
+/* share / install / own voice */
+.homelinks{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.lnk{min-height:44px;padding:0 16px;border-radius:22px;border:1.5px solid var(--line);background:transparent;color:var(--muted);font:500 15px var(--head);display:inline-flex;align-items:center;gap:8px}
+.lnk svg,.b2 svg.ic{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+#share,#inst,#voice{z-index:66}
+.qr{width:min(220px,60vw);height:auto;aspect-ratio:1;background:#fff;padding:10px;border-radius:14px;image-rendering:pixelated}
+.urlbox{display:block;text-align:center;font-family:var(--body);font-size:17px;line-height:1.45;max-width:340px;height:auto;min-height:0;padding:10px 14px;resize:none;overflow:hidden;overflow-wrap:anywhere}
+.vmsg{position:sticky;top:0;z-index:2;min-height:44px;margin:8px 0 0;padding:8px 12px;border-radius:12px;background:var(--surface);border-left:5px solid var(--star);font-size:16px;display:flex;align-items:center;box-shadow:0 0 0 6px var(--sky)}
+.vmsg.err{border-left-color:var(--pink)}
+.vg{border-top:1px solid var(--line);margin-top:6px}
+.vgh{width:100%;min-height:60px;display:flex;align-items:center;gap:10px;background:none;border:0;padding:0 2px;font:700 19px var(--head);color:var(--star);text-align:left}
+.vgh small{font:500 14px var(--head);color:var(--muted);margin-left:auto}
+.vgh::after{content:"";width:10px;height:10px;border:solid currentColor;border-width:0 3px 3px 0;transform:rotate(45deg);margin:-4px 4px 0 6px;flex:none;transition:transform .2s}
+.vgh[aria-expanded=true]::after{transform:rotate(-135deg);margin-top:4px}
+.vrow{position:relative;display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;padding:8px 0 10px;border-bottom:1px solid var(--line)}
+.vrow.has{padding-left:10px;box-shadow:inset 4px 0 0 var(--mint)}
+.vrow.rec{background:rgba(255,158,199,.12)}
+.vl{flex:1 1 60px;min-width:0;font:700 22px/1.25 var(--body);overflow-wrap:anywhere}
+.vl.long{font-size:17px;font-weight:400}
+.va{display:flex;gap:6px;flex:none;margin-left:auto}
+.vb{width:58px;height:58px;border-radius:14px;border:2px solid var(--line);background:var(--surface);color:var(--text);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:0;font:500 11px/1 var(--head)}
+.vb svg{width:22px;height:22px;fill:currentColor;flex:none}
+.vb span{font-size:10.5px}
+.vb.own{border-color:var(--mint);color:var(--mint)}
+.vb.rc svg{fill:var(--pink)}
+.vb.stop{background:var(--pink);border-color:var(--pink);color:var(--sky)}
+.vb.stop svg{fill:var(--sky)}
+.vb.on{outline:3px solid var(--star)}
+.vb:disabled{opacity:.35}
+.vbar{position:absolute;left:0;bottom:0;height:4px;background:var(--pink);width:0;border-radius:2px}
+.vrow.rec .vbar{animation:vbar 4s linear forwards}
+@keyframes vbar{to{width:100%}}
+.vmore{width:100%;margin-top:10px}
+/* ---- part B: Pip's ship ---- */
+#shipBtn{color:var(--star);border-color:rgba(255,213,74,.55)}
+.ibtn .dot,.snav .dot{position:absolute;right:1px;top:1px;width:17px;height:17px;border-radius:50%;background:var(--pink);box-shadow:0 0 0 3px var(--sky),0 0 10px var(--pink)}
+#ship{gap:10px;padding-top:2px}
+#cabin{position:relative;flex:1;min-height:0;border-radius:28px;overflow:hidden;
+  background:radial-gradient(ellipse 62% 42% at 50% 36%,rgba(255,196,120,.24),transparent 72%),linear-gradient(180deg,rgba(0,0,0,.14),rgba(255,160,90,.12)),var(--surface);
+  box-shadow:inset 0 0 0 3px rgba(255,255,255,.08),inset 0 0 50px rgba(0,0,0,.28)}
+#cabin .wallp{position:absolute;inset:0 0 17% 0;background-image:radial-gradient(circle at 12px 12px,rgba(255,255,255,.06) 2px,transparent 3px);background-size:34px 34px;pointer-events:none}
+#cabin .floor{position:absolute;left:0;right:0;bottom:0;height:17%;background:repeating-linear-gradient(90deg,#7b4a2a 0 46px,#6a3e22 46px 49px);box-shadow:inset 0 5px 0 #96603a,inset 0 9px 16px rgba(0,0,0,.32)}
+#cabin .lights{position:absolute;left:0;right:0;top:0;height:36px;pointer-events:none}
+.lights svg{width:100%;height:100%;display:block;overflow:visible}
+.lights path{fill:none;stroke:rgba(243,245,255,.35);stroke-width:1.5}
+.lights i{position:absolute;width:9px;height:12px;margin:-2px 0 0 -4.5px;border-radius:50% 50% 45% 45%;background:var(--c);box-shadow:0 0 8px var(--c);animation:bulb 2.6s ease-in-out infinite}
+.lights i:nth-of-type(2n){animation-delay:1.3s}
+@keyframes bulb{50%{opacity:.5}}
+.porthole{position:absolute;left:50%;top:9%;width:min(40%,158px);aspect-ratio:1;transform:translateX(-50%);border-radius:50%;padding:9px;
+  background:radial-gradient(circle at 35% 30%,#f3f5ff,#a3abd6 58%,#5d6690);box-shadow:0 6px 16px rgba(0,0,0,.4)}
+.porthole::before{content:"";position:absolute;inset:3px;border-radius:50%;background:radial-gradient(circle at 50% 4%,#5d6690 0 2.4px,transparent 3px),radial-gradient(circle at 50% 96%,#5d6690 0 2.4px,transparent 3px),radial-gradient(circle at 4% 50%,#5d6690 0 2.4px,transparent 3px),radial-gradient(circle at 96% 50%,#5d6690 0 2.4px,transparent 3px)}
+.pwin{position:relative;width:100%;height:100%;border-radius:50%;overflow:hidden;box-shadow:inset 0 0 18px rgba(0,0,0,.65);
+  background:radial-gradient(1.6px 1.6px at 22% 30%,#fff,transparent),radial-gradient(1px 1px at 68% 18%,#fff,transparent),radial-gradient(1.3px 1.3px at 38% 72%,#fff,transparent),radial-gradient(1px 1px at 84% 56%,#fff,transparent),radial-gradient(1.5px 1.5px at 52% 44%,#fff,transparent),radial-gradient(1px 1px at 16% 60%,#fff,transparent),var(--sky)}
+.pwin i{position:absolute;right:13%;bottom:15%;width:40%;height:40%;border-radius:50%;background:var(--pg);box-shadow:inset -5px -5px 9px rgba(0,0,0,.3),0 0 14px var(--pc)}
+.pwin b{position:absolute;left:18%;top:22%;width:6px;height:6px;background:var(--star);clip-path:polygon(50% 0%,62% 36%,100% 36%,69% 58%,80% 94%,50% 72%,20% 94%,31% 58%,0% 36%,38% 36%);animation:tw 3s ease-in-out infinite}
+.pwin::after{content:"";position:absolute;inset:0;border-radius:50%;background:linear-gradient(135deg,rgba(255,255,255,.24),transparent 46%)}
+.shelf{position:absolute;top:9%;bottom:18%;width:70px;display:flex;flex-direction:column;justify-content:space-between}
+.shelf.l{left:4px}.shelf.r{right:4px}
+.sslot{position:relative;flex:1 1 0;max-height:72px;display:flex;justify-content:center;align-items:flex-end}
+.sslot::after{content:"";position:absolute;left:3px;right:3px;bottom:0;height:7px;border-radius:3px;background:linear-gradient(#b07642,#7c4d28);box-shadow:0 3px 4px rgba(0,0,0,.3)}
+.deco{position:relative;width:58px;height:56px;border:0;background:none;padding:0;font:34px/1 var(--emoji);display:grid;place-items:center;border-radius:50%;transition:transform .2s;z-index:1}
+.deco.pulse{transform:scale(1.22)}
+.deco.new::before{content:"";position:absolute;inset:2px;border-radius:50%;box-shadow:0 0 0 3px var(--star),0 0 16px var(--glow);animation:hint 1.2s ease-in-out 4,fadeo .8s ease-in 4.6s forwards}
+@keyframes fadeo{to{opacity:0}}
+.deco.hang{position:absolute;transform:translateX(-50%);z-index:0}
+.porthole{z-index:1}
+.deco.hang.up::after{bottom:auto;top:92%;height:34px;background:none;border-left:2px dashed rgba(243,245,255,.45);width:0}
+.deco.hang::after{content:"";position:absolute;left:50%;bottom:86%;width:2px;height:120vh;background:rgba(243,245,255,.3)}
+.deco.hang.pulse{transform:translateX(-50%) scale(1.22)}
+.deco.flr{position:absolute;bottom:2.5%;transform:translateX(-50%)}
+.deco.flr.pulse{transform:translateX(-50%) scale(1.22)}
+@media (max-height:700px){.porthole{width:min(32%,118px);top:8%}.deco.hang{top:36%!important}.deco.hang.up{top:38.5%!important}.deco.hang.up::after{height:10px}.shelf{bottom:21%}.deco.flr{bottom:0;width:50px;height:50px;font-size:28px}}
+.rug{position:absolute;left:50%;bottom:7%;width:min(62%,250px);height:9%;transform:translateX(-50%);border-radius:50%;background:radial-gradient(ellipse closest-side,#ff9ec7 0 46%,#d9709f 47% 56%,#ffb3d3 57% 92%,transparent 100%);opacity:.9}
+#shipPip{position:absolute;left:50%;bottom:10%;margin-left:calc(var(--ps)*-.5);--ps:clamp(108px,21vh,176px);z-index:2}
+.shipnav{flex:none;display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.snav{position:relative;min-height:84px;border-radius:20px;border:2px solid var(--line);background:var(--surface);font:700 18px var(--head);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:6px 4px}
+.snav .se{font:30px/1 var(--emoji)}
+.snav svg{width:28px;height:28px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.snav[aria-pressed=true]{border-color:var(--star);background:rgba(255,213,74,.16)}
+.snav:active{transform:scale(.97)}
+#shipView{position:relative;flex:1;min-height:0;display:flex;flex-direction:column;align-items:center;gap:10px;border-radius:28px;padding:12px 10px;background:linear-gradient(180deg,rgba(255,196,120,.10),transparent 40%),var(--surface)}
+#shipView .pip{flex:none}
+.svlist{flex:1;min-height:0;width:100%;overflow-y:auto;overflow-x:hidden;padding:4px 2px 8px;display:flex;flex-direction:column}
+.svlist>.wgrid{margin:auto}
+.wgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:100%;max-width:400px;margin:0 auto}
+.wt,.ft{position:relative;min-height:96px;border-radius:20px;border:3px solid var(--line);background:rgba(10,14,50,.35);color:var(--text);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:6px 2px}
+.wt .we,.ft .fe{font:42px/1.05 var(--emoji)}
+.wt .we svg{width:46px;height:46px;display:block}
+.wt .ww,.ft .fw{font:700 17px/1.1 var(--body);letter-spacing:.04em;white-space:nowrap}
+.wt .ww.lw,.ft .fw.lw{font-size:14px;letter-spacing:0}
+.wt[aria-pressed=true]{border-color:var(--mint);background:rgba(126,224,181,.22)}
+.wt[aria-pressed=true]::after{content:"";position:absolute;right:6px;top:6px;width:20px;height:20px;border-radius:50%;background:var(--mint) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5' fill='none' stroke='%230e1238' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/16px no-repeat}
+.wt:active,.ft:active{transform:scale(.95)}
+.wt.new::before,.ft.new::before{content:"";position:absolute;left:6px;top:6px;width:14px;height:14px;border-radius:50%;background:var(--pink);box-shadow:0 0 8px var(--pink)}
+.ft{background:radial-gradient(circle at 50% 40%,rgba(255,253,246,.16) 0 34%,transparent 35%),rgba(10,14,50,.35)}
+.svempty{font:64px/1 var(--emoji);opacity:.5;margin-top:10px}
+/* ---- reward screen ---- */
+#gift{z-index:75;background:radial-gradient(circle at 50% 30%,rgba(255,213,74,.2),transparent 55%),rgba(8,11,40,.97)}
+#gift .sheet{gap:12px}
+.gstage{position:relative;width:220px;height:200px;flex:none}
+.gglow{position:absolute;pointer-events:none;left:50%;top:50%;width:300px;height:300px;margin:-150px;border-radius:50%;opacity:0;transition:opacity .5s;
+  background:repeating-conic-gradient(rgba(255,213,74,.28) 0 10deg,transparent 10deg 26deg);-webkit-mask:radial-gradient(circle,#000 30%,transparent 68%);mask:radial-gradient(circle,#000 30%,transparent 68%);animation:spin 14s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.gbox{position:absolute;left:50%;bottom:16px;width:140px;height:150px;margin-left:-70px}
+.gbox .gbase{position:absolute;left:8px;right:8px;bottom:0;height:98px;border-radius:12px;background:linear-gradient(90deg,transparent 42%,var(--star) 42% 58%,transparent 58%),linear-gradient(180deg,#ff9ec7,#e66a9f);box-shadow:inset 0 -10px 0 rgba(0,0,0,.12),0 8px 18px rgba(0,0,0,.35);transition:transform .5s,opacity .5s}
+.gbox .glid{position:absolute;left:0;right:0;bottom:92px;height:34px;border-radius:10px;background:linear-gradient(90deg,transparent 40%,var(--star) 40% 60%,transparent 60%),linear-gradient(180deg,#ffb3d3,#f07fb0);box-shadow:0 4px 0 rgba(0,0,0,.15);transition:transform .6s cubic-bezier(.3,1.4,.6,1),opacity .6s}
+.gbox .glid::before,.gbox .glid::after{content:"";position:absolute;bottom:28px;width:34px;height:26px;border:7px solid var(--star);border-radius:50% 50% 50% 50%/60% 60% 40% 40%}
+.gbox .glid::before{left:calc(50% - 38px);transform:rotate(-24deg)}.gbox .glid::after{right:calc(50% - 38px);transform:rotate(24deg)}
+.gstage.shake .gbox{animation:gshake .5s ease-in-out 2}
+@keyframes gshake{20%{transform:rotate(-7deg)}40%{transform:rotate(6deg) translateY(-6px)}60%{transform:rotate(-5deg)}80%{transform:rotate(4deg)}}
+.gstage.open .glid{transform:translate(-40px,-120px) rotate(-38deg);opacity:0}
+.gstage.open .gbase{transform:translateY(46px) scale(.85);opacity:0}
+.gstage.open .gglow{opacity:1}
+.gitem{position:absolute;left:50%;top:50%;width:170px;height:170px;margin:-85px;border:0;background:none;padding:0;display:grid;place-items:center;font:118px/1 var(--emoji);transform:scale(.15) translateY(60px);opacity:0;transition:transform .7s cubic-bezier(.3,1.6,.5,1) .15s,opacity .3s .15s;filter:drop-shadow(0 6px 18px rgba(0,0,0,.4))}
+.gitem svg{width:140px;height:140px}
+.gstage.open .gitem{transform:none;opacity:1}
+.gword{min-height:72px;border:0;background:none;padding:0 10px 0 calc(10px + .14em);font:700 clamp(44px,15vw,66px)/1.1 var(--body);letter-spacing:.14em;color:var(--star);text-shadow:0 2px 14px rgba(0,0,0,.5);border-radius:18px}
+.gword.pulse,.gitem.pulse{transform:scale(1.08)}
+#gift .primary{max-width:260px}
+/* ---- album tabs + stickers ---- */
+#album .sheet{padding-top:0}
+#album .ph{position:sticky;top:0;z-index:3;background:var(--sky);padding-top:max(16px,env(safe-area-inset-top,0px));flex-wrap:wrap}
+.tabs{display:flex;gap:8px;width:100%;padding:10px 0 8px}
+.tabs button{position:relative;flex:1;min-height:56px;border-radius:16px;border:2px solid var(--line);background:var(--surface);font:700 18px var(--head);display:flex;align-items:center;justify-content:center;gap:8px}
+.tabs button span{font:24px/1 var(--emoji)}
+.tabs button[aria-selected=true]{background:var(--star);border-color:var(--star);color:var(--sky)}
+.stc{display:flex;align-items:center;justify-content:center;gap:10px;margin:8px 0 4px;font:700 30px var(--head);color:var(--star)}
+.stc svg{width:34px;height:34px;fill:var(--star);filter:drop-shadow(0 0 6px var(--glow))}
+.stpl{content-visibility:auto;contain-intrinsic-size:auto 520px}
+.stpl h3{display:flex;align-items:center;gap:10px;margin:18px 0 10px}
+.stpl h3 i{width:26px;height:26px;border-radius:50%;background:var(--pg);box-shadow:0 0 8px var(--pc);flex:none}
+.stpl h3 small{margin-left:auto;font:500 15px var(--head);color:var(--muted)}
+.sgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+@media (min-width:440px){.sgrid{grid-template-columns:repeat(4,1fr)}}
+.stk{min-height:96px;border-radius:16px;border:2px solid var(--line);background:var(--surface);color:var(--text);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:6px 2px;-webkit-user-select:none;user-select:none}
+.stk .se{font:40px/1.05 var(--emoji)}
+.stk .sw{font:700 16px/1.1 var(--body);letter-spacing:.04em;white-space:nowrap}
+.stk.lw .sw{font-size:13px;letter-spacing:0}
+.stk.gold{border:3px solid var(--star);background:linear-gradient(160deg,rgba(255,213,74,.26),var(--surface) 70%);box-shadow:0 0 12px rgba(255,213,74,.35)}
+.stk.q{border-style:dashed;background:rgba(255,255,255,.03);color:rgba(163,171,214,.5);font:700 34px var(--head)}
+.stk.pulse{transform:scale(1.07)}
+/* ---- G10: feed Pip ---- */
+.plate{position:relative;width:150px;height:150px;flex:none;border:0;padding:0;border-radius:50%;
+  background:radial-gradient(circle,#fffdf6 0 52%,#ebe4d2 53% 57%,#fffdf6 58% 66%,#d8cfb8 67% 69%,transparent 70%);transition:transform .2s}
+.plate .fd{position:absolute;left:50%;top:50%;width:80px;height:80px;margin:-40px;display:grid;place-items:center;font:66px/1 var(--emoji)}
+.plate .sil{filter:brightness(0);opacity:.17}
+.plate .col{clip-path:inset(calc(100% - var(--f,0%)) 0 0 0);transition:clip-path .45s ease-out,transform .3s}
+.plate.full .col{transform:scale(1.12)}
+.plate.empty .col,.plate.empty .sil{opacity:0;transition:opacity .2s}
+.plate .pk{position:absolute;right:6px;bottom:10px;width:32px;height:32px;border-radius:50%;background:var(--surface);border:2px solid var(--line);color:var(--muted);display:grid;place-items:center;line-height:0}
+.plate .pk svg{width:18px;height:18px;fill:currentColor}
+.plate.pulse{transform:scale(1.06)}
+@media (max-height:700px){.plate{width:124px;height:124px}.plate .fd{font-size:54px;width:66px;height:66px;margin:-33px}}
+.sign{position:relative;margin-top:14px;padding:12px 14px;max-width:100%;background:linear-gradient(180deg,#f8e3b4,#ecca8c);border:4px solid #a86b3c;border-radius:18px;box-shadow:0 6px 0 rgba(0,0,0,.25)}
+.sign .st{position:absolute;top:-24px;width:6px;height:22px;background:#a86b3c;border-radius:3px}
+.sign .st.l{left:22%}.sign .st.r{right:22%}
+.sign .wordrow{max-width:330px}
+.sign .tile{background:transparent;border-color:transparent;color:#3b2a14}
+.sign .tile.pulse{border-color:#a86b3c;background:rgba(255,255,255,.45)}
+.table{width:100%;max-width:350px;padding:14px 10px 20px;border-radius:22px 22px 10px 10px;background:linear-gradient(180deg,#b97a45,#8a5530);box-shadow:inset 0 4px 0 rgba(255,255,255,.18),0 8px 0 #5d3a20}
+.table .pics{margin:0 auto}
+.table .pic-btn{background:radial-gradient(circle,#fffdf6 0 50%,#e6dfcc 51% 58%,transparent 60%),rgba(10,14,50,.22);border-color:rgba(255,255,255,.25)}
+.pic-btn span{transition:opacity .2s}.pic-btn.eaten span{opacity:0}
+.stk{transition:transform .2s}
+.gstage.open .gitem.pulse{transform:scale(1.08)}
+.flyfood{position:fixed;pointer-events:none;z-index:70;display:grid;place-items:center;font-family:var(--emoji);line-height:1}
+/* ---- break games ---- */
+.round.bk{flex:1;margin:0;gap:0;justify-content:stretch;padding:0}
+.bsky{position:relative;flex:1;width:100%;min-height:280px;overflow:hidden;border-radius:24px;background:radial-gradient(ellipse at 50% 0%,rgba(255,255,255,.08),transparent 70%),rgba(10,14,50,.25)}
+.fstar{position:absolute;top:0;left:var(--x);width:80px;height:80px;margin-left:-40px;border:0;background:none;padding:0;filter:drop-shadow(0 0 8px var(--glow));animation:drop var(--t,8s) linear var(--d,0s) infinite}
+.fstar .in{position:absolute;inset:0;display:grid;place-items:center;padding-top:8px;background:var(--star);color:var(--sky);font:700 30px/1 var(--body);clip-path:polygon(50% 0%,63% 32%,98% 35%,71% 57%,79% 93%,50% 74%,21% 93%,29% 57%,2% 35%,37% 32%);transition:transform .3s,opacity .3s}
+.fstar.wiggle .in{animation:wig .4s}
+.fstar.got .in{transform:scale(1.7);opacity:0}
+.fstar.hint .in{background:#fff3b0}
+@keyframes drop{0%{transform:translateY(0);opacity:0}7%{opacity:1}88%{opacity:1}100%{transform:translateY(var(--fall,300px));opacity:0}}
+.bub{position:absolute;left:var(--x);top:var(--y);width:86px;height:86px;margin:-43px;border-radius:50%;border:2px solid rgba(255,255,255,.6);padding:0;color:var(--text);font:700 34px/1 var(--body);
+  background:radial-gradient(circle at 30% 26%,rgba(255,255,255,.95) 0 7%,rgba(255,255,255,.12) 9% 32%,rgba(126,224,181,.16) 60%,rgba(255,158,199,.32) 100%);box-shadow:inset -4px -6px 12px rgba(107,199,255,.25);animation:bob var(--t,3s) ease-in-out var(--d,0s) infinite alternate}
+.bub span{display:block;transition:opacity .25s}
+.bub.wiggle span{display:block;animation:wig .4s}
+.bub.pop{animation:popb .35s ease-out forwards}
+.bub.hint{border-color:var(--star);box-shadow:0 0 18px var(--glow)}
+@keyframes bob{to{transform:translate(var(--bx,6px),var(--by,-10px))}}
+@keyframes popb{to{transform:scale(1.6);opacity:0}}
+.b3{display:flex;justify-content:space-around;align-items:center;padding:0 4px}
+.hc{position:relative;width:31%;max-width:132px;height:220px;overflow:hidden;border:0;background:none;padding:0;color:var(--sky)}
+.hc:nth-child(2){margin-bottom:14%}
+.hc .hp{position:absolute;left:50%;bottom:26px;transform:translate(-50%,100%);transition:transform .45s cubic-bezier(.3,1.5,.5,1);display:none}
+.hc.has .hp{display:block}
+.hc.out .hp{transform:translate(-50%,-66px)}
+.hc .cl{position:absolute;left:0;right:0;bottom:0;height:104px}
+.hc .cl svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;filter:drop-shadow(0 6px 10px rgba(0,0,0,.3))}
+.hc .cl b{position:absolute;left:0;right:0;bottom:16px;z-index:1;font:700 46px/1 var(--body);text-align:center}
+.hc.wiggle .cl{animation:wig .4s}
+.hc.hint .cl svg{filter:drop-shadow(0 0 10px var(--star))}
+@media (prefers-reduced-motion:reduce){.fstar{animation:none!important;top:var(--ry,30%)}.bub{animation:none!important}.gglow{animation:none!important}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}.burst{display:none}}
+</style>
+</head>
+<body>
+<div id="app" lang="sr-Cyrl">
+  <div id="strip" hidden role="status"></div>
+
+  <section id="home" class="screen">
+    <div class="bar"><div id="count"></div>
+      <div class="grp">
+        <button id="shipBtn" class="ibtn" type="button" aria-label="Пипов брод"><svg viewBox="0 0 24 24"><path d="M12 2.5c3.3 2.7 4.7 6.4 4.1 11.5H7.9C7.3 8.9 8.7 5.2 12 2.5z"/><circle cx="12" cy="9.3" r="1.9"/><path d="M7.9 11.6L5 15v3l3.3-2M16.1 11.6L19 15v3l-3.3-2M10.2 17.6l1.8 3.3 1.8-3.3"/></svg><i class="dot" id="shipDot" hidden></i></button>
+        <button id="albumBtn" class="ibtn" type="button" aria-label="Албум"><svg viewBox="0 0 24 24"><path d="M4 5.5A1.5 1.5 0 015.5 4H11v15H5.5A1.5 1.5 0 014 17.5v-12zM20 5.5A1.5 1.5 0 0018.5 4H13v15h5.5a1.5 1.5 0 001.5-1.5v-12z"/></svg><span class="bdg" id="albumBdg" hidden></span></button>
+        <button class="ibtn pbtn" type="button" aria-label="За родитеље"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg></button>
+      </div></div>
+    <div id="map"><svg id="mapSvg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"></svg><div id="starLabel" aria-live="polite"></div></div>
+    <div class="homebot"><button id="playBtn" class="primary" type="button">Играј</button>
+      <div class="homelinks"><button id="shareBtn" class="lnk" type="button" aria-label="Подели игру"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="12" r="2.6"/><circle cx="18" cy="5.5" r="2.6"/><circle cx="18" cy="18.5" r="2.6"/><path d="M8.3 10.8l7.4-4M8.3 13.2l7.4 4"/></svg>Подели</button><button id="instBtn" class="lnk" type="button" hidden aria-label="Инсталирај на телефон"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7.5 10.5L12 15l4.5-4.5M5 19h14"/></svg>Инсталирај</button></div></div>
+  </section>
+
+  <section id="game" class="screen" hidden>
+    <div class="bar">
+      <button id="backBtn" class="ibtn kback" type="button" aria-label="Назад"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <div class="pip" style="--ps:56px" id="gamePip" role="button" tabindex="0" aria-label="Пип"></div>
+      <button id="replayBtn" class="ibtn" type="button" aria-label="Чуј поново"><svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16 9a4 4 0 010 6M18.5 6.5a8 8 0 010 11"/></svg></button>
+    </div>
+    <div id="rocket" aria-hidden="true"><span id="rkPlanet"></span><div id="track"></div><span id="rkIcon"></span></div>
+    <div id="stage"></div>
+  </section>
+
+  <section id="paper" class="screen" hidden>
+    <div class="bar"><span></span>
+      <button class="ibtn pbtn" type="button" aria-label="За родитеље"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg></button></div>
+    <div class="center">
+      <div class="pip" style="--ps:96px"></div>
+      <p class="say">Напиши ми ову реч на папиру, да је не заборавим!</p>
+      <div id="paperWord"></div>
+      <label class="primary" id="camBtn"><svg viewBox="0 0 24 24"><path d="M9 4l-1.8 2H5a2 2 0 00-2 2v10a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-2.2L15 4H9zm3 4a5 5 0 110 10 5 5 0 010-10zm0 2a3 3 0 100 6 3 3 0 000-6z"/></svg><span>Сликај папир</span><input id="photoIn" type="file" accept="image/*" capture="environment" aria-label="Сликај папир"></label>
+      <button id="paperDone" class="b2 wide" type="button"></button>
+    </div>
+  </section>
+
+  <section id="sleep" class="screen" hidden>
+    <div class="bar"><span></span>
+      <button class="ibtn pbtn" type="button" aria-label="За родитеље"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg></button></div>
+    <div class="center">
+      <div class="pip" style="--ps:170px"></div>
+      <p class="say">Лаку ноћ! Видимо се сутра.</p>
+    </div>
+  </section>
+
+  <section id="ship" class="screen" hidden aria-label="Пипов брод">
+    <div class="bar"><button type="button" class="ibtn kback" data-sh="back" aria-label="Назад"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button></div>
+    <div id="cabin">
+      <div class="wallp"></div><div class="floor"></div>
+      <div class="lights" aria-hidden="true"></div>
+      <div class="porthole" aria-hidden="true"><div class="pwin"><i></i><b></b></div></div>
+      <div class="shelf l" id="shelfL"></div><div class="shelf r" id="shelfR"></div>
+      <div id="shipFree"></div>
+      <div class="rug"></div>
+      <div class="pip" id="shipPip" role="button" tabindex="0" aria-label="Пип"></div>
+    </div>
+    <div id="shipView" hidden></div>
+    <div class="shipnav">
+      <button type="button" class="snav" data-sh="pantry" aria-pressed="false"><span class="se" aria-hidden="true">🧺</span>Остава<i class="dot" hidden></i></button>
+      <button type="button" class="snav" data-sh="wardrobe" aria-pressed="false"><span class="se" aria-hidden="true">👕</span>Ормар<i class="dot" hidden></i></button>
+      <button type="button" class="snav" data-sh="album"><span class="se" aria-hidden="true">📔</span>Албум</button>
+    </div>
+  </section>
+
+  <div id="launch" class="overlay" hidden aria-hidden="true">
+    <div class="lstars"></div><div id="launchTxt"></div><div id="bigRocket"></div>
+  </div>
+
+  <div id="party" class="overlay clear" hidden aria-hidden="true">
+    <div class="cf"></div><div class="pip pbig" style="--ps:180px"></div>
+  </div>
+
+  <div id="recall" class="overlay clear" hidden role="dialog" aria-label="Јучерашње писмо">
+    <div class="sheet center"><div id="recallBox"></div><div class="pip" style="--ps:110px" id="recallPip"></div></div>
+  </div>
+
+  <div id="gift" class="overlay clear" hidden role="dialog" aria-modal="true" aria-label="Поклон">
+    <div class="sheet center">
+      <div class="gstage" id="gStage"><div class="gglow"></div><div class="gbox"><i class="gbase"></i><i class="glid"></i></div><button type="button" class="gitem" id="gItem" data-act="gWord"></button></div>
+      <button type="button" class="gword" id="gWord" data-act="gWord"></button>
+      <div class="pip" style="--ps:104px" id="giftPip"></div>
+      <button type="button" class="primary" id="gNext" data-act="gNext">Даље</button>
+    </div>
+  </div>
+
+  <div id="album" class="overlay" hidden role="dialog" aria-label="Албум">
+    <div class="sheet"><div class="ph"><button type="button" class="ibtn kback" data-act="albumClose" aria-label="Назад"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><h2>Албум</h2>
+      <div class="tabs" role="tablist"><button type="button" role="tab" data-tab="st" aria-selected="true"><span aria-hidden="true">⭐</span>Налепнице</button><button type="button" role="tab" data-tab="lt" aria-selected="false"><span aria-hidden="true">✉️</span>Писма</button></div></div>
+      <div id="albumSt" role="tabpanel"></div>
+      <div id="albumGrid" class="agrid" role="tabpanel" hidden></div></div>
+  </div>
+
+  <div id="sc" class="overlay" hidden role="dialog" aria-label="Провера звука">
+    <div class="sheet center">
+      <h2>Провера звука</h2>
+      <p class="muted" style="max-width:20em">Притисни дугме. Ако чујеш Пипа, све ради.</p>
+      <button type="button" class="bigspk" data-act="scPlay" aria-label="Пусти звук"><svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16 9a4 4 0 010 6M18.5 6.5a8 8 0 010 11" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button>
+      <div class="diag" id="scDiag"></div>
+      <div class="row" id="scAsk" hidden><button type="button" class="b2 wide" data-act="scYes">Чујем</button><button type="button" class="b2 wide" data-act="scNo">Не чујем</button></div>
+      <div class="diag" id="scHelp" hidden>Ако не чујеш:<br>1. Појачај јачину звука медија (дугме са стране телефона, па отвори клизач „Медији“).<br>2. Искључи нечујни режим и режим „не узнемиравај“.<br>3. Провери да Chrome или страница нису утишани.<br>4. Затвори и поново отвори страницу, па опет притисни дугме.<br>5. Ако и даље нема звука, у делу за родитеље изабери „Ја читам“ (игра ће ти исписивати шта да кажеш).</div>
+      <button type="button" class="b2" data-act="scClose" id="scClose">Затвори</button>
+    </div>
+  </div>
+
+  <div id="share" class="overlay" hidden role="dialog" aria-modal="true" aria-label="Подели игру">
+    <div class="sheet center">
+      <h2>Подели игру</h2>
+      <p class="muted" style="max-width:21em">Пошаљи овај линк другом родитељу. Игра се отвара у прегледачу на телефону и може да се инсталира као апликација.</p>
+      <textarea id="shUrl" class="field urlbox" rows="2" readonly aria-label="Линк до игре" spellcheck="false" autocapitalize="off" autocomplete="off"></textarea>
+      <div class="row"><button type="button" class="b2 wide" data-act="shCopy">Копирај</button></div>
+      <p id="shMsg" class="muted" role="status" style="min-height:1.4em"></p>
+      <img id="shQr" class="qr" alt="QR код са линком до игре" hidden>
+      <button type="button" class="b2" data-act="shClose">Затвори</button>
+    </div>
+  </div>
+
+  <div id="inst" class="overlay" hidden role="dialog" aria-modal="true" aria-label="Инсталирај на телефон">
+    <div class="sheet center">
+      <h2>Инсталирај на телефон</h2>
+      <div class="diag" id="instTxt"></div>
+      <button type="button" class="b2" data-act="instClose">Затвори</button>
+    </div>
+  </div>
+
+  <div id="voice" class="overlay" hidden role="dialog" aria-modal="true" aria-label="Изговор">
+    <div class="sheet" id="voiceSheet"></div>
+  </div>
+
+  <div id="gate" class="overlay" hidden role="dialog" aria-modal="true" aria-labelledby="gateQ">
+    <div class="sheet center">
+      <p id="gateNote" class="muted" hidden></p>
+      <h2 id="gateQ">За родитеље: колико је …?</h2>
+      <div id="gateIn" class="gin" role="status" aria-live="polite" aria-label="Одговор"></div>
+      <p id="gateMsg" class="muted" role="alert"></p>
+      <div id="gateKeys" class="gkeys"></div>
+      <button type="button" class="b2" data-act="gateClose">Затвори</button>
+    </div>
+  </div>
+
+  <div id="parent" class="overlay" hidden role="dialog" aria-modal="true" aria-label="За родитеље">
+    <div class="sheet" id="parentSheet"></div>
+  </div>
+</div>
+
+<script src="content.js?v=5853dab0a6"></script>
+<script src="audio.js?v=78b721730d"></script>
+<script src="write.js?v=2a65dc20bf"></script>
+<script src="pipsprite.js?v=06ab8e54c1"></script>
+<script>
+"use strict";
+/* ================= 1. data, helpers, state ================= */
+const C=window.PIP_CONTENT||{planets:[],words:[],sentences:[],pseudo:[],phrases:{},pip_phrases:{}};
+const AU=window.PIP_AUDIO||{};
+const PUBLIC_URL="https://freshairservis.github.io/pip-uci-reci/";   /* the link that "Подели игру" shares (and the QR code encodes) */
+const BUILD={id:"85dcd231",date:"2026-10-23"};              /* filled in by tools/build_web.py */
+const WORDS=C.words,WM=Object.fromEntries(WORDS.map(w=>[w.w,w])),PL=C.planets;
+const ALPHA=[...new Set(WORDS.flatMap(w=>[...w.w]))];
+const GROUPS=["БП","ДТ","ГК","ЗС","ЖШ","ВФ","ЦЧЋ","МН","ЛЉ","НЊ","ЕИ","ОУ"];
+const GNAME={G1:"Први глас",G2:"Последњи глас",G3:"Средњи глас",G4:"Сложи реч",G5:"Напиши реч",G5b:"Прво слово",G6:"Читај и нађи слику",G7:"Пипова реч",G8:"Пип се збунио",G9:"Реченица",G10:"Нахрани Пипа"};
+const GLIST=Object.keys(GNAME);
+/* break games (B6): short, always successful, outside the normal rotation */
+const BNAME={B1:"Ухвати звезду",B2:"Мехурићи",B3:"Пип се крије"},BLIST=Object.keys(BNAME),BRK=g=>!!BNAME[g];
+/* rewards (B2): labels = names of things Pip gets; wear unlock order = list order, one souvenir per planet, then the bonus list */
+const LABELS=C.labels||[],LBL=Object.fromEntries(LABELS.map(x=>[x.id,x]));
+const WEARL=LABELS.filter(x=>x.kind==="wear"),DECOL=LABELS.filter(x=>x.kind==="deco"&&x.slot==="shelf"),BONUSL=LABELS.filter(x=>x.kind==="deco"&&x.slot==="bonus");
+const SLOTS=["back","neck","face","head"];   /* drawing order (back is behind Pip) */
+const PLC=[["#fff0a8","#ffb73a","#c76d12"],["#f2fbff","#8fc8ff","#4a7fd1"],null,["#e8fffd","#6fe3e8","#7b5bd6"],["#fff6c2","#ffa33a","#e0452b"],
+  ["#ffffff","#c9d1e6","#6f7a96"],["#eafff4","#5ef0c0","#12806a"],["#ffe1b0","#ff6a3d","#8a1c12"],["#ffffff","#bff3ff","#4f9fd0"],["#ffe6f4","#ff8fd0","#b33d8f"]];
+const PLPOS=[[24,84],[72,66],[28,48],[72,30],[42,12], [74,86],[28,70],[70,50],[30,30],[64,12]];   /* % of the map; galaxy 2 keeps the top-left corner free for the galaxy switch */
+const galOf=k=>(PL[k-1]&&PL[k-1].gal)||1;
+const GAL=g=>PL.map((p,i)=>i+1).filter(k=>galOf(k)===g);   /* planet numbers (1-based, global) of galaxy g */
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const shuffle=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const dkey=(d=new Date())=>d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+const fmtDate=k=>k.split("-").reverse().join(".");
+const reduced=()=>{try{return matchMedia("(prefers-reduced-motion: reduce)").matches}catch(e){return false}};
+const hash=s=>{let h=2166136261;for(const c of s){h^=c.charCodeAt(0);h=Math.imul(h,16777619)}return h>>>0};
+const plural=n=>n+" "+((n%10===1&&n%100!==11)?"реч":"речи");
+const STAR_SVG='<svg viewBox="0 0 24 24"><path d="M12 1.5l3 6.9 7.5.7-5.7 5 1.7 7.4L12 17.6l-6.5 3.9 1.7-7.4-5.7-5 7.5-.7z"/></svg>';
+/* planet = the farthest planet reached (global 1..10, the rocket fills its goal); visit = where Pip is now (<= planet); gal = galaxy shown on the map */
+const DEF=()=>({v:3,name:"",gender:"f",sessionMin:10,planet:1,visit:1,gal:1,allDone:false,stars:0,readMode:false,soundOk:false,maxNew:5,hello:false,
+  off:{},unl:{G1:1,G2:1,G4:1,G5:1,G5b:1},pend:[],nopic:0,st:{},words:{},letterErr:{},wr:{},fast:0,fastOk:0,total:0,sessions:0,
+  sleepDate:"",greeted:"",play:{date:"",ms:0},letters:[],
+  /* part B: inventory (food = known food words, wear/deco = label ids, seen = ids already shown, bonus = bonus fills, queue = reward screens to show) */
+  inv:{food:[],wear:[],deco:[],seen:{},bonus:0,queue:[]},wear:{head:"",face:"",neck:"",back:""},g10v:"",brkI:0});
+let S=DEF();
+function load(){try{const j=JSON.parse(localStorage.getItem("pip.v2"));if(j&&typeof j==="object"){const d=DEF();S=Object.assign(d,j);
+  ["unl","off","st","words","letterErr","wr"].forEach(k=>{if(!S[k]||typeof S[k]!=="object")S[k]=d[k]});
+  if(!Array.isArray(S.letters))S.letters=[];if(!Array.isArray(S.pend))S.pend=[];if(!S.play||typeof S.play!=="object")S.play=d.play;
+  if(!(S.planet>=1&&S.planet<=PL.length))S.planet=1;
+  /* v2 saves have no visit/gal: Pip stays on the planet he reached, with the same stars */
+  if(j.v!==3||!(S.visit>=1&&S.visit<=S.planet))S.visit=S.planet;if(!(S.gal>=1&&S.gal<=galOf(S.planet)))S.gal=galOf(S.visit);
+  if(typeof S.fastOk!=="number")S.fastOk=0;S.v=3;
+  /* saves from before part B: empty inventory; rewards for planets already passed are given quietly (shown as "new" in the ship) */
+  const I=S.inv=S.inv&&typeof S.inv==="object"?S.inv:d.inv;["food","wear","deco","queue"].forEach(k=>{if(!Array.isArray(I[k]))I[k]=[]});
+  if(!I.seen||typeof I.seen!=="object")I.seen={};if(!(I.bonus>=0))I.bonus=0;I.queue=I.queue.filter(id=>LBL[id]);
+  if(!S.wear||typeof S.wear!=="object")S.wear=d.wear;SLOTS.forEach(k=>{const v=S.wear[k];if(typeof v!=="string"||(v&&!(LBL[v]&&LBL[v].slot===k&&I.wear.includes(v))))S.wear[k]=""});
+  syncInv(false)}}catch(e){}}
+function save(){try{localStorage.setItem("pip.v2",JSON.stringify(S))}catch(e){}}
+const g=(f,m)=>S.gender==="m"?m:f;
+const gk=b=>b+(S.gender==="m"?"_m":"_f");
+const stat=k=>S.st[k]||(S.st[k]={r:0,f:0,fast:0,fastOk:0});
+const wst=w=>S.words[w]||(S.words[w]={box:0,n:0,types:[],last:""});
+const wrs=l=>S.wr[l]||(S.wr[l]={ok:0,fail:0,help:0});
+const known=w=>{const x=S.words[w];return !!x&&WM[w]&&(x.box>=1||x.types.length>0)};   /* at least one first-try success = a star in Pip's sky */
+const learned=()=>Object.keys(S.words).filter(known);
+const goal=()=>(PL[S.planet-1]||{goal:8}).goal;
+/* ---- inventory (B1/B2): fixed, predictable order, nothing is ever taken away ----
+   wear: one per passed planet + one per 3 paper letters (first N of the list); deco: the souvenir of every passed planet, then the bonus list
+   (one per refill on the last planet); food: every food word Pip knows. queue=true puts new wear/deco on the reward-screen queue */
+function syncInv(queue){
+  const I=S.inv,passed=S.planet-1+(S.allDone?1:0),got=[],add=(a,id)=>{if(!a.includes(id)){a.push(id);got.push(id)}};
+  WEARL.slice(0,Math.min(WEARL.length,passed+Math.floor(S.letters.length/3))).forEach(x=>add(I.wear,x.id));
+  DECOL.filter(x=>x.pl<=passed).forEach(x=>add(I.deco,x.id));
+  BONUSL.slice(0,I.bonus).forEach(x=>add(I.deco,x.id));
+  WORDS.forEach(x=>{if(x.food&&known(x.w)&&!I.food.includes(x.w))I.food.push(x.w)});
+  if(queue)got.forEach(id=>{if(!I.queue.includes(id))I.queue.push(id)});
+  return got;
+}
+const isNew=id=>!S.inv.seen[id];
+const invNew=k=>(k?S.inv[k]:[...S.inv.wear,...S.inv.deco,...S.inv.food]).some(isNew);
+
+/* ================= 2. audio engine (Web Audio + HTML fallback) ================= */
+const ABORT={abort:true};
+const AUD={ctx:null,mode:"још није проверен",decoded:0,failed:0,missing:[],err:"",html:null,webOk:0,htmlOk:0,primed:false,webBad:false,ownPlays:0,lastOwn:""};
+const SILENT="data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=";
+const BUF=new Map(),HND=new Set();
+let seq=0,TS=1;                       /* TS = time scale (only tests change it) */
+const sleep=ms=>new Promise(r=>setTimeout(r,ms*TS));
+async function wait(ms){const t=seq;await sleep(ms);if(t!==seq)throw ABORT}
+function unlock(){
+  try{
+    if(!AUD.ctx){const AC=window.AudioContext||window.webkitAudioContext;if(AC)AUD.ctx=new AC()}
+    const c=AUD.ctx;
+    if(c){if(c.state!=="running"){const p=c.resume();if(p&&p.catch)p.catch(e=>{AUD.err="resume: "+(e&&e.message)})}
+      if(!AUD.primed){AUD.primed=true;const b=c.createBuffer(1,1,22050),s=c.createBufferSource();s.buffer=b;s.connect(c.destination);s.start(0)}}
+  }catch(e){AUD.err="context: "+(e&&e.message)}
+  try{if(!AUD.html){const a=new Audio();a.src=SILENT;AUD.html=a;const p=a.play();if(p&&p.catch)p.catch(()=>{})}}catch(e){}
+}
+["pointerup","touchend","click","keydown"].forEach(ev=>document.addEventListener(ev,unlock,true));
+/* own recordings (parent voice): key -> ArrayBuffer (16-bit mono WAV); they replace the default clip everywhere */
+const OWN=new Map(),OWNURL=new Map();
+let OWN_READY=Promise.resolve();
+function decodeAB(ab){return new Promise((res,rej)=>{const r=AUD.ctx.decodeAudioData(ab,res,rej);if(r&&r.then)r.then(res,rej)})}
+function getBuf(key,own){
+  const ck=(own?"@":"")+key;
+  if(BUF.has(ck))return BUF.get(ck);
+  const p=(async()=>{
+    if(!AUD.ctx)return null;
+    if(own){const w=OWN.get(key);return w?await decodeAB(w.slice(0)):null}
+    const uri=AU[key];if(!uri)return null;
+    const bin=atob(uri.slice(uri.indexOf(",")+1)),u=new Uint8Array(bin.length);
+    for(let i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i);
+    return await decodeAB(u.buffer);
+  })().then(b=>{AUD.decoded++;return b},e=>{AUD.failed++;AUD.err="декодирање "+key+": "+(e&&e.message||e);BUF.delete(ck);return null});
+  BUF.set(ck,p);return p;
+}
+function ownSrc(key){
+  if(!OWNURL.has(key)){const w=OWN.get(key);if(!w)return "";OWNURL.set(key,URL.createObjectURL(new Blob([w],{type:"audio/wav"})))}
+  return OWNURL.get(key);
+}
+function ownForget(key){BUF.delete("@"+key);const u=OWNURL.get(key);if(u){try{URL.revokeObjectURL(u)}catch(e){}OWNURL.delete(key)}}
+function track(stopFn){const h={stop:stopFn};HND.add(h);return h}
+async function playWeb(key,own){
+  const c=AUD.ctx;if(!c||AUD.webBad)return false;
+  if(c.state!=="running"){try{await Promise.race([c.resume(),new Promise(r=>setTimeout(r,350))])}catch(e){}}
+  if(c.state!=="running")return false;
+  const b=await getBuf(key,own);if(!b)return false;
+  return new Promise(res=>{
+    let done=false,tm=0;const s=c.createBufferSource();s.buffer=b;s.playbackRate.value=1/TS;s.connect(c.destination);
+    const fin=()=>{if(done)return;done=true;clearTimeout(tm);HND.delete(h);try{s.stop()}catch(e){}try{s.disconnect()}catch(e){}res(true)};
+    const h=track(fin);s.onended=fin;tm=setTimeout(fin,b.duration*1000*TS+1500);
+    try{s.start(0)}catch(e){AUD.err="start: "+e.message;fin()}
+  });
+}
+function playHtml(key,own){
+  return new Promise(res=>{
+    const a=AUD.html,src=own?ownSrc(key):AU[key];if(!a||!src){res(false);return}
+    let done=false,tm=0;
+    const fin=ok=>{if(done)return;done=true;clearTimeout(tm);HND.delete(h);a.onended=a.onerror=null;res(ok)};
+    const h=track(()=>{try{a.pause()}catch(e){}fin(true)});
+    a.onended=()=>fin(true);a.onerror=()=>{AUD.err="HTML audio грешка";fin(false)};tm=setTimeout(()=>fin(true),7000*TS);
+    try{a.src=src;a.playbackRate=1/TS;const p=a.play();if(p&&p.catch)p.catch(e=>{AUD.err="HTML audio: "+(e&&e.message);fin(false)})}catch(e){fin(false)}
+  });
+}
+/* def=true plays the built-in clip even if the parent has recorded their own (used by the preview in the parent area) */
+async function playKey(key,def){
+  await OWN_READY;
+  const own=!def&&OWN.has(key);
+  if(!own&&!AU[key]){if(!AUD.missing.includes(key))AUD.missing.push(key);return false}
+  for(const o of own?[true,false]:[false]){
+    if(!o&&!AU[key])break;
+    if(await playWeb(key,o)){AUD.mode="Web Audio";AUD.webOk++;if(o){AUD.ownPlays++;AUD.lastOwn=key}return true}
+    if(await playHtml(key,o)){AUD.mode="HTML audio";AUD.htmlOk++;if(o){AUD.ownPlays++;AUD.lastOwn=key}return true}
+  }
+  AUD.mode="нема звука";return false;
+}
+function textOf(k){const i=k.indexOf(":"),t=k.slice(0,i),v=k.slice(i+1);
+  if(t==="ph")return C.phrases[v]||v;if(t==="pp")return C.pip_phrases[v]||v;if(t==="l")return "глас "+v;return v}
+const strip=t=>{const s=$("#strip");s.textContent=t;s.hidden=false};
+const clearStrip=()=>{$("#strip").hidden=true};
+async function say(key){
+  const t=seq,txt=textOf(key);if(window.__sayLog)window.__sayLog.push(key);   /* (tests only) */
+  if(S.readMode){strip("Реци: "+txt);await wait(700+txt.length*110);return}
+  const ok=await playKey(key);
+  if(t!==seq)throw ABORT;
+  if(ok)clearStrip();else{strip("Реци: "+txt);await wait(700+txt.length*110)}
+}
+const nw=w=>say("n:"+w),pw=w=>say("p:"+w),ph=k=>say("ph:"+k),pp=k=>say("pp:"+k),ls=l=>say("l:"+l);
+function stopAll(){seq++;[...HND].forEach(h=>{try{h.stop()}catch(e){}})}
+function run(fn){stopAll();return Promise.resolve().then(fn).catch(e=>{if(e!==ABORT)console.error(e)})}
+async function stretch(word,onEach,gap=220){for(let i=0;i<word.length;i++){onEach&&onEach(i);await ls(word[i]);await wait(gap)}}
+async function blend(word,onEach){await stretch(word,onEach,40);await nw(typeof word==="string"?word:word.join(""))}
+function chime(){const c=AUD.ctx;if(!c||c.state!=="running"||S.readMode)return;
+  try{const t=c.currentTime;[[659.25,0],[880,.14]].forEach(([f,d])=>{const o=c.createOscillator(),n=c.createGain();o.type="sine";o.frequency.value=f;
+    n.gain.setValueAtTime(.0001,t+d);n.gain.exponentialRampToValueAtTime(.12,t+d+.03);n.gain.exponentialRampToValueAtTime(.0001,t+d+.5);o.connect(n);n.connect(c.destination);o.start(t+d);o.stop(t+d+.55)})}catch(e){}}
+
+/* ================= 3. Pip, effects ================= */
+const PIP_SVG='<svg viewBox="0 0 120 130" aria-hidden="true"><g class="ant"><path d="M42 36Q34 18 27 10"/><path d="M78 36Q86 18 93 10"/></g><circle class="tip" cx="26" cy="9" r="6.5"/><circle class="tip t2" cx="94" cy="9" r="6.5"/>'+
+'<ellipse class="body" cx="60" cy="82" rx="46" ry="42"/><ellipse class="belly" cx="60" cy="97" rx="26" ry="20"/>'+
+'<g class="arm"><ellipse cx="110" cy="62" rx="7.5" ry="15" transform="rotate(28 110 62)"/></g>'+
+'<g class="eye"><circle cx="43" cy="72" r="13" fill="#fff"/><circle class="pupil" cx="45" cy="73" r="7"/><circle cx="47.5" cy="70" r="2.4" fill="#fff"/></g>'+
+'<g class="eye"><circle cx="77" cy="72" r="13" fill="#fff"/><circle class="pupil" cx="79" cy="73" r="7"/><circle cx="81.5" cy="70" r="2.4" fill="#fff"/></g>'+
+'<path class="lid" d="M31 72Q43 82 55 72"/><path class="lid" d="M65 72Q77 82 89 72"/><path class="lgh" d="M33 76Q43 63 53 76"/><path class="lgh" d="M67 76Q77 63 87 76"/>'+
+'<ellipse class="cheek" cx="27" cy="88" rx="6" ry="4"/><ellipse class="cheek" cx="93" cy="88" rx="6" ry="4"/>'+
+'<path class="m m-n" d="M50 92Q60 101 70 92"/><path class="m-h" d="M47 90Q60 110 73 90Z"/><path class="m m-t" d="M51 96Q55.5 91 60 96T69 96"/><ellipse class="m-o" cx="60" cy="96" rx="4.6" ry="4.2"/>'+
+'<text class="zz" x="96" y="38">z</text><text class="zz z2" x="106" y="22">z</text></svg>';
+/* Pip's outfit: SVG layers in the PIP_SVG space (viewBox 0 0 120 130). b = behind the body, f = in front. Antennas stay visible.
+   ONE place renders the outfit: pipSVG() (the 3D sprites will later replace this with sprite layers per item) */
+const WEAR_ART={
+  cap:{f:'<path d="M37 45Q38 21 60 20Q82 21 83 45Q60 38 37 45Z" fill="#3d8bfd"/><path d="M75 41Q93 37 102 44Q93 49 77 47Z" fill="#2a6fd6"/><path d="M37 45Q60 38 83 45" fill="none" stroke="#2a6fd6" stroke-width="3"/><circle cx="60" cy="20.5" r="3.2" fill="#2a6fd6"/><path d="M54 27l1.6 3.3 3.6.4-2.7 2.4.8 3.6-3.3-1.9-3.3 1.9.8-3.6-2.7-2.4 3.6-.4z" fill="#ffd54a"/>'},
+  crown:{f:'<path d="M41 45L38 21L50 32L60 16L70 32L82 21L79 45Q60 40 41 45Z" fill="#ffd54a" stroke="#e09a00" stroke-width="2.2" stroke-linejoin="round"/><circle cx="38" cy="20" r="2.8" fill="#ffd54a" stroke="#e09a00" stroke-width="1.5"/><circle cx="60" cy="15" r="3" fill="#ffd54a" stroke="#e09a00" stroke-width="1.5"/><circle cx="82" cy="20" r="2.8" fill="#ffd54a" stroke="#e09a00" stroke-width="1.5"/><circle cx="60" cy="36" r="3.6" fill="#ff6b8b"/><circle cx="48.5" cy="38.5" r="2.6" fill="#4fc3f7"/><circle cx="71.5" cy="38.5" r="2.6" fill="#7ee0b5"/>'},
+  hat:{f:'<path d="M44.5 43L46.5 13Q60 9 73.5 13L75.5 43Z" fill="#34344c"/><path d="M45.3 31.5H74.7L75.4 41H44.6Z" fill="#ff6b8b"/><path d="M50 15Q52 26 51 40" stroke="rgba(255,255,255,.18)" stroke-width="3" fill="none"/><ellipse cx="60" cy="43" rx="28" ry="6.5" fill="#26263a"/>'},
+  flower:{f:'<g transform="translate(83 41)"><circle cx="0" cy="-8" r="6.6" fill="#ff8fc7"/><circle cx="7.6" cy="-2.5" r="6.6" fill="#ff8fc7"/><circle cx="4.7" cy="6.5" r="6.6" fill="#ff8fc7"/><circle cx="-4.7" cy="6.5" r="6.6" fill="#ff8fc7"/><circle cx="-7.6" cy="-2.5" r="6.6" fill="#ff8fc7"/><circle r="4.8" fill="#ffd54a"/><path d="M-9 12Q-16 16 -19 11Q-14 7 -9 12Z" fill="#5fcf8e"/></g>'},
+  glasses:{f:'<g fill="rgba(170,225,255,.2)" stroke="#26306e" stroke-width="3.4"><circle cx="43" cy="72" r="15.5"/><circle cx="77" cy="72" r="15.5"/></g><path d="M57.5 69.5Q60 66.5 62.5 69.5M27.5 70L15 66M92.5 70L105 66" stroke="#26306e" stroke-width="3.2" fill="none" stroke-linecap="round"/><path d="M34 64Q37 60 42 60M68 64Q71 60 76 60" stroke="rgba(255,255,255,.75)" stroke-width="2.2" fill="none" stroke-linecap="round"/>'},
+  scarf:{f:'<path d="M20 102Q60 124 100 102L98 113Q60 133 22 113Z" fill="#ff5c6c"/><path d="M26 110Q60 127 94 110" fill="none" stroke="#ffd54a" stroke-width="2.6" stroke-dasharray="5 4"/><path d="M78 113L91 110L95 129L81 131Z" fill="#ff5c6c"/><path d="M81 131v4M85 130.5v4.5M89 130v4.5M93 129.5v4" stroke="#ff5c6c" stroke-width="2" stroke-linecap="round"/><path d="M80 120L93 117" stroke="#ffd54a" stroke-width="2.4"/>'},
+  bow:{f:'<path d="M60 112L44 102Q41 112 44 122Z" fill="#ff5c9a"/><path d="M60 112L76 102Q79 112 76 122Z" fill="#ff5c9a"/><path d="M47 106Q45 112 47 118M73 106Q75 112 73 118" stroke="#e23d7d" stroke-width="2" fill="none" stroke-linecap="round"/><rect x="55" y="107" width="10" height="10" rx="3.5" fill="#e23d7d"/>'},
+  cape:{b:'<path d="M25 64Q6 104 9 129Q24 122 37 128Q49 121 60 128Q71 121 83 128Q96 122 111 129Q114 104 95 64Z" fill="#e8405a"/><path d="M95 64Q114 104 111 129Q104 126 99 127Q104 98 90 66Z" fill="#c22f48"/>',
+    f:'<path d="M27 94Q43 107 60 106Q77 107 93 94" fill="none" stroke="#e8405a" stroke-width="5" stroke-linecap="round"/><circle cx="60" cy="106" r="5" fill="#ffd54a" stroke="#e09a00" stroke-width="1.5"/>'},
+  backpack:{b:'<rect x="74" y="42" width="42" height="56" rx="14" fill="#ff8a3d"/><rect x="100" y="60" width="15" height="24" rx="6" fill="#e86f22"/><path d="M80 46Q95 36 110 46" fill="none" stroke="#e86f22" stroke-width="4" stroke-linecap="round"/>',
+    f:'<path d="M28 52Q19 80 27 107M92 52Q101 80 93 107" fill="none" stroke="#e86f22" stroke-width="6.5" stroke-linecap="round"/><rect x="22" y="80" width="9" height="7" rx="2" fill="#ffd54a"/><rect x="89" y="80" width="9" height="7" rx="2" fill="#ffd54a"/>'}};
+/* the picture of a reward item (tile / reward screen): emoji, or the outfit art itself when the emoji is not clear (cape) */
+const ICON={cape:'<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M15 9Q24 15 33 9L42 41Q37 38 33 41Q28.5 37.5 24 41Q19.5 37.5 15 41Q11 38 6 41Z" fill="#e8405a"/><path d="M33 9L42 41Q37 38 33 41L29 13Z" fill="#c22f48"/><path d="M13 8.5Q24 16 35 8.5" fill="none" stroke="#ff8a9c" stroke-width="3.5" stroke-linecap="round"/><circle cx="24" cy="12.6" r="3.4" fill="#ffd54a" stroke="#e09a00" stroke-width="1.2"/></svg>'};
+const itemArt=L=>ICON[L.id]||L.e;
+function pipSVG(w){
+  w=w||S.wear;const ids=SLOTS.map(k=>w[k]).filter(id=>id&&WEAR_ART[id]),lay=k=>ids.map(id=>WEAR_ART[id][k]||"").join("");
+  if(!ids.length)return PIP_SVG;
+  return PIP_SVG.replace('aria-hidden="true">','aria-hidden="true"><g class="wear wb">'+lay("b")+'</g>').replace(/<\/svg>$/,'<g class="wear wf">'+lay("f")+'</g></svg>');
+}
+/* re-draw every Pip with the current outfit (state data-s is kept on the container) */
+function applyWear(){$$(".pip").forEach(e=>{e.innerHTML=pipSVG()});if(window.PipSprite)PipSprite.setWear(S.wear)}
+const pipHTML=(ps,id)=>`<div class="pip" style="--ps:${ps}px"${id?` id="${id}"`:""} data-s="idle">${pipSVG()}</div>`;
+const ROCKET_SVG='<svg viewBox="0 0 60 100"><path class="rk-flame" d="M22 74Q30 108 38 74Z"/><path class="rk-fin" d="M12 72L22 50V78zM48 72L38 50V78z"/><path class="rk-body" d="M30 4C42 18 44 44 40 78H20C16 44 18 18 30 4z"/><circle class="rk-win" cx="30" cy="38" r="7"/></svg>';
+const pip=s=>$$(".pip").forEach(e=>e.dataset.s=s);
+function pulse(el){if(!el)return;el.classList.add("pulse");setTimeout(()=>el.classList.remove("pulse"),450)}
+function burst(el){
+  if(!el||reduced())return;const r=el.getBoundingClientRect(),b=document.createElement("div");b.className="burst";b.style.left=r.left+r.width/2+"px";b.style.top=r.top+r.height/2+"px";
+  for(let i=0;i<8;i++){const s=document.createElement("i");s.style.setProperty("--a",i*45+"deg");b.appendChild(s)}
+  $("#app").appendChild(b);setTimeout(()=>b.remove(),700);
+}
+function flyStar(from,to){
+  if(!from||!to||reduced()||!from.getBoundingClientRect)return;const a=from.getBoundingClientRect(),b=to.getBoundingClientRect(),f=document.createElement("div");f.className="fly";f.innerHTML=STAR_SVG;
+  const x0=a.left+a.width/2-17,y0=a.top+a.height/2-17;f.style.left=x0+"px";f.style.top=y0+"px";$("#app").appendChild(f);
+  if(!f.animate){f.remove();return}
+  const an=f.animate([{transform:"translate(0,0) scale(1.2)",opacity:1},{transform:`translate(${b.left+b.width/2-17-x0}px,${b.top+b.height/2-17-y0}px) scale(.5)`,opacity:.9}],{duration:900,easing:"cubic-bezier(.4,0,.2,1)"});
+  an.onfinish=()=>f.remove();setTimeout(()=>f.remove(),1300);
+}
+
+/* ================= 4. session, scheduler, word selection ================= */
+let RID=0;
+const G={active:false,round:0,recent:[],retry:[],newCount:0,newDone:0,lastIntro:-9,lastG:"",hist:[],sinceWrite:0,lastWrite:"",done:[],tStart:0,pseudo:[],sent:[]};
+let cur=null,scr="home";
+const WRITE_OK=()=>!!(window.PipWrite&&window.PipWrite.createPad&&window.PipWrite.LETTERS);
+const isW=x=>x==="G5"||x==="G5b";
+function playMs(){const d=dkey();if(S.play.date!==d)S.play={date:d,ms:0};return S.play.ms+(G.tStart?Date.now()-G.tStart:0)}
+const timeUp=()=>S.sessionMin>0&&playMs()>=S.sessionMin*60000;
+function tickStart(){if(!G.tStart)G.tStart=Date.now()}
+function tickStop(){if(G.tStart){const d=dkey();if(S.play.date!==d)S.play={date:d,ms:0};S.play.ms+=Date.now()-G.tStart;G.tStart=0;save()}}
+/* mist = mistakes of the last normal rounds, lastBrk/brkGap = break every 5-6 rounds, hungryAt = round after which Pip asks for food (once) */
+function newSession(){Object.assign(G,{active:true,round:0,recent:[],retry:[],newCount:0,newDone:0,lastIntro:-9,lastG:"",hist:[],sinceWrite:0,lastWrite:"",done:[],pseudo:[],sent:[],
+  force:null,oneOff:null,mist:[],lastBrk:0,brkGap:5+(Math.random()<.5?1:0),hungry:false,hungryAt:6+Math.floor(Math.random()*3)});S.sessions++;save()}
+function feasible(g){
+  if(g==="G4"||g==="G10")return S.total>=2;
+  if(isW(g))return WRITE_OK();
+  if(g==="G9")return S.planet>=3;
+  return true;
+}
+function wchoice(a,wt){let t=0;const w=a.map(x=>{const v=Math.max(.01,wt(x));t+=v;return v});let r=Math.random()*t;for(let i=0;i<a.length;i++){r-=w[i];if(r<=0)return a[i]}return a[a.length-1]}
+/* game choice: never the same twice in a row, writing at least every 3rd round, max one "new game" per session */
+function pickGame(){
+  if(G.force){const f=G.force;G.force=null;return{g:f}}
+  /* a short break game: after 2 rounds in a row with >= 2 mistakes, or every 5-6 rounds; never two in a row, never in the first 2 rounds */
+  if(!S.off.B&&G.round>=2&&!BRK(G.lastG)&&((G.mist||[]).length>=2&&G.mist.slice(-2).every(m=>m>=2)||G.round-(G.lastBrk||0)>=(G.brkGap||5))){
+    const b=BLIST[(S.brkI||0)%BLIST.length];S.brkI=(S.brkI||0)+1;G.lastBrk=G.round;G.mist=[];G.brkGap=5+(Math.random()<.5?1:0);save();return{g:b}}
+  const av=GLIST.filter(x=>S.unl[x]&&!S.off[x]&&feasible(x));
+  if(!av.length)return{g:"G1"};
+  if(S.total===0&&G.round===0&&av.includes("G1"))return{g:"G1"};
+  if(G.newDone<2&&G.round-G.lastIntro>=4&&G.round>=1){const ng=S.pend.find(x=>!S.off[x]&&feasible(x));
+    if(ng){S.pend=S.pend.filter(x=>x!==ng);S.unl[ng]=1;G.newDone++;G.lastIntro=G.round;save();return{g:ng,intro:true}}}
+  let cand=av.filter(x=>x!==G.lastG);if(!cand.length)cand=av;
+  const wr=cand.filter(isW);
+  if(G.sinceWrite>=2&&wr.length&&!isW(G.lastG)){
+    return{g:(wr.includes("G5b")&&(!wr.includes("G5")||(G.lastWrite==="G5"&&Math.random()<.6)))?"G5b":"G5"};
+  }
+  return{g:wchoice(cand,x=>{const used=G.hist.slice(-6).filter(y=>y===x).length;let k=1/(1+used);if(x==="G9"&&S.planet<5)k*=.3;if(isW(x))k*=.3;return k})};
+}
+/* G3 needs 3 letters; long galaxy-2 words are not dictated letter by letter (G5) and not built from 10+ tiles */
+const fits=(g,w)=>{const n=[...w].length;return g==="G3"?n===3:g==="G5"?n<=7:(g==="G4"||g==="G10")?n<=8:n<=9};
+/* flt (optional): only words that pass it (G10 = foods) */
+function pickWord(g,flt){
+  const okw=x=>fits(g,x.w)&&(!flt||flt(x));
+  const due=G.retry.find(r=>r.at<=G.round&&WM[r.w]&&okw(WM[r.w]));
+  if(due){G.retry=G.retry.filter(r=>r!==due);return due.w}
+  const all=WORDS.filter(x=>x.p<=S.planet&&okw(x));
+  if(!all.length)return flt?pickWord(g):"МИШ";
+  const canNew=G.newCount<S.maxNew,seenAll=all.filter(x=>S.words[x.w]).length;
+  const rec=new Set(G.recent.slice(-(canNew?4:Math.min(4,Math.max(1,seenAll-1)))));
+  let pool=all.filter(x=>!rec.has(x.w)&&(canNew||S.words[x.w]));
+  if(!pool.length)pool=all.filter(x=>!rec.has(x.w));if(!pool.length)pool=all;
+  const nowP=pool.filter(x=>x.p===S.planet),old=pool.filter(x=>x.p<S.planet),here=S.visit<S.planet?pool.filter(x=>x.p===S.visit):[];
+  /* visiting an older planet: ~70% of the words come from that planet */
+  const src=(here.length&&Math.random()<.7)?here:(old.length&&(Math.random()<.2||!nowP.length))?old:(nowP.length?nowP:old);
+  return wchoice(src,x=>{const s=S.words[x.w];return s?[5,3,2,1.2,.6][s.box]:3}).w;
+}
+function pickPseudo(R){
+  const v=S.visit;let pool=C.pseudo.filter(x=>(v>=3||!x.long)&&(v>=6||!x.gal));if(!pool.length)pool=C.pseudo;
+  const rec=G.pseudo.slice(-6);let p2=pool.filter(x=>!rec.includes(x.w));if(!p2.length)p2=pool;
+  const it=wchoice(p2,x=>(G.pseudo.includes(x.w)?1:3)*(x.gal?2:1));G.pseudo.push(it.w);
+  R.pw=it.w;R.opts=shuffle([it.w,...it.f]).slice(0,3);R.letters=[...it.w];
+}
+/* G9 distractors: one shares the first word (differs later), one shares a later word (differs in the first) — the child has to read both words */
+function pickSentence(R){
+  const all=C.sentences,ok=x=>!x.gal||S.planet>=6,rec=G.sent.slice(-3);
+  let pool=all.filter(x=>ok(x)&&!rec.includes(x.s));if(!pool.length)pool=all.filter(ok);
+  const it=wchoice(pool,x=>x.gal&&S.visit>=6?2:1);G.sent.push(it.s);R.sent=it;
+  const W=x=>x.s.split(" "),wd=W(it),sim=x=>W(x).filter(t=>wd.includes(t)).length;
+  const oth=shuffle(all.filter(x=>x.s!==it.s&&x.e!==it.e));
+  const a=oth.find(x=>W(x)[0]===wd[0]),b=oth.find(x=>x!==a&&W(x)[0]!==wd[0]&&W(x).slice(1).some(t=>wd.slice(1).includes(t)));
+  const ds=[a,b].filter(Boolean);
+  oth.filter(x=>!ds.includes(x)).sort((p,q)=>sim(q)-sim(p)).forEach(x=>{if(ds.length<2&&!ds.some(d=>d.e===x.e))ds.push(x)});
+  R.opts=shuffle([it,...ds]);R.letters=[];
+}
+function newRound(spec){
+  const g=spec.g,R={id:++RID,g,intro:!!spec.intro,demo:!!spec.intro,mistakes:0,locked:true,t0:0,done:false,help:0};
+  if(g==="G7")pickPseudo(R);else if(g==="G9")pickSentence(R);else if(BRK(g))brkSetup(R);
+  else{if(g==="G10")g10pick(R);else R.word=pickWord(g);R.letters=[...R.word];if(!S.words[R.word])G.newCount++;wst(R.word);G.recent.push(R.word)}
+  R.nopic=(g==="G1"||g==="G2")&&!!S.nopic&&Math.random()<.3;
+  G.hist.push(g);G.lastG=g;G.sinceWrite=isW(g)?0:G.sinceWrite+1;if(isW(g))G.lastWrite=g;
+  return R;
+}
+/* distractors for sound games: confusable pairs and first letters of other words, not random */
+function distract(word,target,n,avoid=[]){
+  const bad=new Set([...word,...avoid]);
+  const grp=((GROUPS.find(x=>x.includes(target))||"").split("")).filter(c=>c!==target&&ALPHA.includes(c)&&!bad.has(c));
+  const firsts=[...new Set(WORDS.filter(x=>x.p<=S.planet).map(x=>x.w[0]))].filter(c=>c!==target&&!bad.has(c)&&!grp.includes(c));
+  const out=shuffle(grp).slice(0,Math.min(2,n));
+  shuffle(firsts).forEach(c=>{if(out.length<n&&!out.includes(c))out.push(c)});
+  shuffle(ALPHA.filter(c=>!bad.has(c)&&!out.includes(c))).forEach(c=>{if(out.length<n)out.push(c)});
+  return out.slice(0,n);
+}
+/* ---- Leitner boxes: grow only on first-try success in >=2 different game types ---- */
+function recordWord(R,first){
+  const w=R.word;if(!w)return;const x=wst(w);x.n++;R.isNew=false;
+  if(first&&!R.demo){
+    R.isNew=!(x.box>0||x.types.length>0);
+    if(!x.types.includes(R.g))x.types.push(R.g);
+    if(x.types.length>=2&&x.last!==R.g&&x.box<4)x.box++;
+    x.last=R.g;
+  }else if(!first){x.box=Math.max(0,x.box-1);x.last="";G.retry.push({w,at:G.round+2+Math.floor(Math.random()*3)})}
+}
+function checkUnlocks(){
+  const r=k=>stat(k).r,f=k=>stat(k).f;
+  const rules={G2:f("G1")>=4,G3:f("G2")>=3,G5b:r("G1")>=3,G6:r("G4")>=1,G7:r("G6")>=2,G8:r("G4")>=1,G9:S.planet>=3,G10:r("G4")>=1};
+  Object.keys(rules).forEach(k=>{if(rules[k]&&!S.unl[k]&&!S.pend.includes(k))S.pend.push(k)});
+  if(!S.nopic&&r("G1")>=4)S.nopic=1;
+}
+function unlockAll(){GLIST.forEach(k=>S.unl[k]=1);S.pend=[];S.nopic=1;save()}
+
+/* ---- rocket / planets ---- */
+function renderRocket(){
+  const n=goal();$("#track").innerHTML=Array.from({length:n},(_,i)=>`<i class="slot${i<S.stars?" on":""}" data-i="${i}"></i>`).join("");
+  $("#rkIcon").innerHTML=ROCKET_SVG;$("#rkIcon").classList.toggle("near",S.stars>=n-2&&S.stars>0);
+  planetStyle($("#rkPlanet"),S.planet);
+}
+function planetStyle(el,p){
+  const c=PLC[p-1],bg=c?`radial-gradient(circle at 32% 28%,${c[0]},${c[1]} 55%,${c[2]})`:"radial-gradient(circle at 32% 28%,rgba(255,255,255,.55),transparent 45%),conic-gradient(#ff6b8b,#ffd54a,#7ee0b5,#6bc7ff,#b48cff,#ff6b8b)";
+  el.style.setProperty("--pg",bg);el.style.setProperty("--pc",c?c[1]:"#b48cff");
+}
+
+/* ================= 5. round engine (shared by all games) ================= */
+const GAMES={};
+const SPK='<svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16 9a4 4 0 010 6M18.5 6.5a8 8 0 010 11" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>';
+const CHECK='<svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+/* the picture is a button: a tap replays the word (n:) */
+const picHTML=(R,c="")=>`<button type="button" class="pic ${R.nopic?"nopic":c}" id="pic" data-id="pic" aria-label="Чуј реч поново">${R.nopic?"🎧":WM[R.word].e}<span class="pk" aria-hidden="true">${SPK}</span></button>`;
+const dotsHTML=(n,hi)=>`<div class="dots">${Array.from({length:n},(_,i)=>`<i class="${i===hi?"hi":""}"></i>`).join("")}</div>`;
+const tile=(l,id,c="")=>`<button type="button" class="tile ${c}" data-id="${id}" data-l="${l}">${l}</button>`;
+const hintOn=sel=>{const e=typeof sel==="string"?$(sel):sel;if(e)e.classList.add("hint")};
+function setLock(R,on){
+  R.locked=on;const r=$("#stage .round");if(r)r.classList.toggle("lk",on);
+  if(on)pip("listen");else if(!R.done)pip("idle");
+  if(GAMES[R.g].onLock)GAMES[R.g].onLock(R,on);
+}
+function settle(R){if(cur!==R||R.done)return;setLock(R,false);R.t0=performance.now();idleArm(R)}
+/* 🔊 glows once per round after 8 s without any tap while the round is open */
+let idleT=0;
+function idleArm(R){clearTimeout(idleT);if(R.glowed)return;
+  idleT=setTimeout(()=>{if(cur!==R||R.done||R.locked||scr!=="game")return;R.glowed=1;const b=$("#replayBtn");b.classList.remove("glow");void b.offsetWidth;b.classList.add("glow");setTimeout(()=>b.classList.remove("glow"),3000)},8000*TS)}
+document.addEventListener("pointerdown",()=>{clearTimeout(idleT);const R=cur;if(R&&!R.done&&!R.locked&&scr==="game")idleArm(R)},true);
+/* tap on the picture: hear the word again; ends unlocked like the 🔊 replay (never while a letter is being checked) */
+function picTap(R,b){
+  if(R.busy)return;pulse(b);
+  run(async()=>{setLock(R,true);await nw(R.word);if(R.demo&&GAMES[R.g].hint)GAMES[R.g].hint(R);settle(R)});
+}
+function replayRound(R){run(async()=>{setLock(R,true);await (GAMES[R.g].replay||GAMES[R.g].prompt)(R);if(R.demo&&GAMES[R.g].hint)GAMES[R.g].hint(R);settle(R)})}
+async function runPrompt(R){setLock(R,true);await GAMES[R.g].prompt(R);if(R.demo&&GAMES[R.g].hint)GAMES[R.g].hint(R);settle(R)}
+async function startRound(){
+  if(cur&&cur.pad){try{cur.pad.destroy()}catch(e){}}
+  const R=newRound(pickGame());cur=R;G.round++;
+  $("#stage").innerHTML=GAMES[R.g].build(R);$("#stage").scrollTop=0;clearStrip();
+  if(GAMES[R.g].mount)GAMES[R.g].mount(R);
+  setLock(R,true);
+  if(R.intro){$("#stage .round").insertAdjacentHTML("afterbegin",'<div class="newbadge">Нова игра!</div>');pip("happy");await ph("s_newgame");await wait(250)}
+  await runPrompt(R);
+}
+async function nextRound(){if(timeUp())return endSession();return startRound()}
+/* a wrong answer: no "wrong" message; ladder of help = repeat -> stretch -> highlight; fast wrong taps = guessing signal */
+function wrong(R,el,o={}){
+  if(R.locked||R.done)return;
+  R.mistakes++;
+  const fast=R.t0>0&&performance.now()-R.t0<700;
+  if(el){el.classList.add("dim","wiggle");setTimeout(()=>el.classList.remove("wiggle"),450)}
+  if(o.letter)S.letterErr[o.letter]=(S.letterErr[o.letter]||0)+1;
+  if(fast){S.fast++;stat(R.g).fast++}
+  save();
+  const lv=fast?Math.max(2,R.mistakes):R.mistakes;
+  R.locked=true;pip("thinking");
+  run(async()=>{
+    if(fast){await pp("pp_hmm");await wait(1500)}else if(o.pre)await o.pre();
+    setLock(R,true);
+    await GAMES[R.g].help(R,lv,fast);
+    if(lv>=3&&GAMES[R.g].hint)GAMES[R.g].hint(R);
+    settle(R);
+  });
+}
+/* fast correct (< 1 s after unlock, word of 4+ letters, without tapping the letters first): maybe guessing by the first letter — counted only, no penalty */
+const FASTOK={G6:R=>R.letters.length>=4&&!R.aided,G9:()=>true,G10:R=>R.variant==="read"&&R.letters.length>=4&&!R.aided};
+function correct(R,voice){
+  if(R.done)return;R.done=true;R.locked=true;
+  if(FASTOK[R.g]&&!R.mistakes&&!R.demo&&R.t0>0&&performance.now()-R.t0<1000&&FASTOK[R.g](R)){S.fastOk=(S.fastOk||0)+1;const s=stat(R.g);s.fastOk=(s.fastOk||0)+1}
+  run(async()=>{if(voice)await voice();await success(R)});
+}
+function giveStar(from){
+  S.stars++;const i=S.stars-1,slot=$(`#track .slot[data-i="${i}"]`);
+  flyStar(from,slot);setTimeout(()=>slot&&slot.classList.add("on"),reduced()?0:850);
+  $("#rkIcon").classList.toggle("near",S.stars>=goal()-2);
+  return S.stars>=goal();
+}
+let lastPr="";
+const PRAISE={G1:"listen",G2:"listen",G3:"listen",G4:"build",G5:"write",G5b:"letter",G6:"read",G7:"read",G9:"read",G8:"find",G10:"build",B1:"listen",B2:"listen",B3:"listen"};
+async function praise(R){
+  const k=R.g==="G10"&&R.variant==="read"?"read":PRAISE[R.g]||"listen",L={listen:[gk("p_heard"),"p_great","p_ok","p_super"],build:[gk("p_stretch"),"p_super","p_ok"],write:[gk("p_wrote"),"p_super"],
+    letter:["p_letter","p_super","p_ok"],read:[gk("p_read"),"p_super","p_ok"],find:[gk("p_found"),"p_super"]}[k];
+  if(R.g==="G7")await say("x:"+R.pw);else if(R.g==="G9")await say("s:"+R.sent.s);else if(R.word&&R.g!=="G5")await pw(R.word);
+  if(R.isNew){await ph("p_newword");if(Math.random()<.5)await pp(gk("pp_thanks"))}
+  else if(R.mistakes===0&&Math.random()<.2)await pp("pp_yay");
+  else{const c=(R.mistakes>0?["p_ok","p_super"]:L).filter(x=>x!==lastPr);lastPr=pick(c.length?c:L);await ph(lastPr)}
+  if(R.g==="G5")await pw(R.word);
+}
+async function success(R){
+  const first=R.mistakes===0&&!R.demo,anchor=$("#pic")||$("#stage .round");
+  const s=stat(R.g);s.r++;if(first)s.f++;S.total++;
+  if(R.word&&R.g!=="G7"&&R.g!=="G9"){recordWord(R,R.mistakes===0);if(!G.done.includes(R.word))G.done.push(R.word)}
+  if(R.nopic){const p=$("#pic");if(p){p.textContent=WM[R.word].e;p.classList.add("flip")}}
+  if(!BRK(R.g))(G.mist=G.mist||[]).push(R.mistakes);
+  chime();burst(anchor);pip("happy");
+  const full=giveStar(anchor);checkUnlocks();syncInv(false);save();
+  await praise(R);
+  pip("idle");
+  if(full){await pp("pp_yay");await wait(200);return launch()}
+  if(R.back==="ship"){await wait(300);if(timeUp())return endSession();openShip();return}   /* a pantry round goes back to the ship */
+  /* once per session, after 6-8 rounds: Pip is hungry, the next round feeds him */
+  if(!G.hungry&&G.hungryAt&&G.round>=G.hungryAt&&!G.force&&R.g!=="G10"&&!BRK(R.g)&&S.unl.G10&&!S.off.G10&&feasible("G10")&&!timeUp()){
+    G.hungry=true;G.force="G10";pip("eat");await pp("pp_hungry");pip("idle")}
+  await wait(300);return nextRound();
+}
+$("#stage").addEventListener("click",e=>{
+  const R=cur,b=e.target.closest("[data-id]");if(!R||!b||scr!=="game"||R.done)return;
+  if(b.id==="pic"){picTap(R,b);return}
+  const gm=GAMES[R.g];if(gm.free&&gm.free(R,b))return;
+  if(R.locked)return;gm.tap(R,b);
+});
+function flyTo(btn,box){
+  const a=btn.getBoundingClientRect(),b=box.getBoundingClientRect(),c=btn.cloneNode(true);
+  c.classList.remove("hint");c.style.cssText=`position:fixed;left:${a.left}px;top:${a.top}px;width:${a.width}px;height:${a.height}px;margin:0;z-index:40;pointer-events:none`;
+  btn.classList.remove("hint");btn.classList.add("used");$("#app").appendChild(c);
+  let done=false;const fin=()=>{if(done)return;done=true;c.remove();box.textContent=btn.dataset.l;box.classList.add("full")};
+  if(reduced()||!c.animate){fin();return}
+  const dx=b.left+b.width/2-(a.left+a.width/2),dy=b.top+b.height/2-(a.top+a.height/2);
+  c.animate([{transform:"translate(0,0)"},{transform:`translate(${dx}px,${dy}px) scale(.7)`}],{duration:380,easing:"cubic-bezier(.3,.7,.3,1)",fill:"forwards"}).onfinish=fin;setTimeout(fin,700);
+}
+/* help ladder for "hear the word" games: 1 repeat, 2 stretch, 3 highlight (done by hint) */
+async function helpWord(R,lv,fast,pf){
+  if(fast||lv>=2){if(!fast)await ph("h_almost");await stretch(R.letters,pf);await nw(R.word)}
+  else{await ph("h_try");await nw(R.word)}
+}
+
+/* ================= 6. games ================= */
+/* ---- G1 / G2 / G3: first / last / middle sound ---- */
+const SQ={G1:["i_first",()=>0],G2:["i_last",w=>w.length-1],G3:["i_mid",()=>1]};
+["G1","G2","G3"].forEach(g=>GAMES[g]={
+  build(R){
+    const i=SQ[g][1](R.letters);R.target=R.letters[i];
+    const n=(g==="G1"&&stat("G1").r<3)?3:4;
+    R.opts=shuffle([R.target,...distract(R.word,R.target,n-1)]);
+    return `<div class="round">${picHTML(R)}${dotsHTML(R.letters.length,i)}<div class="tiles${n===3?" t3":""}">${R.opts.map((l,k)=>tile(l,"o"+k)).join("")}</div></div>`;
+  },
+  async prompt(R){if(R.nopic)await ph("i_nopic");await nw(R.word);await wait(150);await ph(SQ[g][0])},
+  tap(R,b){
+    if(b.dataset.l===R.target){b.classList.add("ok");correct(R,()=>ls(R.target))}
+    else wrong(R,b,{letter:R.target,pre:()=>ls(b.dataset.l)});
+  },
+  help:(R,lv,fast)=>helpWord(R,lv,fast),
+  hint(R){hintOn(`.tile[data-l="${R.target}"]`)},
+  ans:R=>`.tile[data-l="${R.target}"]`,
+});
+/* ---- G4: build the word ---- */
+GAMES.G4={
+  build(R){
+    R.pos=0;const ds=[];
+    for(let i=0;i<2;i++){const c=distract(R.word,pick(R.letters),1,ds)[0];if(c)ds.push(c)}
+    return `<div class="round">${picHTML(R)}<div class="boxes${R.letters.length>=7?" lg":""}">${R.letters.map(()=>'<div class="box"></div>').join("")}</div>
+      <div class="tiles" style="--c:${R.letters.length<5?3:4}">${shuffle([...R.letters,...ds]).map((l,k)=>tile(l,"o"+k)).join("")}</div></div>`;
+  },
+  mount(R){R.boxes=$$("#stage .box")},
+  async prompt(R){await nw(R.word);await wait(200);await stretch(R.letters,i=>pulse(R.boxes[i]),250);await ph("i_build")},
+  tap(R,b){
+    const l=b.dataset.l,need=R.letters[R.pos];
+    if(l===need){
+      const box=R.boxes[R.pos];R.pos++;flyTo(b,box);$$("#stage .tile.hint").forEach(t=>t.classList.remove("hint"));
+      if(R.pos===R.letters.length)correct(R,()=>ls(l));else run(()=>ls(l));
+    }else wrong(R,b,{letter:need,pre:()=>ls(l)});
+  },
+  async help(R,lv,fast){
+    const pf=i=>pulse(R.boxes[i]);
+    if(fast||lv>=2){if(!fast)await ph("h_almost");await stretch(R.letters,pf);await nw(R.word)}
+    else{await ph("h_try");if(R.pos){await stretch(R.letters.slice(0,R.pos),pf,200);await ph("i_andthen")}else await nw(R.word)}
+  },
+  hint(R){hintOn($$("#stage .tile:not(.used)").find(t=>t.dataset.l===R.letters[R.pos]))},
+  ans:R=>{const t=$$("#stage .tile:not(.used)").find(t=>t.dataset.l===R.letters[R.pos]);return `.tile[data-id="${t.dataset.id}"]`},
+};
+/* ---- G6: read the word, find the picture ----
+   at least 2 of the 3 distractors start with the same letter (same first two letters preferred; any planet may lend a picture);
+   never two equal pictures; if fewer than 2 such words exist the round has 3 pictures instead of 4 */
+function g6opts(w){
+  const e0=WM[w].e,sc=x=>(x.w.slice(0,2)===w.slice(0,2)?4:0)+(x.w[0]===w[0]?3:0)+(x.w.slice(-2)===w.slice(-2)?2:x.w.slice(-1)===w.slice(-1)?1:0)+(x.w.length===w.length?1:0)+(x.p<=S.planet?1.5:0)+Math.random()*1.5;
+  const all=WORDS.filter(x=>x.w!==w&&x.e!==e0).sort((a,b)=>sc(b)-sc(a)),ds=[],add=x=>{if(x&&ds.length<3&&!ds.some(d=>d.e===x.e))ds.push(x)};
+  const same=all.filter(x=>x.w[0]===w[0]);
+  same.slice(0,2).forEach(add);
+  const n=ds.length<2?2:3;   /* fewer than 2 same-letter words: 3 pictures */
+  all.forEach(x=>{if(ds.length<n&&!ds.includes(x))add(x)});
+  return ds.map(x=>x.w);
+}
+GAMES.G6={
+  build(R){
+    const w=R.word;R.opts=shuffle([w,...g6opts(w)]);R.blends=0;R.aided=false;
+    return `<div class="round"><div class="wordrow${R.letters.length>=8?" lg":""}">${R.letters.map((l,k)=>tile(l,"l"+k)).join("")}</div>
+      <button type="button" class="blend" data-id="blend">${SPK}споји</button>
+      <div class="pics${R.opts.length<4?" q3":""}">${R.opts.map((x,k)=>`<button type="button" class="pic-btn" data-id="o${k}" data-w="${x}" aria-label="слика">${WM[x].e}</button>`).join("")}</div></div>`;
+  },
+  mount(R){R.tiles=$$("#stage .wordrow .tile")},
+  async prompt(R){await ph("i_read")},
+  free(R,b){
+    const id=b.dataset.id;if(R.done)return true;if(id[0]==="l"||id==="blend")R.aided=true;
+    if(id[0]==="l"){run(async()=>{await ls(b.dataset.l);settle(R)});pulse(b);return true}
+    if(id==="blend"){R.blends++;const full=R.blends>1||R.mistakes>0;
+      run(async()=>{setLock(R,true);if(full)await blend(R.letters,i=>pulse(R.tiles[i]));else await stretch(R.letters,i=>pulse(R.tiles[i]),150);settle(R)});return true}
+    return false;
+  },
+  tap(R,b){if(b.dataset.w===R.word){b.classList.add("ok");correct(R)}else wrong(R,b)},
+  async help(R,lv,fast){
+    const pf=i=>pulse(R.tiles[i]);
+    if(!fast&&lv>=2){await ph("h_almost");await blend(R.letters,pf)}else{if(!fast)await ph("h_try");await stretch(R.letters,pf,200)}
+  },
+  hint(R){hintOn(`.pic-btn[data-w="${R.word}"]`)},
+  ans:R=>`.pic-btn[data-w="${R.word}"]`,
+};
+/* ---- G7: Pip's word (pseudo-word; cannot be memorised) ---- */
+GAMES.G7={
+  build(R){
+    R.sel=-1;const cols=["var(--star)","var(--mint)","var(--pink)"];
+    return `<div class="round"><div class="bigword" id="pw">${R.pw}</div>
+      <div class="cards">${R.opts.map((x,k)=>`<button type="button" class="card" data-id="c${k}" data-w="${x}" style="--c:${cols[k]}" aria-label="Слушај ${k+1}">${SPK}</button>`).join("")}</div>
+      <button type="button" class="okbtn" data-id="ok" disabled aria-label="Ово је та реч">${CHECK}</button></div>`;
+  },
+  async prompt(R){await ph("i_pip")},
+  tap(R,b){
+    const ok=$("#stage .okbtn");
+    if(b.dataset.id==="ok"){
+      const c=$(`.card[data-w="${R.opts[R.sel]}"]`);ok.disabled=true;
+      if(R.opts[R.sel]===R.pw){c.classList.add("ok");correct(R)}else{R.last=c;wrong(R,c)}
+      return;
+    }
+    $$("#stage .card").forEach(x=>x.classList.toggle("sel",x===b));R.sel=+b.dataset.id.slice(1);ok.disabled=true;
+    run(async()=>{await say("x:"+b.dataset.w);ok.disabled=false;R.t0=performance.now()});
+  },
+  async help(R,lv,fast){
+    $$("#stage .card").forEach(x=>x.classList.remove("sel"));R.sel=-1;
+    if(!fast&&lv<2){await ph("h_try");await stretch(R.letters)}
+    else{if(!fast)await ph("h_almost");await stretch(R.letters);if(lv>=3){GAMES.G7.hint(R);await say("x:"+R.pw)}}
+  },
+  hint(R){hintOn(`.card[data-w="${R.pw}"]`)},
+  ans:R=>R.sel>=0&&R.opts[R.sel]===R.pw?`.okbtn`:`.card[data-w="${R.pw}"]`,
+};
+/* ---- G8: Pip made a mistake (one wrong letter) ---- */
+GAMES.G8={
+  build(R){
+    const i=Math.floor(Math.random()*R.letters.length),r=R.letters[i];R.wi=i;R.right=r;R.phase=0;
+    const grp=((GROUPS.find(x=>x.includes(r))||"").split("")).filter(c=>c!==r&&ALPHA.includes(c));
+    const ok=c=>c!==r&&!WM[R.letters.map((l,k)=>k===i?c:l).join("")];
+    R.bad=shuffle(grp).find(ok)||shuffle(ALPHA).find(ok);
+    const shown=R.letters.map((l,k)=>k===i?R.bad:l);
+    return `<div class="round">${picHTML(R)}<div class="wordrow${R.letters.length>=8?" lg":""}" id="w8">${shown.map((l,k)=>tile(l,"l"+k)).join("")}</div><div class="tiles" id="o8" hidden></div></div>`;
+  },
+  async prompt(R){if(R.phase===0){await nw(R.word);await wait(150);await ph("i_oops")}else await ph("i_fix")},
+  tap(R,b){
+    if(R.phase===0){
+      if(+b.dataset.id.slice(1)!==R.wi){wrong(R,b,{pre:()=>ls(b.dataset.l)});return}
+      R.phase=1;b.classList.add("bad");R.slotEl=b;
+      R.opts=shuffle([R.right,R.bad,...distract(R.word,R.right,2,[R.bad])]);
+      const o=$("#o8");o.innerHTML=R.opts.map((l,k)=>tile(l,"o"+k)).join("");o.hidden=false;
+      b.textContent="?";b.classList.remove("bad");b.classList.add("pulse");
+      setLock(R,true);run(async()=>{await pp("pp_oops");await ph("i_fix");settle(R)});
+    }else{
+      if(b.dataset.l===R.right){b.classList.add("ok");const s=R.slotEl;s.classList.remove("pulse");s.textContent=R.right;s.classList.add("ok");correct(R,()=>ls(R.right))}
+      else wrong(R,b,{letter:R.right,pre:()=>ls(b.dataset.l)});
+    }
+  },
+  async help(R,lv,fast){
+    if(fast||lv>=2){if(!fast)await ph("h_almost");await stretch(R.letters);await nw(R.word)}else{await ph("h_try");await nw(R.word)}
+  },
+  hint(R){hintOn(R.phase===0?`#w8 .tile[data-id="l${R.wi}"]`:`#o8 .tile[data-l="${R.right}"]`)},
+  ans:R=>R.phase===0?`#w8 .tile[data-id="l${R.wi}"]`:`#o8 .tile[data-l="${R.right}"]`,
+};
+/* ---- G9: sentence + 3 pictures ---- */
+GAMES.G9={
+  build(R){
+    return `<div class="round"><div class="sent">${R.sent.s.split(" ").map(w=>`<span>${w}</span>`).join("")}</div>
+      <div class="pics p3">${R.opts.map((x,k)=>`<button type="button" class="pic-btn" data-id="o${k}" data-s="${x.s}" aria-label="слика">${x.e}</button>`).join("")}</div></div>`;
+  },
+  async prompt(R){await ph("i_sentence")},
+  tap(R,b){if(b.dataset.s===R.sent.s){b.classList.add("ok");correct(R)}else wrong(R,b)},
+  async help(R,lv,fast){
+    if(!fast&&lv<2){await ph("h_try");await ph("i_sentence")}else{if(!fast)await ph("h_almost");await say("s:"+R.sent.s)}
+  },
+  hint(R){hintOn(`.pic-btn[data-s="${R.sent.s}"]`)},
+  ans:R=>`.pic-btn[data-s="${R.sent.s}"]`,
+};
+/* ---- G10: feed Pip. "build" = spell the food (like G4) on an empty plate that fills up, then it flies into Pip's mouth;
+   "read" = Pip's sign shows the written word (never its sound before the answer), 3 foods on the table, >= 1 with the same first letter ---- */
+const sameFirst=x=>WORDS.filter(y=>y.food&&y.w!==x.w&&y.w[0]===x.w[0]&&y.e!==x.e);
+function g10pick(R){
+  if(G.oneOff){R.word=G.oneOff;R.variant="build";R.back="ship";G.oneOff=null;return}   /* chosen in the pantry */
+  const kn=WORDS.filter(x=>x.food&&known(x.w)),rd=kn.length>=3?kn.filter(x=>x.p<=S.planet&&sameFirst(x).length):[];
+  R.variant=rd.length&&!R.intro&&S.g10v!=="read"?"read":"build";S.g10v=R.variant;   /* the two variants take turns */
+  R.word=R.variant==="read"?pickWord("G10r",x=>rd.includes(x)):pickWord("G10",x=>!!x.food);
+}
+function g10opts(w){
+  const x=WM[w],ds=[shuffle(sameFirst(x))[0]];
+  const rest=shuffle(WORDS.filter(y=>y.food&&y.w!==w&&y.e!==x.e&&!ds.some(d=>d.w===y.w||d.e===y.e))).sort((a,b)=>(b.w[0]===w[0])-(a.w[0]===w[0])||known(b.w)-known(a.w));
+  if(rest[0])ds.push(rest[0]);return shuffle([w,...ds.map(d=>d.w)]);
+}
+function blip(f0,f1,dur,type,at,vol){const c=AUD.ctx;if(!c||c.state!=="running"||S.readMode)return;
+  try{const t=c.currentTime+(at||0),o=c.createOscillator(),n=c.createGain();o.type=type||"sine";o.frequency.setValueAtTime(f0,t);o.frequency.exponentialRampToValueAtTime(f1,t+dur);
+    n.gain.setValueAtTime(vol||.15,t);n.gain.exponentialRampToValueAtTime(.0001,t+dur+.02);o.connect(n);n.connect(c.destination);o.start(t);o.stop(t+dur+.03)}catch(e){}}
+const munch=()=>[0,.34,.68].forEach(t=>blip(170,80,.09,"triangle",t,.12));
+function flyFood(from,e,to){
+  if(!from||!to||reduced()||!from.getBoundingClientRect)return;const a=from.getBoundingClientRect(),b=to.getBoundingClientRect(),f=document.createElement("div");
+  const s=Math.round(Math.max(40,Math.min(a.width,a.height)*.62)),x0=a.left+a.width/2-s/2,y0=a.top+a.height/2-s/2;
+  f.className="flyfood";f.textContent=e;f.style.cssText=`left:${x0}px;top:${y0}px;width:${s}px;height:${s}px;font-size:${Math.round(s*.9)}px`;$("#app").appendChild(f);
+  if(!f.animate){f.remove();return}
+  const dx=b.left+b.width/2-s/2-x0,dy=b.top+b.height*.74-s/2-y0;
+  f.animate([{transform:"translate(0,0) scale(1)"},{transform:`translate(${dx*.45}px,${dy*.45-50}px) scale(.85)`,offset:.45},{transform:`translate(${dx}px,${dy}px) scale(.16)`,opacity:.85}],{duration:760,easing:"ease-in"}).onfinish=()=>f.remove();
+  setTimeout(()=>f.remove(),1300);
+}
+function headNo(){const p=$("#gamePip");if(!p)return;p.classList.remove("no");void p.offsetWidth;p.classList.add("no");setTimeout(()=>p.classList.remove("no"),600)}
+/* Pip eats: the food flies to the Pip in the top bar, he chews, then a taste reaction (sour / bitter / onion are funny, never sad) */
+const TASTE={sour:"pp_sour",bitter:"pp_bitter",onion:"pp_onion"};
+async function feed(R,src){
+  const P=$("#gamePip"),t=(WM[R.word]||{}).taste;
+  flyFood(src,WM[R.word].e,P);
+  if(R.variant==="read"){if(src)src.classList.add("eaten")}else{const pl=$("#stage .plate");if(pl)setTimeout(()=>pl.classList.add("empty"),reduced()?0:120)}
+  try{
+    await wait(reduced()?150:720);P.classList.add("feed");pip("eat");munch();await wait(1400);
+    pip(TASTE[t]?"yuck":"yum");
+    await pp(TASTE[t]||(t==="sweet"&&Math.random()<.6?"pp_yum2":pick(["pp_yum1","pp_yum3"])));await wait(250);
+  }finally{P.classList.remove("feed")}
+}
+GAMES.G10={
+  build(R){
+    const n=R.letters.length,e=WM[R.word].e;
+    if(R.variant==="read"){R.opts=g10opts(R.word);R.blends=0;R.aided=false;
+      return `<div class="round"><div class="sign" role="img" aria-label="Пипова табла"><i class="st l"></i><i class="st r"></i><div class="wordrow${n>=8?" lg":""}">${R.letters.map((l,k)=>tile(l,"l"+k)).join("")}</div></div>
+        <button type="button" class="blend" data-id="blend">${SPK}споји</button>
+        <div class="table"><div class="pics q3">${R.opts.map((x,k)=>`<button type="button" class="pic-btn" data-id="o${k}" data-w="${x}" aria-label="храна"><span>${WM[x].e}</span></button>`).join("")}</div></div></div>`}
+    R.pos=0;const ds=[];for(let i=0;i<(n>=8?1:2);i++){const c=distract(R.word,pick(R.letters),1,ds)[0];if(c)ds.push(c)}
+    return `<div class="round"><button type="button" class="plate" id="pic" data-id="pic" aria-label="Чуј реч поново"><span class="fd sil">${e}</span><span class="fd col">${e}</span><span class="pk" aria-hidden="true">${SPK}</span></button>
+      <div class="boxes${n>=7?" lg":""}">${R.letters.map(()=>'<div class="box"></div>').join("")}</div>
+      <div class="tiles" style="--c:${n<5?3:n>=8?5:4}">${shuffle([...R.letters,...ds]).map((l,k)=>tile(l,"o"+k)).join("")}</div></div>`;
+  },
+  mount(R){R.boxes=$$("#stage .box");R.tiles=$$("#stage .sign .tile")},
+  async prompt(R){if(R.variant==="read"){await pp("pp_wish");return}await pp("pp_make");await GAMES.G4.prompt(R)},
+  async replay(R){if(R.variant==="read")await pp("pp_wish");else await GAMES.G4.prompt(R)},
+  free(R,b){   /* read variant: letters = their sounds, "споји" = the sounds close together (the word itself is never said) */
+    if(R.variant!=="read")return false;const id=b.dataset.id;if(R.done)return true;
+    if(id[0]==="l"){R.aided=true;pulse(b);run(async()=>{await ls(b.dataset.l);settle(R)});return true}
+    if(id==="blend"){R.aided=true;R.blends++;run(async()=>{setLock(R,true);await stretch(R.letters,i=>pulse(R.tiles[i]),R.blends>1||R.mistakes?50:160);settle(R)});return true}
+    return false;
+  },
+  tap(R,b){
+    if(R.variant==="read"){if(b.dataset.w===R.word){b.classList.add("ok");correct(R,()=>feed(R,b))}else wrong(R,b,{pre:async()=>{headNo();await ph("h_notthat")}});return}
+    const l=b.dataset.l,need=R.letters[R.pos];
+    if(l!==need){wrong(R,b,{letter:need,pre:()=>ls(l)});return}
+    const box=R.boxes[R.pos],pl=$("#stage .plate");R.pos++;flyTo(b,box);$$("#stage .tile.hint").forEach(t=>t.classList.remove("hint"));
+    pl.style.setProperty("--f",Math.round(R.pos/R.letters.length*100)+"%");
+    if(R.pos===R.letters.length){pl.classList.add("full");correct(R,async()=>{await ls(l);await wait(250);await feed(R,pl.querySelector(".col"))})}else run(()=>ls(l));
+  },
+  async help(R,lv,fast){
+    if(R.variant!=="read")return GAMES.G4.help(R,lv,fast);
+    const pf=i=>pulse(R.tiles[i]);
+    if(!fast&&lv>=2){await ph("h_almost");await stretch(R.letters,pf,60)}else await stretch(R.letters,pf,200);
+  },
+  hint(R){if(R.variant==="read")hintOn(`.pic-btn[data-w="${R.word}"]`);else GAMES.G4.hint(R)},
+  ans:R=>R.variant==="read"?`.pic-btn[data-w="${R.word}"]`:GAMES.G4.ans(R),
+};
+/* ---- break games B1-B3 (B6): only letters the child knows, 3 easy catches, a wrong tap only wiggles; a star, no Leitner change ---- */
+function brkLetters(){
+  const s=new Set();Object.keys(S.wr).forEach(l=>{if(S.wr[l].ok>0)s.add(l)});learned().forEach(w=>[...w].forEach(l=>s.add(l)));
+  const a=[...s].filter(l=>ALPHA.includes(l)),p1=[...new Set(WORDS.filter(x=>x.p===1).flatMap(x=>[...x.w]))];
+  p1.forEach(l=>{if(a.length<6&&!a.includes(l))a.push(l)});return a;
+}
+function brkSetup(R){R.pool=brkLetters();R.targets=shuffle(R.pool).slice(0,3);R.hits=0;R.target=R.targets[0];R.letters=[]}
+function brkOthers(R,n){   /* the other letters: known ones, never the target's confusable partner */
+  const grp=GROUPS.find(x=>x.includes(R.target))||"";let o=shuffle(R.pool.filter(l=>l!==R.target&&!grp.includes(l)));
+  if(!o.length)o=shuffle(R.pool.filter(l=>l!==R.target));return Array.from({length:n},(_,i)=>o[i%o.length]);
+}
+const BINTRO={B1:"i_catch",B2:"i_bubbles",B3:"i_hide"};
+async function brkPrompt(R){if(!R.said){R.said=1;await ph("i_break")}await ph(BINTRO[R.g]);await ls(R.target)}
+function brkHit(R,b,between){
+  R.hits++;chime();burst(b);
+  if(R.hits>=R.targets.length){correct(R,between?()=>between(true):()=>wait(1300));return}   /* a short beat to enjoy the last catch */
+  R.target=R.targets[R.hits];setLock(R,true);
+  run(async()=>{if(between)await between(false);else await wait(450);GAMES[R.g].deal(R);await wait(200);await ls(R.target);settle(R)});
+}
+function brkMiss(R,b){b.classList.remove("wiggle");void b.offsetWidth;b.classList.add("wiggle");setTimeout(()=>b.classList.remove("wiggle"),450);run(async()=>{await ls(R.target)})}
+const brkBase={prompt:brkPrompt,replay:async R=>{await ph(BINTRO[R.g]);await ls(R.target)},help(){}};
+/* B1 „Ухвати звезду“: 5 stars with letters fall slowly (CSS); a missed star just falls away and comes again */
+GAMES.B1={...brkBase,
+  build:()=>`<div class="round bk"><div class="bsky" id="bsky">${[0,1,2,3,4].map(i=>`<button type="button" class="fstar" data-id="s${i}" data-i="${i}" style="--x:${12+i*19}%;--ry:${[14,56,32,68,22][i]}%;--t:${(8+i%3*.8).toFixed(1)}s;--d:-${[0,4.6,1.5,6.2,3.1][i]}s"><span class="in"></span></button>`).join("")}</div></div>`,
+  mount(R){const s=$("#bsky");s.style.setProperty("--fall",Math.max(140,s.clientHeight-86)+"px");R.els=$$("#bsky .fstar");GAMES.B1.deal(R)},
+  deal(R){const o=brkOthers(R,3),at=shuffle([0,1,2,3,4]).slice(0,2);let k=0;R.els.forEach((b,i)=>{const l=at.includes(i)?R.target:o[k++];b.dataset.l=l;b.firstChild.textContent=l;b.setAttribute("aria-label","Звезда "+l)})},
+  tap(R,b){if(b.dataset.l!==R.target){brkMiss(R,b);return}
+    b.classList.add("got");setTimeout(()=>{b.classList.remove("got");b.style.setProperty("--d","0s");b.style.animation="none";void b.offsetWidth;b.style.animation=""},420);brkHit(R,b)},
+  hint(R){R.els.forEach(b=>b.classList.toggle("hint",b.dataset.l===R.target))},
+  ans:R=>{const sk=$("#bsky").getBoundingClientRect(),c=R.els.filter(b=>b.dataset.l===R.target&&!b.classList.contains("got")).filter(b=>{const r=b.getBoundingClientRect();return r.top>=sk.top-2&&r.bottom<=sk.bottom-40});
+    return `.fstar[data-i="${(c[0]||R.els.find(b=>b.dataset.l===R.target)).dataset.i}"]`},
+};
+/* B2 „Мехурићи“: 7 floating bubbles, pop the one with the sound */
+const BUBP=[[18,18],[50,13],[82,20],[32,45],[68,43],[18,74],[52,72],[84,70]];
+GAMES.B2={...brkBase,
+  build:()=>`<div class="round bk"><div class="bsky" id="bsky">${BUBP.slice(0,7).map((p,i)=>`<button type="button" class="bub" data-id="b${i}" data-i="${i}" style="--x:${p[0]}%;--y:${p[1]}%;--t:${(2.6+i%3*.5).toFixed(1)}s;--d:-${(i*.7).toFixed(1)}s;--bx:${i%2?7:-7}px;--by:${i%3?-10:9}px"><span></span></button>`).join("")}</div></div>`,
+  mount(R){R.els=$$("#bsky .bub");GAMES.B2.deal(R)},
+  deal(R){const o=brkOthers(R,R.els.length-1),at=Math.floor(Math.random()*R.els.length);let k=0;R.els.forEach((b,i)=>{b.classList.remove("pop");const l=i===at?R.target:o[k++];b.dataset.l=l;b.firstChild.textContent=l;b.setAttribute("aria-label","Мехурић "+l)})},
+  tap(R,b){if(b.dataset.l!==R.target){brkMiss(R,b);return}b.classList.add("pop");blip(900,240,.12);brkHit(R,b)},
+  hint(R){R.els.forEach(b=>b.classList.toggle("hint",b.dataset.l===R.target))},
+  ans:R=>`.bub[data-l="${R.target}"]:not(.pop)`,
+};
+const CLOUD='<svg viewBox="0 0 120 90" preserveAspectRatio="none" aria-hidden="true"><path d="M20 88Q2 88 3 70Q4 54 20 54Q16 32 38 28Q46 6 68 10Q86 4 94 24Q114 24 116 46Q120 60 112 70Q118 88 98 88Z" fill="#f3f5ff"/><path d="M12 80Q30 86 60 84Q92 86 110 78Q106 88 98 88H20Q12 88 12 80Z" fill="#c9d1e6"/></svg>';
+/* B3 „Пип се крије“: Pip hides behind one of 3 clouds; find the cloud with the sound, Pip pops out giggling */
+GAMES.B3={...brkBase,
+  build:()=>`<div class="round bk"><div class="bsky b3" id="bsky">${[0,1,2].map(i=>`<button type="button" class="hc" data-id="c${i}" data-i="${i}"><span class="hp">${pipHTML(84)}</span><span class="cl">${CLOUD}<b></b></span></button>`).join("")}</div></div>`,
+  mount(R){R.els=$$("#bsky .hc");GAMES.B3.deal(R)},
+  deal(R){const o=brkOthers(R,2),at=Math.floor(Math.random()*3);let k=0;R.els.forEach((c,i)=>{c.classList.remove("out","hint");c.classList.toggle("has",i===at);const l=i===at?R.target:o[k++];c.dataset.l=l;c.querySelector("b").textContent=l;c.setAttribute("aria-label","Облак "+l)})},
+  tap(R,b){if(b.dataset.l!==R.target){brkMiss(R,b);return}
+    b.classList.add("out");brkHit(R,b,async last=>{pip("giggle");await pp(gk("pp_found"));await wait(350);if(!last){b.classList.remove("out");await wait(450)}})},
+  hint(R){R.els.forEach(b=>b.classList.toggle("hint",b.dataset.l===R.target))},
+  ans:R=>`.hc[data-l="${R.target}"]`,
+};
+
+/* ---- G5 / G5b: finger writing (PipWrite pads) ---- */
+const wmode=l=>{const n=wrs(l).ok;return n>=3?"free":n>=1?"copy":"trace"};
+const WINS={trace:"i_trace",copy:"i_copy"};
+const markAct=R=>R.boxes.forEach((b,i)=>b.classList.toggle("act",i===R.wi&&!R.done));
+function markBox(R,i,l,helped){const b=R.boxes[i];if(!b)return;b.textContent=l;b.classList.add("full");if(helped)b.classList.add("help");b.classList.remove("act")}
+function wbuild(R,strip){
+  R.wl=R.g==="G5"?R.letters:[R.letters[0]];R.wi=0;R.att=0;R.helped=0;R.assisted=false;R.busy=false;
+  R.modes=R.wl.map(l=>R.g==="G5"?wmode(l):(wrs(l).ok>=1?"free":"copy"));
+  if(R.intro)R.modes[0]="trace";
+  return `<div class="round wr">${picHTML(R,"sm")}${strip?`<div class="wstrip${R.wl.length>=7?" lg":""}">${R.wl.map(()=>'<div class="box"></div>').join("")}</div>`:""}<div class="wpad" id="wpad"></div></div>`;
+}
+function wmount(R){
+  R.boxes=$$("#stage .wstrip .box");
+  const bx=$("#wpad"),st=$("#stage"),used=[...$("#stage .round").children].reduce((a,c)=>a+(c===bx?0:c.offsetHeight+10),0);
+  const sz=Math.max(170,Math.min(320,Math.floor(Math.min(bx.clientWidth,st.clientHeight-used-10))));
+  R.pad=window.PipWrite.createPad(bx,{letter:R.wl[0],mode:R.modes[0],size:sz,onResult:res=>onPad(R,res)});
+  R.act=true;markAct(R);
+}
+async function wintro(R){
+  const l=R.wl[R.wi],m=R.modes[R.wi];markAct(R);
+  if(R.g==="G5")await ls(l);
+  if(WINS[m]&&(R.wi===0||m!==R.modes[R.wi-1]))await ph(WINS[m]);
+}
+function padOn(R){if(cur===R&&R.pad&&!R.done&&!R.busy){R.act=true;R.pad.setActive(true,false)}}
+function onPad(R,res){
+  if(R.done||R.busy||cur!==R)return;
+  const l=R.wl[R.wi],w=wrs(l);R.att++;R.busy=true;R.act=false;R.pad.setActive(false,false);if(R.locked)setLock(R,false);
+  if(res.ok){
+    if(R.assisted)w.help++;else w.ok++;save();
+    run(async()=>{chime();markBox(R,R.wi,l,R.assisted);if(R.g==="G5"&&R.wi<R.wl.length-1)await ls(l);await wait(300);advance(R)});
+  }else{
+    w.fail++;save();
+    if(R.att>=3){
+      R.helped++;w.help++;save();
+      run(async()=>{await ph("i_look");await R.pad.demo();R.pad.reveal();markBox(R,R.wi,l,true);await wait(500);advance(R)});
+    }else if(R.att===2){
+      run(async()=>{await wait(500);await ph("i_look");R.assisted=true;await R.pad.demo();R.pad.setMode("trace");R.busy=false;padOn(R)});
+    }else run(async()=>{await wait(600);R.pad.clear();await ph(res&&res.mirrored?"h_almost":"h_try");R.busy=false;padOn(R)});
+  }
+}
+function advance(R){
+  R.wi++;R.att=0;R.assisted=false;
+  if(R.wi>=R.wl.length){R.busy=false;R.mistakes=R.helped;R.boxes.forEach(b=>b.classList.remove("act"));
+    correct(R,()=>R.g==="G5"?blend(R.letters):ls(R.wl[0]));return}
+  R.pad.setLetter(R.wl[R.wi]);R.pad.setMode(R.modes[R.wi]);R.busy=false;padOn(R);run(()=>wintro(R));
+}
+["G5","G5b"].forEach(g=>GAMES[g]={
+  build:R=>wbuild(R,g==="G5"),
+  mount:wmount,
+  async prompt(R){
+    await nw(R.word);await wait(150);
+    await ph(g==="G5"?"i_write":"i_first");await wintro(R);
+  },
+  replay:async R=>{
+    R.busy=false;R.assisted=false;R.att=0;R.pad.cancelDemo();R.pad.setLetter(R.wl[R.wi]);R.pad.setMode(R.modes[R.wi]);padOn(R);
+    await nw(R.word);await wintro(R);
+  },
+  ans:()=>null,
+});
+
+/* ================= 7. screens, rocket launch, end of session ================= */
+function showScreen(n){
+  ["home","game","paper","sleep","ship"].forEach(s=>$("#"+s).hidden=s!==n);scr=n;clearStrip();
+  pip(n==="paper"?"sleepy":n==="sleep"?"sleeping":"idle");setSky();
+  if(n==="game"||n==="ship")tickStart();else tickStop();   /* the parent's time limit counts in the ship too */
+  if(n==="paper"||n==="sleep"){closeGift();$("#album").hidden=true}
+}
+/* sky tint: the planet Pip is on; on the map, the shown galaxy (its first planet if Pip is in the other one) */
+function setSky(){const v=S.visit,k=scr==="home"&&galOf(v)!==S.gal?GAL(S.gal)[0]:v,b=document.body;b.dataset.pl=k;b.dataset.gal=galOf(k)}
+function goHome(){stopAll();if(cur&&cur.pad){try{cur.pad.destroy()}catch(e){}}cur=null;showScreen("home");renderHome()}
+let lblT=0;
+const GALSW='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>';
+/* Pip next to planet k on the map (k=0 or a planet of the other galaxy: at the galaxy switch, top left) */
+function pipAt(pe,k){
+  if(!k||galOf(k)!==S.gal){pe.style.left="46px";pe.style.top="34px";return}
+  const q=PLPOS[k-1],side=q[0]<50?1:-1;pe.style.left=`calc(${q[0]}% + ${side*58}px)`;pe.style.top=`calc(${q[1]}% - 20px)`;
+}
+function movePip(k){const pe=$("#mapPip");if(!pe)return;pe.hidden=false;
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{pe.classList.remove("hop");void pe.offsetWidth;pe.classList.add("hop");pipAt(pe,k)}))}
+function renderHome(at){
+  const p=at||S.visit,gl=S.gal,ks=GAL(gl),n=learned().length,sw=galOf(S.planet)>1;
+  $("#count").textContent=n?"Пип зна "+plural(n):"Пип чека прву реч";
+  const lb=S.letters.length,bd=$("#albumBdg");bd.hidden=!lb;bd.textContent=lb;
+  const map=$("#map");map.querySelectorAll(".planet,.sstar,#mapPip,#galBtn").forEach(e=>e.remove());
+  $("#mapSvg").innerHTML=ks.slice(0,-1).map(k=>{const a=PLPOS[k-1],b=PLPOS[k];return `<line class="${k<S.planet?"done":""}" x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}"/>`}).join("");
+  const W=map.clientWidth||358,H=map.clientHeight||500,fr=document.createDocumentFragment();
+  ks.forEach(k=>{
+    const pl=PL[k-1],d=document.createElement("button");d.type="button";d.dataset.k=k;
+    d.className="planet"+(k>S.planet?" lock":"")+(k===S.planet?" cur":"")+(k===S.visit?" here":"");
+    d.setAttribute("aria-label",pl.name+(k>S.planet?" (закључано)":""));
+    d.style.left=PLPOS[k-1][0]+"%";d.style.top=PLPOS[k-1][1]+"%";planetStyle(d,k);
+    d.innerHTML=`<div class="orb">${k<S.planet?"✓":k>S.planet?"🔒":""}</div><div class="nm">${pl.name}</div>`;fr.appendChild(d);
+  });
+  /* the sky of learned words: each galaxy shows the words of its own planets */
+  learned().filter(w=>galOf(WM[w].p)===gl).forEach(w=>{
+    let x=0,y=0;
+    for(let t=0;t<25;t++){const h=hash(w+t);x=6+(h&255)/255*88;y=4+((h>>8)&255)/255*92;
+      if(ks.every(k=>{const q=PLPOS[k-1];return Math.hypot((x-q[0])*W/100,(y-q[1])*H/100)>62})&&!(sw&&x*W/100<104&&y*H/100<72))break}
+    const b=document.createElement("button");b.type="button";b.className="sstar"+(S.words[w].box>=3?" m":"");b.dataset.w=w;b.setAttribute("aria-label",w);
+    b.style.left=x+"%";b.style.top=y+"%";b.style.setProperty("--d",(hash(w)%30)/10+"s");b.innerHTML=STAR_SVG;fr.appendChild(b);
+  });
+  const pe=document.createElement("div");pe.id="mapPip";pe.innerHTML='<div class="pip" style="--ps:58px" data-s="idle" role="button" aria-label="Пип"></div>';pe.firstChild.innerHTML=pipSVG();
+  $("#shipDot").hidden=!invNew();
+  pipAt(pe,p);pe.hidden=!at&&galOf(p)!==gl;fr.appendChild(pe);
+  if(sw){const b=document.createElement("button");b.type="button";b.id="galBtn";b.setAttribute("aria-label",gl===1?"Друга галаксија":"Прва галаксија");
+    b.innerHTML=[...new Set(PL.map((x,i)=>galOf(i+1)))].map(x=>`<i class="${x===gl?"on":""}"></i>`).join("")+GALSW;fr.appendChild(b)}
+  map.appendChild(fr);setSky();
+  $("#paperDone").textContent=g("Написала сам!","Написао сам!");
+}
+/* map: word stars speak, passed planets = free travel, locked planet = "later", switch = the other galaxy */
+function tapPlanet(k,el){
+  if(k>S.planet){el.classList.remove("wiggle");void el.offsetWidth;el.classList.add("wiggle");setTimeout(()=>el.classList.remove("wiggle"),450);
+    run(async()=>{pip("thinking");await pp("pp_locked");pip("idle")});return}
+  if(k===S.visit){run(async()=>{pip("happy");await pp("pp_yay");pip("idle")});return}
+  const back=k===S.planet;S.visit=k;save();movePip(k);setSky();
+  $$("#map .planet").forEach(x=>x.classList.toggle("here",+x.dataset.k===k));
+  run(async()=>{pip("happy");await pp(back?"pp_back":"pp_travel");pip("idle")});
+}
+function switchGal(){const top=galOf(S.planet);S.gal=S.gal>=top?1:S.gal+1;save();chime();renderHome()}
+$("#map").addEventListener("click",e=>{
+  if(e.target.closest("#mapPip")){tapPip();return}
+  if(e.target.closest("#galBtn")){switchGal();return}
+  const pl=e.target.closest(".planet");if(pl){tapPlanet(+pl.dataset.k,pl);return}
+  const b=e.target.closest(".sstar");if(!b)return;const w=b.dataset.w,l=$("#starLabel");
+  l.textContent=w;l.classList.add("show");clearTimeout(lblT);lblT=setTimeout(()=>l.classList.remove("show"),1800);
+  pip("happy");run(async()=>{await pw(w);pip("idle")});
+});
+/* HOOK for part B (rewards): called after every full rocket, when Pip is already on the map and has spoken.
+   info = {from, to, galaxyDone, last}: from/to = planet numbers (to===from on the very last planet);
+   galaxyDone = this fill finished a galaxy (the first time); last = Pip was on the last planet of the last galaxy (refills go on forever) */
+async function onRocketFull(info){
+  if(S.inv.queue.length)await showGifts();                 /* one reward screen per item (wear, then the planet's souvenir / the bonus item) */
+  else if(info.last&&!info.galaxyDone)await celebrate();    /* bonus list used up: just a party */
+}
+/* ---- reward screen: a gift box opens, the item + its word in big letters (tap = n:WORD), Pip thanks; wear goes on at once ---- */
+const GIFT={on:false,next:null};
+function closeGift(){if(!GIFT.on)return;GIFT.on=false;if(GIFT.next)GIFT.next();$("#gift").hidden=true}
+async function showGifts(){
+  if(GIFT.on)return;GIFT.on=true;
+  try{while(GIFT.on&&S.inv.queue.length){const L=LBL[S.inv.queue[0]];if(!L||await giftOne(L)){S.inv.queue.shift();save()}}}
+  finally{GIFT.on=false;GIFT.next=null;$("#gift").hidden=true;pip("idle")}
+}
+async function giftOne(L){
+  const O=$("#gift"),st=$("#gStage"),it=$("#gItem"),wd=$("#gWord"),nx=$("#gNext"),quiet=async f=>{try{await f()}catch(e){if(e!==ABORT)console.error(e)}};
+  st.className="gstage";it.innerHTML=itemArt(L);it.setAttribute("aria-label",L.w);wd.textContent=L.w;wd.setAttribute("aria-label","Чуј: "+L.w);wd.style.visibility="hidden";nx.style.visibility="hidden";
+  O.hidden=false;pip("listen");
+  let done=false;const fin=new Promise(r=>{GIFT.next=()=>{if(!done){done=true;r()}}});
+  await sleep(reduced()?60:350);if(!GIFT.on)return false;
+  st.classList.add("shake");blip(300,420,.25,"triangle",0,.08);await sleep(reduced()?60:1000);if(!GIFT.on)return false;
+  st.classList.add("open");chime();
+  if(L.kind==="wear"){S.wear[L.slot]=L.id;applyWear()}
+  S.inv.seen[L.id]=1;save();
+  await sleep(reduced()?60:500);wd.style.visibility="";nx.style.visibility="";pip("happy");
+  quiet(async()=>{await pp("pp_gift");await pp(L.kind==="wear"?"pp_wear":"pp_ship");pip("idle")});
+  await Promise.race([fin,sleep(25000)]);   /* „Даље“ (or it closes by itself after a while) */
+  GIFT.next=null;return true;
+}
+$("#gift").addEventListener("click",e=>{
+  const a=e.target.closest("[data-act]");if(!a||!GIFT.on)return;
+  if(a.dataset.act==="gNext"){stopAll();if(GIFT.next)GIFT.next()}
+  else if(a.dataset.act==="gWord"&&$("#gStage").classList.contains("open")){const w=$("#gWord").textContent;pulse($("#gWord"));pulse($("#gItem"));run(()=>nw(w))}
+});
+/* big but short party at the end of a galaxy: confetti/stars + Pip dances + pp_galaxy (about 4-5 s) */
+async function celebrate(){
+  const P=$("#party"),cf=P.querySelector(".cf"),cols=["var(--star)","var(--mint)","var(--pink)","#6bc7ff","#b48cff"];
+  cf.innerHTML=reduced()?"":Array.from({length:44},(_,i)=>`<i class="${i%3?"":"st"}" style="left:${(Math.random()*100).toFixed(1)}%;--c:${cols[i%5]};--d:${(Math.random()*1.4).toFixed(2)}s;--t:${(1.8+Math.random()*1.4).toFixed(2)}s;--x:${Math.round(Math.random()*80-40)}px;--r:${Math.round(Math.random()*900-450)}deg"></i>`).join("");
+  P.hidden=false;pip("dance");chime();
+  try{await Promise.all([pp("pp_galaxy"),wait(4200)])}finally{P.hidden=true;cf.innerHTML="";pip("idle")}
+}
+let FX=0;   /* > 0 while the launch / map / reward sequence runs: a tap on Pip only animates then */
+async function launch(){FX++;try{await launchSeq()}finally{FX--}}
+async function launchSeq(){
+  const L=$("#launch"),old=S.planet,last=old>=PL.length,nxt=last?old:old+1,galDone=last?!S.allDone:galOf(nxt)!==galOf(old);
+  const info={from:old,to:nxt,galaxyDone:galDone,last};G.lastFull=info;
+  syncInv(false);   /* quietly catch up on anything older (planet set by hand, old saves) */
+  if(last&&S.allDone)S.inv.bonus=Math.min(BONUSL.length,(S.inv.bonus||0)+1);   /* refills on the last planet: the next bonus item */
+  S.stars=0;S.planet=nxt;S.visit=nxt;S.gal=galOf(nxt);if(last)S.allDone=true;checkUnlocks();syncInv(true);save();   /* this fill's rewards -> reward screens */
+  if(galDone)await celebrate();
+  if(last){if(cur&&cur.pad){try{cur.pad.destroy()}catch(e){}}cur=null;showScreen("home");renderHome();pip("happy");await pp("pp_more")}
+  else{
+    L.hidden=false;L.className="overlay";$("#bigRocket").innerHTML=ROCKET_SVG;$("#launchTxt").className="";$("#launchTxt").textContent="";
+    const rk=$("#bigRocket");rk.style.visibility="";rk.getAnimations&&rk.getAnimations().forEach(a=>a.cancel());
+    const fx=setTimeout(()=>{L.classList.remove("shake");L.classList.add("go");
+      if(reduced()||!rk.animate)rk.style.visibility="hidden";else rk.animate([{transform:"translateY(0)"},{transform:"translateY(-130vh)"}],{duration:2400,easing:"cubic-bezier(.5,0,.9,.4)",fill:"forwards"})},reduced()?0:1500*TS);
+    void L.offsetWidth;L.classList.add("shake");
+    try{
+      await pp("pp_fly");await wait(reduced()?500:1500);
+      $("#launchTxt").textContent=PL[nxt-1].name;$("#launchTxt").className="show";await wait(1300);
+    }finally{
+      clearTimeout(fx);L.hidden=true;L.className="overlay";
+      if(cur&&cur.pad){try{cur.pad.destroy()}catch(e){}}cur=null;
+      showScreen("home");renderHome(old);movePip(nxt);
+    }
+    await wait(1500);
+    pip("happy");await pp("pp_newplanet");
+  }
+  pip("idle");renderHome();
+  await onRocketFull(info);
+}
+async function endSession(){
+  G.active=false;tickStop();pip("sleepy");
+  await ph("s_tired");
+  const pool=G.done.filter(w=>w.length<=5);
+  const kn=learned().filter(w=>w.length<=5);   /* a session spent only in the ship: a word Pip already knows */
+  G.paperWord=pick(pool.length?pool:G.done.length?G.done:G.recent.length?[G.recent[G.recent.length-1]]:kn.length?kn:["МИШ"]);
+  if(cur&&cur.pad){try{cur.pad.destroy()}catch(e){}}cur=null;
+  $("#paperWord").textContent=G.paperWord;$("#paperDone").textContent=g("Написала сам!","Написао сам!");
+  showScreen("paper");
+  await pp("pp_paper");await ph("s_photo");
+}
+async function finishPaper(photo){
+  S.letters.push({word:G.paperWord,date:dkey(),photo:photo||""});S.sleepDate=dkey();syncInv(true);save();   /* every 3rd letter: a piece of clothing (shown at the next „Играј“) */
+  stopAll();showScreen("sleep");renderHome();run(()=>pp("pp_night"));
+}
+$("#photoIn").addEventListener("change",async e=>{
+  const f=e.target.files&&e.target.files[0];if(!f)return;stopAll();strip("Чувам слику…");
+  let id="";
+  try{const b=await shrink(f);id=dkey()+"-"+Date.now();await putPhoto(id,b)}catch(err){id="";strip("Слика није сачувана (прегледач то не дозвољава).")}
+  e.target.value="";finishPaper(id);
+});
+$("#paperDone").addEventListener("click",()=>{stopAll();gate(()=>finishPaper(""),"Родитељ: потврди да је дете написало реч.")});
+function checkSleep(){
+  const d=dkey();
+  if(S.sleepDate===d&&scr!=="sleep"&&scr!=="paper")showScreen("sleep");
+  else if(S.sleepDate&&S.sleepDate!==d){S.sleepDate="";save();if(scr==="sleep"){showScreen("home");renderHome()}}
+}
+/* ---- photos / album (IndexedDB) ---- */
+const MEMPH=new Map();let dbp=null;
+function db(){if(!dbp)dbp=new Promise((res,rej)=>{try{const r=indexedDB.open("pip2",2);
+  r.onupgradeneeded=()=>{const d=r.result;["photos","voice"].forEach(n=>{if(!d.objectStoreNames.contains(n))d.createObjectStore(n)})};
+  r.onsuccess=()=>res(r.result);r.onerror=()=>{dbp=null;rej(r.error)};r.onblocked=()=>{dbp=null;rej(new Error("blocked"))}}catch(e){rej(e)}});return dbp}
+const idb=(store,mode,fn)=>db().then(d=>new Promise((res,rej)=>{const tx=d.transaction(store,mode),rq=fn(tx.objectStore(store));tx.oncomplete=()=>res(rq&&rq.result);tx.onerror=tx.onabort=()=>rej(tx.error)}));
+const putPhoto=(k,b)=>{MEMPH.set(k,b);return idb("photos","readwrite",s=>s.put(b,k))};
+const getPhoto=k=>MEMPH.has(k)?Promise.resolve(MEMPH.get(k)):idb("photos","readonly",s=>s.get(k));
+const clearPhotos=()=>{MEMPH.clear();return idb("photos","readwrite",s=>s.clear()).catch(()=>{})};
+async function shrink(file){
+  const url=URL.createObjectURL(file);
+  try{
+    const img=await new Promise((res,rej)=>{const i=new Image();i.onload=()=>res(i);i.onerror=rej;i.src=url});
+    const k=Math.min(1,900/Math.max(img.naturalWidth,img.naturalHeight)),cv=document.createElement("canvas");
+    cv.width=Math.max(1,Math.round(img.naturalWidth*k));cv.height=Math.max(1,Math.round(img.naturalHeight*k));
+    cv.getContext("2d").drawImage(img,0,0,cv.width,cv.height);
+    return await new Promise((res,rej)=>cv.toBlob(b=>b?res(b):rej(new Error("toBlob")),"image/jpeg",.8));
+  }finally{URL.revokeObjectURL(url)}
+}
+let urls=[];
+async function letterCard(L,cls){
+  let inner=`<div class="ph2">${esc(L.word)}</div>`;
+  if(L.photo){try{const b=await getPhoto(L.photo);if(b){const u=URL.createObjectURL(b);urls.push(u);inner=`<div class="ph2"><img alt="${esc(L.word)}" src="${u}"></div>`}}catch(e){}}
+  return `<div class="${cls}">${inner}<small>${esc(L.word)} · ${fmtDate(L.date)}</small></div>`;
+}
+function revoke(){urls.forEach(u=>{try{URL.revokeObjectURL(u)}catch(e){}});urls=[]}
+/* album (B7): tab „Налепнице“ = every word by planet (learned = picture + word, mastered = golden frame, not yet = grey „?“), tab „Писма“ = paper letters */
+async function renderLetters(){
+  revoke();const g2=$("#albumGrid");g2.innerHTML="";
+  if(!S.letters.length){g2.innerHTML='<p class="muted">Још нема писама. Када Пип добије писмо, појавиће се овде.</p>';return}
+  const items=[...S.letters].reverse(),html=await Promise.all(items.map(L=>letterCard(L,"acard")));
+  g2.innerHTML=html.map((h,i)=>h.replace('class="acard"',`class="acard" data-w="${esc(items[i].word)}"`)).join("");
+}
+function renderStickers(){
+  const n=WORDS.filter(x=>known(x.w)).length;
+  const stk=x=>known(x.w)?`<button type="button" class="stk${S.words[x.w].box>=3?" gold":""}${[...x.w].length>=7?" lw":""}" data-w="${x.w}" aria-label="${x.w}"><span class="se" aria-hidden="true">${x.e}</span><span class="sw">${x.w}</span></button>`:'<div class="stk q" role="img" aria-label="Још није научено">?</div>';
+  $("#albumSt").innerHTML=`<div class="stc" id="stCount" aria-label="Налепнице: ${n} од ${WORDS.length}">${STAR_SVG}<span>${n} / ${WORDS.length}</span></div>`+
+    PL.map((p,i)=>{const ws=WORDS.filter(x=>x.p===i+1);return ws.length?`<section class="stpl"><h3><i data-k="${i+1}"></i>${esc(p.name)}<small>${ws.filter(x=>known(x.w)).length} / ${ws.length}</small></h3><div class="sgrid">${ws.map(stk).join("")}</div></section>`:""}).join("");
+  $$("#albumSt h3 i").forEach(o=>planetStyle(o,+o.dataset.k));
+}
+async function albumTab(t){
+  $$("#album [data-tab]").forEach(b=>b.setAttribute("aria-selected",String(b.dataset.tab===t)));
+  $("#albumSt").hidden=t!=="st";$("#albumGrid").hidden=t!=="lt";$("#album .sheet").scrollTop=0;
+  if(t==="st"){revoke();renderStickers()}else await renderLetters();
+}
+async function openAlbum(t){$("#album").hidden=false;await albumTab(t==="lt"?"lt":"st")}
+$("#albumBtn").addEventListener("click",()=>openAlbum("st"));
+$("#album").addEventListener("click",e=>{
+  if(e.target.closest("[data-act=albumClose]")){$("#album").hidden=true;revoke();return}
+  const tb=e.target.closest("[data-tab]");if(tb){albumTab(tb.dataset.tab);return}
+  const s=e.target.closest(".stk[data-w]");if(s){pulse(s);run(()=>pw(s.dataset.w));return}
+  const c=e.target.closest(".acard");if(c&&c.dataset.w)run(()=>pw(c.dataset.w));
+});
+/* ---- Pip's ship (B3): cabin with souvenirs on shelves, pantry (foods -> feeding round), wardrobe (wear / take off), album ---- */
+const SHIP={v:"",ending:false};
+/* where the bonus items live in the cabin: hanging under the window (h) or on the floor (f); x/y in % of the cabin */
+const BONUSPOS={rocket:["h",30,38],planet:["h",70,38],balloon:["u",50,39],guitar:["f",11],ball:["f",89],bell:["sl"],trumpet:["sr"]};
+const LIGHTS=(()=>{let c="";const cols=["var(--star)","var(--pink)","var(--mint)","#ffb35c"];for(let i=0;i<11;i++){const x=4+i*9.2,y=4+Math.sin(i/10*Math.PI)*40;c+=`<i style="left:${x}%;top:${y.toFixed(1)}%;--c:${cols[i%4]}"></i>`}
+  return `<svg viewBox="0 0 100 30" preserveAspectRatio="none"><path d="M0 1Q50 33 100 1" vector-effect="non-scaling-stroke"/></svg>${c}`})();
+const decoBtn=(L,cls,st)=>`<button type="button" class="deco ${cls||""}${isNew(L.id)?" new":""}" data-deco="${L.id}" aria-label="${L.w}"${st?` style="${st}"`:""}>${L.e}</button>`;
+function renderShip(){
+  const D=S.inv.deco,has=id=>D.includes(id),sl=(xs,ex)=>xs.map(L=>`<div class="sslot">${has(L.id)?decoBtn(L):""}</div>`).join("")+`<div class="sslot">${ex&&has(ex)?decoBtn(LBL[ex]):""}</div>`;
+  $("#shelfL").innerHTML=sl(DECOL.slice(0,5),"bell");$("#shelfR").innerHTML=sl(DECOL.slice(5,10),"trumpet");
+  $("#shipFree").innerHTML=BONUSL.filter(L=>has(L.id)&&BONUSPOS[L.id]&&BONUSPOS[L.id][0].length===1).map(L=>{const p=BONUSPOS[L.id];return p[0]!=="f"?decoBtn(L,p[0]==="u"?"hang up":"hang",`left:${p[1]}%;top:${p[2]}%`):decoBtn(L,"flr",`left:${p[1]}%`)}).join("");
+  $("#cabin .lights").innerHTML=LIGHTS;planetStyle($("#cabin .pwin i"),S.visit);
+  $("#shipPip").innerHTML=pipSVG();
+  D.forEach(id=>{S.inv.seen[id]=1});save();   /* souvenirs count as seen once they are on the shelf (they sparkle this time) */
+  shipDots();
+}
+function shipDots(){
+  const d=$("#ship [data-sh=pantry] .dot"),w=$("#ship [data-sh=wardrobe] .dot");if(d)d.hidden=!invNew("food");if(w)w.hidden=!invNew("wear");
+  $("#shipDot").hidden=!invNew();
+}
+function shipView(v){
+  SHIP.v=v;const V=$("#shipView");$("#cabin").hidden=!!v;V.hidden=!v;
+  $$("#ship .snav[data-sh=pantry],#ship .snav[data-sh=wardrobe]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.sh===v)));
+  if(!v){V.innerHTML="";$("#shipPip").innerHTML=pipSVG();shipDots();return}
+  const ps=innerHeight<700?96:118;
+  if(v==="wardrobe"){
+    const own=SLOTS.slice().reverse().flatMap(k=>WEARL.filter(L=>L.slot===k&&S.inv.wear.includes(L.id)));
+    V.innerHTML=pipHTML(ps)+(own.length?`<div class="svlist"><div class="wgrid">${own.map(L=>`<button type="button" class="wt${isNew(L.id)?" new":""}" data-wear="${L.id}" aria-pressed="${S.wear[L.slot]===L.id}" aria-label="${L.w}"><span class="we" aria-hidden="true">${itemArt(L)}</span><span class="ww${[...L.w].length>=7?" lw":""}">${L.w}</span></button>`).join("")}</div></div>`:
+      `<div class="svempty" aria-hidden="true">👕</div><p class="say">${esc(C.pip_phrases.pp_nowear||"")}</p>`);
+    own.forEach(L=>{S.inv.seen[L.id]=1});save();
+    run(async()=>{pip("happy");await pp(own.length?"pp_dress":"pp_nowear");pip("idle")});
+  }else{
+    const fs=WORDS.filter(x=>x.food&&known(x.w));
+    V.innerHTML=pipHTML(ps)+(fs.length?`<div class="svlist"><div class="wgrid">${fs.map(x=>`<button type="button" class="ft${isNew(x.w)?" new":""}" data-food="${x.w}" aria-label="${x.w}"><span class="fe" aria-hidden="true">${x.e}</span><span class="fw${[...x.w].length>=7?" lw":""}">${x.w}</span></button>`).join("")}</div></div>`:
+      `<div class="svempty" aria-hidden="true">🧺</div><p class="say">${esc(C.pip_phrases.pp_nofood||"")}</p>`);
+    fs.forEach(x=>{S.inv.seen[x.w]=1});save();
+    run(async()=>{pip(fs.length?"happy":"thinking");await pp(fs.length?"pp_pantry":"pp_nofood");pip("idle")});
+  }
+  shipDots();
+}
+function openShip(){
+  unlock();checkSleep();if(scr==="sleep")return;
+  if(timeUp()){run(endSession);return}   /* the ship never bypasses the parent's time limit */
+  stopAll();if(cur&&cur.pad){try{cur.pad.destroy()}catch(e){}}cur=null;
+  syncInv(false);showScreen("ship");shipView("");renderShip();
+  if(!S.inv.seen.ship){S.inv.seen.ship=1;save();run(async()=>{pip("wave");await pp(gk("pp_welcome"));pip("idle")})}
+}
+function toggleWear(id,b){
+  const L=LBL[id];if(!L)return;const on=S.wear[L.slot]===id;S.wear[L.slot]=on?"":id;save();applyWear();
+  $$("#shipView .wt").forEach(t=>{const x=LBL[t.dataset.wear];t.setAttribute("aria-pressed",String(S.wear[x.slot]===x.id))});pulse(b);
+  run(async()=>{pip("happy");await nw(L.w);if(!on&&Math.random()<.4)await pp("pp_wear");pip("idle")});
+}
+/* pantry: a one-off feeding round ("build") with the chosen food, outside the normal rotation; it counts as a round and gives a star */
+function feedFrom(w){
+  if(!WM[w])return;if(!G.active||G.day!==dkey()){newSession();G.day=dkey()}
+  stopAll();G.oneOff=w;G.force="G10";showScreen("game");renderRocket();$("#stage").innerHTML="";cur=null;
+  run(()=>nextRound());
+}
+$("#ship").addEventListener("click",e=>{
+  if(SHIP.ending)return;
+  if(e.target.closest("#shipPip")){tapPip();return}
+  const n=e.target.closest("[data-sh]");
+  if(n){const a=n.dataset.sh;if(a==="back"){if(SHIP.v)shipView("");else goHome()}else if(a==="album")openAlbum("st");else shipView(SHIP.v===a?"":a);return}
+  const d=e.target.closest("[data-deco]");if(d){d.classList.remove("new");pulse(d);run(async()=>{pip("happy");await nw(LBL[d.dataset.deco].w);pip("idle")});return}
+  const w=e.target.closest("[data-wear]");if(w){w.classList.remove("new");toggleWear(w.dataset.wear,w);return}
+  const f=e.target.closest("[data-food]");if(f){pulse(f);feedFrom(f.dataset.food)}
+});
+$("#shipBtn").addEventListener("click",openShip);
+/* time is up while in the ship: the same tired -> paper -> sleep flow as after a round */
+setInterval(()=>{
+  if(scr!=="ship"||document.hidden||SHIP.ending||!timeUp())return;
+  SHIP.ending=true;$("#album").hidden=true;revoke();
+  run(async()=>{try{await endSession()}finally{SHIP.ending=false}});
+},1500);
+/* ---- tap on Pip (B5): giggle + a short line, at most every 3 s; during a round it never cuts an instruction or changes the lock ---- */
+let tickleT=0,lastTk="";
+function tapPip(){
+  const now=Date.now();if(now-tickleT<3000)return;tickleT=now;
+  const R=cur,game=scr==="game",waiting=game&&R&&!R.done&&!R.locked&&!R.busy;
+  if(FX>0||GIFT.on||SHIP.ending||(game&&(!R||R.done))){tickleT=0;return}   /* launch / reward / praise and feeding sequences own Pip */
+  const quiet=HND.size>0||(game&&!waiting);
+  const back=()=>{if($$(".pip").some(e=>e.dataset.s==="giggle"))pip(game&&cur&&!cur.done&&cur.locked?"listen":scr==="paper"?"sleepy":"idle")};
+  pip("giggle");setTimeout(back,1300);
+  if(quiet)return;   /* audio is playing / the round is busy: only the animation */
+  const c=["pp_tickle","pp_hi","pp_love"].concat(game?[]:["pp_what"]).filter(x=>x!==lastTk);lastTk=pick(c);
+  run(async()=>{await pp(lastTk)});
+}
+$("#gamePip").addEventListener("click",tapPip);
+$("#gamePip").addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();tapPip()}});
+
+/* ---- next-day recall of yesterday's letter ---- */
+async function greetYesterday(){
+  const d=dkey(),L=[...S.letters].reverse().find(x=>x.date<d);
+  if(!L||S.greeted===d)return;S.greeted=d;save();
+  $("#recallBox").innerHTML=await letterCard(L,"acard");$("#recallPip").innerHTML=pipSVG();$("#recallPip").dataset.s="happy";$("#recall").hidden=false;
+  try{await pp(gk("pp_yesterday"));await pw(L.word);await wait(600)}finally{$("#recall").hidden=true;revoke()}
+}
+/* ---- play button ---- */
+$("#playBtn").addEventListener("click",()=>{
+  unlock();checkSleep();if(scr==="sleep")return;
+  run(async()=>{
+    if(!G.active||G.day!==dkey()){newSession();G.day=dkey()}
+    showScreen("game");renderRocket();$("#stage").innerHTML="";cur=null;
+    if(!S.hello){S.hello=true;save();pip("happy");await pp("pp_hello")}
+    await greetYesterday();
+    if(S.inv.queue.length)await showGifts();   /* e.g. clothes for paper letters, or a reward screen that was interrupted */
+    await nextRound();
+  });
+});
+$("#backBtn").addEventListener("click",()=>{if(cur&&cur.back==="ship")openShip();else goHome()});
+/* phone / browser "back": one step back inside the game (window -> ship -> map), never out of the game from the map.
+   A "guard" history entry sits on top; back pops it, we take one step and arm a new guard on the next tap
+   (browsers skip entries made without a tap, so it can't be re-added right away). */
+const NAV={armed:false};
+function armBack(){if(NAV.armed)return;try{history.pushState({pip:1},"");NAV.armed=true}catch(e){}}
+["pointerdown","keydown"].forEach(ev=>document.addEventListener(ev,armBack,true));
+function navBack(){
+  const vis=id=>{const e=$(id);return e&&!e.hidden};
+  const tap=sel=>{const b=$(sel);if(b){b.click();return true}return false};
+  if(vis("#gate"))return tap("#gate [data-act=gateClose]");
+  if(vis("#voice"))return tap("#voiceSheet [data-act=vClose]");
+  if(vis("#parent"))return tap("#parentSheet [data-act=close]");
+  if(vis("#sc"))return tap("#scClose");
+  if(vis("#share"))return tap("#share [data-act=shClose]");
+  if(vis("#inst"))return tap("#inst [data-act=instClose]");
+  if(vis("#album"))return tap("#album [data-act=albumClose]");
+  if(vis("#gift"))return tap("#gNext");
+  if(!$("#launch").hidden||!$("#party").hidden||!$("#recall").hidden)return;   /* short shows: let them finish */
+  if(scr==="ship"&&!SHIP.ending)return SHIP.v?shipView(""):goHome();
+  if(scr==="game")return tap("#backBtn");
+  if(scr==="home"){pip("wave");setTimeout(()=>{if(scr==="home")pip("idle")},1600)}   /* stay in the game: Pip just waves */
+}
+addEventListener("popstate",()=>{NAV.armed=false;try{navBack()}catch(e){console.error(e)}});
+$("#replayBtn").addEventListener("click",()=>{
+  const R=cur;if(!R||R.done||scr!=="game")return;replayRound(R);
+});
+
+/* ================= 8. sound check ================= */
+function diagHTML(){
+  const c=AUD.ctx;
+  return `Звук: <b>${AUD.mode}</b><br>Audio context: <b>${c?c.state:"још није покренут"}</b><br>Декодирање: <b>${AUD.decoded}</b> ок, <span class="${AUD.failed?"bad":""}">${AUD.failed}</span> грешака<br>Пуштено: Web Audio ${AUD.webOk}, HTML ${AUD.htmlOk}`+
+    (AUD.err?`<br><span class="bad">Грешка: ${esc(AUD.err)}</span>`:"")+(AUD.missing.length?`<br><span class="bad">Недостају: ${esc(AUD.missing.slice(0,4).join(", "))}</span>`:"")+(S.readMode?"<br><b>Режим „Ја читам“ је укључен</b>":"");
+}
+function openSC(){$("#sc").hidden=false;$("#scAsk").hidden=true;$("#scHelp").hidden=true;$("#scDiag").innerHTML=diagHTML()}
+$("#sc").addEventListener("click",e=>{
+  const a=e.target.closest("[data-act]");if(!a)return;const k=a.dataset.act;
+  if(k==="scPlay"){unlock();run(async()=>{
+    const ok=await playKey("ph:s_check");$("#scDiag").innerHTML=diagHTML();$("#scAsk").hidden=false;if(!ok)$("#scHelp").hidden=false})}
+  else if(k==="scYes"){S.soundOk=true;save();$("#sc").hidden=true}
+  else if(k==="scNo"){$("#scHelp").hidden=false;$("#scDiag").innerHTML=diagHTML()}
+  else if(k==="scRead"){S.readMode=true;save();$("#sc").hidden=true}
+  else if(k==="scClose"){stopAll();$("#sc").hidden=true;clearStrip()}
+});
+$("#scHelp").insertAdjacentHTML("beforeend",'<br><button type="button" class="b2" data-act="scRead" style="margin-top:10px">Укључи „Ја читам“</button>');
+
+/* ================= 9. parent gate and parent area ================= */
+/* a new sum every time: two 2-digit numbers with a carry (27 + 46), typed on a keypad; 3 wrong in a row = 30 s pause */
+let gateCb=null;
+const GT={a:0,b:0,v:"",bad:0,until:0,iv:0};
+$("#gateKeys").innerHTML=[1,2,3,4,5,6,7,8,9].map(d=>`<button type="button" data-k="${d}">${d}</button>`).join("")+
+  '<button type="button" data-k="del" aria-label="Обриши цифру"><svg viewBox="0 0 24 24"><path d="M9 5h11v14H9l-6-7z"/><path d="M12.5 9.5l5 5M17.5 9.5l-5 5"/></svg></button><button type="button" data-k="0">0</button><button type="button" data-k="ok" class="gok">Потврди</button>';
+function gateNew(){
+  let a,b;do{a=11+Math.floor(Math.random()*79);b=11+Math.floor(Math.random()*79)}while(a%10===0||b%10===0||a%10+b%10<10||a+b>99||(a===GT.a&&b===GT.b)||(a===GT.b&&b===GT.a));
+  GT.a=a;GT.b=b;GT.v="";$("#gateQ").innerHTML=`За родитеље: колико је <b>${a} + ${b}</b>?`;gateShow();
+}
+function gateShow(){
+  const w=Math.ceil((GT.until-Date.now())/1000);$("#gateIn").textContent=GT.v;
+  $$("#gateKeys button").forEach(b=>b.disabled=w>0||(b.dataset.k==="ok"&&!GT.v));
+  if(w>0)$("#gateMsg").textContent=`Сачекај још ${w} с.`;else if(GT.iv){clearInterval(GT.iv);GT.iv=0;$("#gateMsg").textContent="";gateNew()}
+}
+function gatePause(){if(!GT.iv&&GT.until>Date.now())GT.iv=setInterval(gateShow,500)}
+function gate(cb,note){
+  gateCb=cb;const n=$("#gateNote");n.hidden=!note;n.textContent=note||"";
+  $("#gateMsg").textContent="";gateNew();$("#gate").hidden=false;gatePause();gateShow();
+}
+const closeGate=()=>{$("#gate").hidden=true;gateCb=null;clearInterval(GT.iv);GT.iv=0};
+function gateKey(k){
+  if(GT.until>Date.now())return;
+  if(k==="del")GT.v=GT.v.slice(0,-1);
+  else if(k==="ok"){if(!GT.v)return;
+    if(+GT.v===GT.a+GT.b){const cb=gateCb;GT.bad=0;closeGate();if(cb)cb();return}
+    GT.bad++;if(GT.bad>=3){GT.bad=0;GT.until=Date.now()+30000;GT.v="";gatePause();gateShow();return}
+    $("#gateMsg").textContent="Није тачно. Ево новог задатка.";gateNew();return}
+  else if(GT.v.length<3)GT.v+=k;
+  gateShow();
+}
+$("#gate").addEventListener("click",e=>{
+  const k=e.target.closest("[data-k]");if(k&&!k.disabled){gateKey(k.dataset.k);return}
+  if(e.target.closest("[data-act=gateClose]"))closeGate();
+});
+$$(".pbtn").forEach(b=>b.addEventListener("click",()=>gate(openParent)));
+const seg=(k,opts,c,x)=>`<div class="seg ${x||""}" role="group">${opts.map(([v,l])=>`<button type="button" data-set="${k}" data-v="${v}" aria-pressed="${String(v)===String(c)}">${l}</button>`).join("")}</div>`;
+function reportHTML(){
+  const rows=[...GLIST,...BLIST].filter(k=>stat(k).r>0).map(k=>{const s=stat(k);return `<tr><td>${GNAME[k]||"Пауза: "+BNAME[k]}</td><td>${s.r}</td><td>${Math.round(100*s.f/s.r)}%</td><td>${s.fast}</td><td>${FASTOK[k]?s.fastOk||0:"–"}</td></tr>`}).join("");
+  const err=Object.entries(S.letterErr).sort((a,b)=>b[1]-a[1]).slice(0,8).map(([l,n])=>`${l} (${n})`).join(", ");
+  const wr=Object.entries(S.wr).sort((a,b)=>b[1].fail-a[1].fail).map(([l,x])=>`<tr><td>${l}</td><td>${x.ok}</td><td>${x.fail}</td><td>${x.help}</td></tr>`).join("");
+  const known=Object.keys(S.words).filter(w=>S.words[w].box>=3&&WM[w]),g7=stat("G7");
+  return (rows?`<table><tr><th>Игра</th><th>Рунде</th><th>Из прве</th><th>Брзе грешке</th><th>Брзо тачно</th></tr>${rows}</table>`:'<p class="muted">Још нема рунди.</p>')+
+    `<p>Брзе грешке (брз погрешан додир, знак погађања): <b>${S.fast}</b></p>`+
+    `<p>Брзо тачно (у читању тачна слика за мање од 1 секунде, без слушања речи; ако их је много, дете можда погађа по првом слову): <b>${S.fastOk||0}</b></p>`+
+    (g7.r?`<p>Пипове речи (право читање, не може напамет): <b>${g7.f} од ${g7.r}</b> из прве</p>`:"")+
+    `<p>Научене речи (кутија 3 или више): <b>${known.length}</b>${known.length?" - "+known.join(", "):""}</p>`+
+    `<p>Речи у раду: ${Object.keys(S.words).length}. Сесија: ${S.sessions}. Рунде укупно: ${S.total}.</p>`+
+    `<p>Слова која се теже чују (грешке): ${err||"још нема података"}</p>`+
+    `<p>Пипови поклони: одећа <b>${S.inv.wear.length} / ${WEARL.length}</b>, сувенири <b>${S.inv.deco.length} / ${DECOL.length+BONUSL.length}</b>, храна у остави <b>${S.inv.food.length}</b>. Поклони се добијају само за пређене планете и писма на папиру, увек истим редом.</p>`+
+    (wr?`<details><summary>Писање по словима</summary><table><tr><th>Слово</th><th>Добро</th><th>Лоше</th><th>Помоћ</th></tr>${wr}</table></details>`:"");
+}
+const plInfo=()=>{const p=PL[S.planet-1];return p.name+" (галаксија "+galOf(S.planet)+"): "+p.info};
+function openParent(){
+  stopAll();const lb=S.letters.length;
+  $("#parentSheet").innerHTML=`<div class="ph"><h2>За родитеље</h2><button type="button" class="b2" data-act="close">Затвори</button></div>
+  <h3>Дете</h3><input id="pName" class="field" type="text" maxlength="20" placeholder="Име (није обавезно)" value="${esc(S.name)}" aria-label="Име детета">
+  <div style="height:10px"></div>${seg("gender",[["f","девојчица"],["m","дечак"]],S.gender)}
+  <h3>Звук</h3>${seg("readMode",[["0","Пип говори"],["1","Ја читам"]],S.readMode?1:0)}
+  <p class="muted">„Ја читам“: нема звука, трака на врху исписује шта да кажеш.</p>
+  <button type="button" class="b2" data-act="sc">Провера звука</button>
+  <h3>Изговор</h3><p class="muted">Замени вештачки глас својим: слова, речи, реченице и упутства. Снимци се чувају на овом телефону.</p>
+  <button type="button" class="b2" data-act="voice">${voiceBtnText()}</button>
+  <h3>Сесија</h3>${seg("sessionMin",[[5,"5 мин"],[10,"10 мин"],[15,"15 мин"],[0,"без ограничења"]],S.sessionMin,"two")}
+  <p class="muted">Нових речи по сесији</p>${seg("maxNew",[[3,"3"],[5,"5"],[8,"8"],[99,"све"]],S.maxNew)}
+  <h3>Да дете не изађе из игре</h3><p class="muted">Дугме „назад“ на телефону води корак назад у игри, а на мапи не излази. Да дете не може да изађе ни дугметом за почетни екран, укључи <b>качење апликације</b>: Подешавања → Безбедност (или Безбедност и приватност) → Више подешавања → <b>Качење апликација</b> (Pin app). Онда отвори игру, дугме за скорашње апликације (□), додирни иконицу игре → <b>Закачи</b>. Откачиш тако што истовремено држиш „назад“ и „скорашње“ (или превучеш горе и задржиш). На iPhone-у: Подешавања → Приступачност → <b>Вођени приступ</b>, па три пута притисни бочно дугме у игри.</p>
+  <h3>Планета (ручно)</h3>${seg("planet",PL.map(p=>[p.id,p.id]),S.planet,"five")}
+  <p class="muted" id="plInfo">${esc(plInfo())}</p>
+  <h3>Игре</h3><div class="tog">${GLIST.map(k=>`<button type="button" data-tog="${k}" aria-pressed="${!S.off[k]}">${GNAME[k]}<span class="lk">${S.unl[k]?"отључана":"закључана"}</span></button>`).join("")}<button type="button" data-tog="B" aria-pressed="${!S.off.B}">Паузе-игре<span class="lk">кратке игре за одмор</span></button></div>
+  <div style="height:10px"></div><button type="button" class="b2" data-act="unlockAll">Отључај све игре (за пробу)</button>
+  <h3>Извештај</h3><div class="rep">${reportHTML()}</div>
+  <h3>Пипова писма</h3><button type="button" class="b2" data-act="album">Албум (${lb})</button>
+  <h3>Остало</h3><button type="button" class="b2" data-act="wake">Пробуди Пипа</button>
+  <div style="height:12px"></div><button type="button" class="b2 warn" data-act="wipe">Обриши све податке</button>
+  <div id="wipeBox" hidden><p>Сигурно? Бришу се сви подаци, звезде и слике. Твоји снимци гласа остају.</p><button type="button" class="b2 warn" data-act="wipeYes">Да, обриши све</button> <button type="button" class="b2" data-act="wipeNo">Одустани</button></div>
+  <h3>Апликација</h3><div id="pApp">${appHTML()}</div>
+  <div style="height:8px"></div>${updHTML()}`;
+  $("#parent").hidden=false;$("#parentSheet").scrollTop=0;
+}
+function closeParent(){$("#parent").hidden=true;clearStrip();if(scr==="home")renderHome()}
+$("#parentSheet").addEventListener("click",e=>{
+  const s=e.target.closest("[data-set]");
+  if(s){const k=s.dataset.set;let v=s.dataset.v;
+    if(k==="readMode")v=v==="1";else if(k!=="gender")v=+v;
+    S[k]=v;save();s.parentElement.querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",String(b===s)));
+    if(k==="planet"){S.stars=0;S.visit=S.planet;S.gal=galOf(S.planet);checkUnlocks();syncInv(false);save();setSky();$("#plInfo").textContent=plInfo()}
+    return}
+  const t=e.target.closest("[data-tog]");
+  if(t){const k=t.dataset.tog;S.off[k]=!S.off[k];save();t.setAttribute("aria-pressed",String(!S.off[k]));return}
+  const b=e.target.closest("[data-act]");if(!b)return;const a=b.dataset.act;
+  if(a==="close")closeParent();
+  else if(a==="sc"){openSC()}
+  else if(a==="voice"){openVoice()}
+  else if(a==="share"){doShare()}
+  else if(a==="install"){doInstall()}
+  else if(a==="upd"){checkUpdate()}
+  else if(a==="unlockAll"){unlockAll();openParent()}
+  else if(a==="album"){openAlbum("lt")}
+  else if(a==="wake"){S.sleepDate="";S.play={date:"",ms:0};G.active=false;save();closeParent();goHome()}
+  else if(a==="wipe")$("#wipeBox").hidden=false;
+  else if(a==="wipeNo")$("#wipeBox").hidden=true;
+  else if(a==="wipeYes"){stopAll();S=DEF();save();G.active=false;clearPhotos();applyWear();closeParent();goHome();openSC()}
+});
+$("#parentSheet").addEventListener("input",e=>{if(e.target.id==="pName"){S.name=e.target.value.trim().slice(0,20);save()}});
+document.addEventListener("keydown",e=>{
+  if(!$("#gate").hidden){const k=/^[0-9]$/.test(e.key)?e.key:e.key==="Backspace"?"del":e.key==="Enter"?"ok":"";if(k){e.preventDefault();gateKey(k);return}}
+  if(e.key==="Escape"){
+  if(!$("#gate").hidden)closeGate();else if(!$("#voice").hidden)closeVoice();else if(!$("#share").hidden)$("#share").hidden=true;else if(!$("#inst").hidden)$("#inst").hidden=true;else if(!$("#parent").hidden)closeParent()}});
+document.addEventListener("visibilitychange",()=>{
+  if(document.hidden){recCancel();stopAll();tickStop();return}
+  unlock();checkSleep();if(scr==="ship")tickStart();if(scr==="game"){tickStart();const R=cur;if(R&&!R.done)replayRound(R)}
+});
+
+/* ================= 10. own voice: parent recordings replace the built-in clips ================= */
+const VCAP={checked:false,ok:false,why:""};
+async function voiceCaps(){
+  if(VCAP.checked)return VCAP;VCAP.checked=true;let why="";
+  const md=navigator.mediaDevices;
+  if(!md||!md.getUserMedia)why="овај прозор нема приступ микрофону";
+  else if(typeof MediaRecorder==="undefined")why="овај прегледач не уме да снима звук";
+  else if(!(window.AudioContext||window.webkitAudioContext))why="овај прегледач нема Web Audio";
+  else{
+    try{const pp=document.permissionsPolicy||document.featurePolicy;if(pp&&pp.allowsFeature&&!pp.allowsFeature("microphone"))why="страница је отворена унутар прозора који не дозвољава микрофон"}catch(e){}
+    if(!why){try{await db()}catch(e){why="прегледач не дозвољава чување снимака"}}
+  }
+  VCAP.ok=!why;VCAP.why=why;return VCAP;
+}
+function loadOwn(){
+  return db().then(d=>new Promise((res,rej)=>{
+    const out=[],tx=d.transaction("voice","readonly"),rq=tx.objectStore("voice").openCursor();
+    rq.onsuccess=()=>{const c=rq.result;if(c){out.push([c.key,c.value]);c.continue()}};
+    tx.oncomplete=()=>res(out);tx.onerror=tx.onabort=()=>rej(tx.error);
+  })).then(rows=>{rows.forEach(([k,v])=>{if(v&&v.wav instanceof ArrayBuffer)OWN.set(k,v.wav)})}).catch(()=>{});
+}
+/* mono, high-pass 60 Hz (DC/rumble), trim leading/trailing silence below -40 dBFS, normalise the peak, halve the rate, 16-bit WAV */
+function processRec(buf){
+  const n=buf.length,ch=buf.numberOfChannels,sr=buf.sampleRate,x=new Float32Array(n);
+  for(let c=0;c<ch;c++){const d=buf.getChannelData(c);for(let i=0;i<n;i++)x[i]+=d[i]/ch}
+  const a=Math.exp(-2*Math.PI*60/sr);let px=x[0],py=0;   /* start from the first sample so a DC offset does not make a fake onset */
+  for(let i=0;i<n;i++){const v=x[i];py=a*(py+v-px);px=v;x[i]=py}
+  const fr=Math.max(1,Math.round(sr*.005)),thr=Math.pow(10,-40/20);let first=-1,last=-1;
+  for(let i=0;i<n;i+=fr){let m=0;const e=Math.min(n,i+fr);for(let j=i;j<e;j++){const v=Math.abs(x[j]);if(v>m)m=v}
+    if(m>=thr){if(first<0)first=i;last=e}}
+  if(first<0)return null;
+  const s=Math.max(0,first-Math.round(sr*.025)),e=Math.min(n,last+Math.round(sr*.06));
+  let peak=0;for(let i=s;i<e;i++){const v=Math.abs(x[i]);if(v>peak)peak=v}
+  if(peak<thr)return null;
+  const gain=Math.min(60,.89/peak),dec=sr>=32000?2:1,len=Math.floor((e-s)/dec),out=new Int16Array(len);
+  for(let i=0;i<len;i++){let v=0;for(let k=0;k<dec;k++)v+=x[s+i*dec+k];v=v/dec*gain;out[i]=Math.max(-32767,Math.min(32767,Math.round(v*32767)))}
+  const sr2=Math.round(sr/dec),fi=Math.round(sr2*.005),fo=Math.round(sr2*.015);
+  for(let i=0;i<fi&&i<len;i++)out[i]=Math.round(out[i]*i/fi);
+  for(let i=0;i<fo&&i<len;i++)out[len-1-i]=Math.round(out[len-1-i]*i/fo);
+  const wav=new ArrayBuffer(44+len*2),dv=new DataView(wav),W=(o,t)=>{for(let i=0;i<t.length;i++)dv.setUint8(o+i,t.charCodeAt(i))};
+  W(0,"RIFF");dv.setUint32(4,36+len*2,true);W(8,"WAVE");W(12,"fmt ");dv.setUint32(16,16,true);dv.setUint16(20,1,true);dv.setUint16(22,1,true);
+  dv.setUint32(24,sr2,true);dv.setUint32(28,sr2*2,true);dv.setUint16(32,2,true);dv.setUint16(34,16,true);W(36,"data");dv.setUint32(40,len*2,true);
+  for(let i=0;i<len;i++)dv.setInt16(44+i*2,out[i],true);
+  return{wav,dur:len/sr2};
+}
+const IC={
+  spk:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16 9a4 4 0 010 6M18.5 6.5a8 8 0 010 11" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>',
+  rec:'<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7.5"/></svg>',
+  stop:'<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>',
+  x:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>',
+  share:'<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="12" r="2.6"/><circle cx="18" cy="5.5" r="2.6"/><circle cx="18" cy="18.5" r="2.6"/><path d="M8.3 10.8l7.4-4M8.3 13.2l7.4 4"/></svg>',
+  inst:'<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7.5 10.5L12 15l4.5-4.5M5 19h14"/></svg>'};
+const SRALPHA="АБВГДЂЕЖЗИЈКЛЉМНЊОПРСТЋУФХЦЧЏШ";
+const VGROUPS=[
+  {id:"l",name:"Слова",pre:["l"],hint:"Чист глас слова, а не његово име: „б“ као на почетку речи „бик“, без „е“ на крају."},
+  {id:"n",name:"Речи",pre:["n"],hint:"Како учитељица изговара реч."},
+  {id:"p",name:"Пипове речи",pre:["p"],hint:"Како Пип изговара реч (можеш да га глумиш)."},
+  {id:"x",name:"Измишљене речи",pre:["x"],hint:"Речи које не постоје, за проверу правог читања."},
+  {id:"s",name:"Реченице",pre:["s"],hint:""},
+  {id:"u",name:"Упутства",pre:["ph","pp"],hint:"Шта се говори током игре."}];
+const VGN=Object.fromEntries(VGROUPS.map(g=>[g.id,g.name]));
+const vgOf=k=>{const t=k.slice(0,k.indexOf(":"));return (VGROUPS.find(g=>g.pre.includes(t))||{}).id||""};
+function labelOf(k){const i=k.indexOf(":"),t=k.slice(0,i),v=k.slice(i+1);
+  if(t==="ph")return C.phrases[v]||v;if(t==="pp")return C.pip_phrases[v]||v;return v}
+const L2C=[["dž","џ"],["lj","љ"],["nj","њ"],["dj","ђ"],["a","а"],["b","б"],["c","ц"],["č","ч"],["ć","ћ"],["d","д"],["đ","ђ"],["e","е"],["f","ф"],["g","г"],["h","х"],["i","и"],["j","ј"],["k","к"],["l","л"],["m","м"],["n","н"],["o","о"],["p","п"],["r","р"],["s","с"],["š","ш"],["t","т"],["u","у"],["v","в"],["z","з"],["ž","ж"]];
+function toCyr(q){q=q.toLowerCase();for(const [a,b] of L2C)q=q.split(a).join(b);return q.toUpperCase()}
+let VIDX={};
+function vIndex(){
+  const keys=Object.keys(AU);VIDX={};
+  VGROUPS.forEach(g=>{
+    const a=keys.filter(k=>vgOf(k)===g.id);
+    if(g.id==="l")a.sort((x,y)=>SRALPHA.indexOf(x.slice(2))-SRALPHA.indexOf(y.slice(2)));
+    else if(g.id==="n"||g.id==="p"||g.id==="x")a.sort((x,y)=>{try{return labelOf(x).localeCompare(labelOf(y),"sr")}catch(e){return labelOf(x)<labelOf(y)?-1:1}});
+    VIDX[g.id]=a;
+  });
+}
+const ownCount=g=>(VIDX[g.id]||[]).filter(k=>OWN.has(k)).length;
+function vRow(k,tag){
+  const own=OWN.has(k),lab=labelOf(k),long=vgOf(k)==="u"||vgOf(k)==="s"||[...lab].length>14,q=esc(lab);
+  return `<div class="vrow${own?" has":""}" data-k="${esc(k)}"><div class="vl${long?" long":""}">${esc(lab)}${tag?`<small class="muted" style="display:block;font-size:13px">${esc(VGN[vgOf(k)]||"")}</small>`:""}</div><div class="va">`+
+    `<button type="button" class="vb" data-v="def" aria-label="Пусти оригинал: ${q}">${IC.spk}<span>оригинал</span></button>`+
+    (VCAP.ok?`<button type="button" class="vb rc" data-v="rec" aria-label="Сними свој глас: ${q}">${IC.rec}<span>снимај</span></button>`:"")+
+    (own?`<button type="button" class="vb own" data-v="own" aria-label="Пусти мој снимак: ${q}">${IC.spk}<span>мој глас</span></button><button type="button" class="vb" data-v="del" aria-label="Обриши мој снимак: ${q}">${IC.x}<span>обриши</span></button>`:"")+
+    `</div><i class="vbar"></i></div>`;
+}
+const vmsg=(t,err)=>{const m=$("#vMsg");if(!m)return;m.textContent=t;m.classList.toggle("err",!!err)};
+function vCounts(){
+  VGROUPS.forEach(g=>{const h=$(`#voiceSheet .vgh[data-g="${g.id}"] small`);if(h){const n=ownCount(g);h.textContent=VIDX[g.id].length+(n?" · мојих "+n:"")}});
+  const t=$("#vTotal");if(t)t.textContent=OWN.size?"Твојих снимака: "+OWN.size:"Још нема твојих снимака.";
+}
+function vGroups(){
+  $("#vList").innerHTML=VGROUPS.filter(g=>VIDX[g.id].length).map(g=>`<section class="vg"><button type="button" class="vgh" data-g="${g.id}" aria-expanded="false">${g.name}<small></small></button><div class="vgb" hidden></div></section>`).join("");
+  vCounts();
+}
+function vToggle(h){
+  const open=h.getAttribute("aria-expanded")!=="true",b=h.nextElementSibling,g=VGROUPS.find(x=>x.id===h.dataset.g);
+  h.setAttribute("aria-expanded",String(open));b.hidden=!open;
+  if(open&&!b.dataset.done){b.dataset.done="1";b.innerHTML=(g.hint?`<p class="muted">${esc(g.hint)}</p>`:"")+VIDX[g.id].map(k=>vRow(k)).join("")}
+}
+let vqT=0;
+function vSearch(){
+  const q=toCyr($("#vQ").value.trim());
+  if(!q){vGroups();return}
+  const res=[];VGROUPS.forEach(g=>VIDX[g.id].forEach(k=>{if((labelOf(k)+" "+k).toUpperCase().indexOf(q)>=0)res.push(k)}));
+  $("#vList").innerHTML=`<p class="muted">Нађено: ${res.length}</p>`+res.slice(0,60).map(k=>vRow(k,1)).join("")+(res.length>60?`<p class="muted">… и још ${res.length-60}. Упиши више слова да сузиш.</p>`:"");
+}
+function vRefresh(k){
+  $$("#voiceSheet .vrow").filter(r=>r.dataset.k===k).forEach(r=>{const t=r.querySelector(".vl small"),d=document.createElement("div");d.innerHTML=vRow(k,!!t);r.replaceWith(d.firstChild)});
+  vCounts();
+}
+async function openVoice(){
+  stopAll();await voiceCaps();vIndex();
+  $("#voiceSheet").innerHTML=`<div class="ph"><h2>Изговор</h2><button type="button" class="b2" data-act="vClose">Затвори</button></div>
+  <p class="muted">Замени вештачки глас својим. Додирни <b>снимај</b>, реци (до 4 секунде), па <b>стани</b>. Снимак се користи у целој игри уместо оригинала; можеш да га обришеш или снимиш поново.</p>`+
+  (VCAP.ok?"":`<div class="diag" style="max-width:none;margin:8px 0"><span class="bad">Снимање овде није могуће: ${esc(VCAP.why)}.</span><br>Отвори игру као инсталирану апликацију или преко линка у Chrome-у (или Safari-ју) па ће се појавити дугме за снимање. Оригинале можеш да слушаш и овде.</div>`)+
+  `<input id="vQ" class="field" type="search" inputmode="search" placeholder="Тражи слово или реч…" aria-label="Тражи" autocomplete="off">
+  <div id="vMsg" class="vmsg" role="status">Изабери групу или упиши шта тражиш.</div>
+  <div id="vList"></div>
+  <p class="muted" id="vTotal"></p>
+  <button type="button" class="b2 warn" data-act="vWipe" id="vWipeBtn">Обриши све моје снимке</button>
+  <div id="vWipeBox" hidden><p>Сигурно? Враћају се сви оригинални гласови.</p><button type="button" class="b2 warn" data-act="vWipeYes">Да, обриши</button> <button type="button" class="b2" data-act="vWipeNo">Одустани</button></div>`;
+  vGroups();$("#voice").hidden=false;$("#voiceSheet").scrollTop=0;
+}
+function closeVoice(){recCancel();stopAll();$("#voice").hidden=true;if(!$("#parent").hidden)refreshVoiceBtn()}
+$("#voiceSheet").addEventListener("input",e=>{if(e.target.id==="vQ"){clearTimeout(vqT);vqT=setTimeout(vSearch,120)}});
+$("#voiceSheet").addEventListener("click",async e=>{
+  const gh=e.target.closest(".vgh");if(gh){vToggle(gh);return}
+  const a=e.target.closest("[data-act]");
+  if(a){const k=a.dataset.act;
+    if(k==="vClose")closeVoice();
+    else if(k==="vWipe")$("#vWipeBox").hidden=false;
+    else if(k==="vWipeNo")$("#vWipeBox").hidden=true;
+    else if(k==="vWipeYes"){
+      recCancel();stopAll();const keys=[...OWN.keys()];OWN.clear();keys.forEach(ownForget);
+      try{await idb("voice","readwrite",s=>s.clear())}catch(err){}
+      $("#vWipeBox").hidden=true;vSearch();vmsg("Сви твоји снимци су обрисани.");}
+    return}
+  const b=e.target.closest("[data-v]");if(!b||b.disabled)return;
+  const row=b.closest(".vrow"),key=row.dataset.k,v=b.dataset.v;
+  if(v==="def"||v==="own"){
+    unlock();b.classList.add("on");
+    run(async()=>{const ok=await playKey(key,v==="def");b.classList.remove("on");if(!ok)vmsg("Звук не ради. Провери јачину звука (у делу „Провера звука“).",1)});
+  }else if(v==="rec"){if(REC.on&&REC.key===key)recStop();else recStart(key,row)}
+  else if(v==="del"){
+    OWN.delete(key);ownForget(key);
+    try{await idb("voice","readwrite",s=>s.delete(key))}catch(err){}
+    vRefresh(key);vmsg("Обрисано. За ову реч се опет користи оригинални глас.");
+  }
+});
+function refreshVoiceBtn(){const b=$("#parentSheet [data-act=voice]");if(b)b.textContent=voiceBtnText()}
+const voiceBtnText=()=>"Изговор: мој глас"+(OWN.size?" ("+OWN.size+")":"");
+/* ---- recording ---- */
+const REC={on:false,busy:false,key:"",row:null,stream:null,mr:null,chunks:[],tm:0,iv:0,t0:0,cancel:false,mime:"",saves:0};
+function micError(e){
+  const n=e&&e.name;
+  if(n==="NotAllowedError"||n==="SecurityError")return "Микрофон није дозвољен. Дозволи га у подешавањима прегледача (за ову страницу) или отвори игру преко линка.";
+  if(n==="NotFoundError"||n==="OverconstrainedError")return "Не налазим микрофон на овом уређају.";
+  if(n==="NotReadableError")return "Микрофон користи нека друга апликација.";
+  return "Снимање није успело: "+((e&&e.message)||n||"непозната грешка");
+}
+async function recStart(key,row){
+  if(REC.on||REC.busy)return;REC.busy=true;unlock();stopAll();
+  $("#voice").classList.add("recording");$$("#voiceSheet .vb").forEach(b=>b.disabled=true);
+  vmsg("Дозволи микрофон ако те прегледач пита…");
+  let stream=null;
+  try{
+    try{stream=await navigator.mediaDevices.getUserMedia({audio:{channelCount:1,echoCancellation:false,noiseSuppression:false,autoGainControl:false}})}
+    catch(e){if(e&&e.name==="OverconstrainedError")stream=await navigator.mediaDevices.getUserMedia({audio:true});else throw e}
+    const mt=["audio/webm;codecs=opus","audio/webm","audio/mp4","audio/ogg;codecs=opus"].find(t=>{try{return MediaRecorder.isTypeSupported(t)}catch(e){return false}});
+    const mr=mt?new MediaRecorder(stream,{mimeType:mt}):new MediaRecorder(stream);
+    Object.assign(REC,{stream,mr,chunks:[],cancel:false,mime:mr.mimeType||mt||"",key,row});
+    mr.ondataavailable=ev=>{if(ev.data&&ev.data.size)REC.chunks.push(ev.data)};
+    mr.onerror=()=>{REC.cancel=true;vmsg("Снимање је прекинуто.",1);recStop()};
+    mr.onstop=()=>recDone(mr);
+    mr.start();
+  }catch(e){
+    if(stream)stream.getTracks().forEach(t=>t.stop());
+    REC.busy=false;recIdle();vmsg(micError(e),1);return;
+  }
+  REC.on=true;REC.busy=false;REC.t0=performance.now();
+  const r=REC.row;r.classList.add("rec");
+  const rb=r.querySelector('[data-v="rec"]');if(rb){rb.disabled=false;rb.classList.add("stop");rb.innerHTML=IC.stop+"<span>стани</span>";rb.setAttribute("aria-label","Заустави снимање")}
+  const lab=labelOf(key),tick=()=>{const left=Math.max(0,4-(performance.now()-REC.t0)/1000);vmsg(`● Снимам „${lab}“ … још ${left.toFixed(1)} с. Додирни „стани“ кад завршиш.`)};
+  tick();REC.iv=setInterval(tick,200);REC.tm=setTimeout(recStop,4000);
+}
+function recStop(){
+  if(!REC.on)return;REC.on=false;clearTimeout(REC.tm);clearInterval(REC.iv);
+  try{if(REC.mr&&REC.mr.state!=="inactive")REC.mr.stop();else recDone(REC.mr)}catch(e){recDone(REC.mr)}
+}
+function recCancel(){if(REC.on){REC.cancel=true;recStop()}}
+function recIdle(){
+  $("#voice").classList.remove("recording");$$("#voiceSheet .vb").forEach(b=>b.disabled=false);
+  $$("#voiceSheet .vrow.rec").forEach(r=>r.classList.remove("rec"));
+  $$("#voiceSheet .vb.stop").forEach(b=>{b.classList.remove("stop");b.innerHTML=IC.rec+"<span>снимај</span>"});
+}
+async function recDone(mr){
+  if(!mr||REC.mr!==mr)return;REC.mr=null;
+  const key=REC.key,chunks=REC.chunks;REC.chunks=[];
+  if(REC.stream){REC.stream.getTracks().forEach(t=>t.stop());REC.stream=null}
+  REC.on=false;clearTimeout(REC.tm);clearInterval(REC.iv);recIdle();
+  if(REC.cancel)return;
+  if(!chunks.length){vmsg("Ништа није снимљено. Пробај поново.",1);return}
+  vmsg("Обрађујем снимак…");
+  try{
+    const blob=new Blob(chunks,{type:REC.mime||chunks[0].type});
+    const ab=await (blob.arrayBuffer?blob.arrayBuffer():new Response(blob).arrayBuffer());
+    unlock();if(!AUD.ctx)throw new Error("нема Web Audio");
+    const r=processRec(await decodeAB(ab));
+    if(!r){vmsg("Није се ништа чуло. Приближи телефон устима, говори гласније и пробај поново.",1);return}
+    OWN.set(key,r.wav);ownForget(key);
+    let saved=true;try{await idb("voice","readwrite",s=>s.put({wav:r.wav,dur:r.dur,ts:Date.now()},key))}catch(e){saved=false}
+    if(saved&&!REC.saves){try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}}
+    REC.saves++;vRefresh(key);
+    vmsg(saved?`Сачувано (${r.dur.toFixed(1)} с). Ево како звучи:`:"Снимак важи док не затвориш страницу (прегледач не дозвољава чување).",!saved);
+    run(async()=>{await playKey(key)});
+  }catch(e){vmsg("Снимак није успео: "+((e&&e.message)||e),1)}
+}
+
+/* ================= 11. share, install, service worker (PWA) ================= */
+const PWA=!!document.querySelector('link[rel="manifest"]');   /* only the built site (tools/build_web.py) has a manifest; the Artifact and dist/pip.html do not */
+const SWOK=PWA&&("serviceWorker" in navigator)&&(location.protocol==="https:"||/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname));
+const PW={sw:SWOK?"registering":"off",reg:null,updated:false,force:false,installed:false,lastCheck:Date.now()};
+const standalone=()=>{try{return matchMedia("(display-mode: standalone)").matches||matchMedia("(display-mode: fullscreen)").matches||navigator.standalone===true}catch(e){return false}};
+const isIOS=()=>/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
+let deferredInstall=null;
+const installMode=()=>(!PWA||PW.installed||standalone())?"":deferredInstall?"prompt":isIOS()?"ios":"manual";
+function renderInstall(){
+  const m=installMode();$("#instBtn").hidden=!(m==="prompt"||m==="ios");
+  const pa=$("#pApp");if(pa)pa.innerHTML=appHTML();
+}
+window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredInstall=e;renderInstall()});
+window.addEventListener("appinstalled",()=>{deferredInstall=null;PW.installed=true;renderInstall();$("#inst").hidden=true});
+async function doInstall(){
+  const d=deferredInstall;
+  if(d){deferredInstall=null;renderInstall();try{d.prompt();const r=await d.userChoice;if(r&&r.outcome==="accepted"){PW.installed=true;renderInstall()}}catch(e){}return}
+  const m=installMode();if(!m)return;
+  $("#instTxt").innerHTML=m==="ios"?"Додирни <b>Подели</b> → <b>Додај на почетни екран</b><br><span class=\"muted\">„Подели“ је квадрат са стрелицом нагоре на дну (или врху) Safari-ја.</span>":
+    "У Chrome-у отвори мени <b>⋮</b> → <b>Инсталирај апликацију</b> (или <b>Додај на почетни екран</b>).";
+  $("#inst").hidden=false;
+}
+$("#instBtn").addEventListener("click",doInstall);
+const SHARE={title:"Пип учи речи",text:"Игра за учење читања и писања (ћирилица) за децу од 5–6 година.",url:PUBLIC_URL};
+function openShare(){
+  const q=$("#shQr");q.hidden=true;q.onload=()=>{q.hidden=!(q.naturalWidth>0)};q.onerror=()=>{q.hidden=true};q.src="qr.png";
+  $("#shUrl").value=PUBLIC_URL;$("#shMsg").textContent="";$("#share").hidden=false;
+}
+async function doShare(){
+  if(navigator.share){try{await navigator.share(SHARE);return}catch(e){if(e&&e.name==="AbortError")return}}
+  openShare();
+}
+async function copyLink(){
+  const inp=$("#shUrl"),m=$("#shMsg");let ok=false;
+  inp.focus();inp.select();try{inp.setSelectionRange(0,inp.value.length)}catch(e){}
+  try{if(navigator.clipboard&&navigator.clipboard.writeText){await navigator.clipboard.writeText(PUBLIC_URL);ok=true}}catch(e){}
+  if(!ok){try{ok=document.execCommand("copy")}catch(e){}}
+  m.textContent=ok?"Линк је копиран.":"Линк је означен: додирни и држи, па изабери „Копирај“.";
+}
+$("#shareBtn").addEventListener("click",doShare);
+$("#share").addEventListener("click",e=>{const a=e.target.closest("[data-act]");if(!a)return;if(a.dataset.act==="shCopy")copyLink();else if(a.dataset.act==="shClose")$("#share").hidden=true});
+$("#inst").addEventListener("click",e=>{if(e.target.closest("[data-act=instClose]"))$("#inst").hidden=true});
+function verText(){
+  return BUILD.id.indexOf("__")===0?"Верзија: развојна (није направљена као пакет)":`Верзија: ${BUILD.id} · ${BUILD.date}`;
+}
+function appHTML(){
+  const m=installMode();
+  let h=`<button type="button" class="b2" data-act="share">${IC.share}Подели игру</button>`;
+  if(m==="prompt")h+=` <button type="button" class="b2" data-act="install">${IC.inst}Инсталирај на телефон</button>`;
+  else if(m==="ios")h+=`<div class="diag" style="max-width:none;margin-top:10px">Инсталирај на телефон: Додирни <b>Подели</b> → <b>Додај на почетни екран</b></div>`;
+  else if(m==="manual")h+=`<p class="muted">Инсталација: у Chrome-у отвори мени ⋮ → „Инсталирај апликацију“ (или „Додај на почетни екран“).</p>`;
+  else if(PWA&&(standalone()||PW.installed))h+=`<p class="muted">Игра је инсталирана као апликација.</p>`;
+  return h;
+}
+function updHTML(){
+  return `<p class="muted" id="verLine">${esc(verText())}${PW.sw==="active"?" · ради и без интернета":""}</p>`+
+    (PW.sw==="active"?`<button type="button" class="b2" data-act="upd">Провери ажурирање</button> <span class="muted" id="updMsg"></span>`:"");
+}
+async function checkUpdate(){
+  const m=$("#updMsg");if(!PW.reg)return;m.textContent="Проверавам…";
+  try{
+    await PW.reg.update();PW.lastCheck=Date.now();
+    if(PW.reg.installing||PW.reg.waiting){PW.force=true;m.textContent="Нова верзија се преузима, игра ће се сама освежити…"}
+    else m.textContent="Већ имаш најновију верзију.";
+  }catch(e){m.textContent="Није успело (можда нема интернета)."}
+}
+function maybeReload(){
+  if(!PW.updated)return;
+  if(PW.force){location.reload();return}
+  const busy=["#parent","#gate","#voice","#album","#sc","#share","#inst","#recall","#launch","#party","#gift"].some(s=>!$(s).hidden);
+  if(!busy&&!REC.on&&(scr==="home"||scr==="sleep"))location.reload();
+}
+if(SWOK){
+  let hasCtl=!!navigator.serviceWorker.controller;
+  navigator.serviceWorker.addEventListener("controllerchange",()=>{if(hasCtl){PW.updated=true;maybeReload();setInterval(maybeReload,4000)}hasCtl=true});
+  window.addEventListener("load",()=>{
+    navigator.serviceWorker.register("sw.js",{updateViaCache:"none"}).then(r=>{PW.reg=r;if(PW.sw==="registering")PW.sw="installing"}).catch(e=>{PW.sw="error: "+((e&&e.message)||e)});
+    navigator.serviceWorker.ready.then(()=>{PW.sw="active"}).catch(()=>{});
+  });
+  document.addEventListener("visibilitychange",()=>{if(!document.hidden&&PW.reg&&Date.now()-PW.lastCheck>3600e3){PW.lastCheck=Date.now();PW.reg.update().catch(()=>{})}});
+}
+
+/* ================= 12. boot (+ hooks used only by the automated tests) ================= */
+load();
+OWN_READY=Promise.race([loadOwn(),new Promise(r=>setTimeout(r,2500))]);
+if(S.sleepDate&&S.sleepDate!==dkey()){S.sleepDate="";save()}
+applyWear();$$(".pip").forEach(e=>{e.dataset.s="idle"});
+showScreen(S.sleepDate===dkey()?"sleep":"home");renderHome();renderInstall();
+if(!S.soundOk&&!S.readMode&&scr==="home")openSC();
+window.__pip={get S(){return S},get R(){return cur},get G(){return G},AUD,GAMES,
+  speed(k){TS=k},unlockAll,ans(){const R=cur;return R&&GAMES[R.g].ans?GAMES[R.g].ans(R):null},
+  force(x){G.force=x},goHome,gate,celebrate,galOf,g6opts,pickSentence,pickWord,tapPlanet,switchGal,endSession:()=>run(endSession),launch:()=>run(launch),renderHome,openParent,renderRocket,showScreen,
+  OWN,PW,VCAP,REC,BUILD,PUBLIC_URL,installMode,openVoice,doShare,say,playKey,processRec,
+  pickGame,newRound,syncInv,showGifts,closeGift,openShip,shipView,feedFrom,tapPip,applyWear,pipSVG,g10opts,brkLetters,openAlbum,LBL,get GIFT(){return GIFT},get FX(){return FX}};
+</script>
+</body>
+</html>

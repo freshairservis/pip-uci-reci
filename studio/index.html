@@ -1,0 +1,1604 @@
+<!doctype html>
+<html lang="sr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Pip studio</title>
+<meta name="description" content="Snimanje glasova za igru Пип учи речи">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#4b3fd9">
+<meta name="color-scheme" content="light">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%234b3fd9'/%3E%3Crect x='24' y='10' width='16' height='30' rx='8' fill='%23fff'/%3E%3Cpath d='M16 30a16 16 0 0 0 32 0M32 46v8' stroke='%23fff' stroke-width='4' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f5f3ee;--card:#fff;--ink:#1c2233;--muted:#66708a;--line:#e3dfd5;
+  --brand:#4b3fd9;--brand-soft:#ebe9fc;--rec:#e5322d;--ok:#1b8a4b;--ok-soft:#e1f4e8;
+  --warn:#b8650c;--warn-soft:#fdeed9;--bad:#c62828;--bad-soft:#fde4e2;
+  --ui:Rubik,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --cyr:Andika,"Atkinson Hyperlegible","Segoe UI",system-ui,Roboto,Arial,sans-serif;
+  --emoji:"Noto Color Emoji","Apple Color Emoji","Segoe UI Emoji",sans-serif;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%;overscroll-behavior-y:contain}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.45 var(--ui);min-height:100vh;min-height:100dvh;touch-action:manipulation}
+button,input{font:inherit;color:inherit}
+button{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
+h1,h2,h3,p,ul{margin:0}
+.screen{max-width:480px;margin:0 auto;padding:max(14px,env(safe-area-inset-top)) 16px max(20px,env(safe-area-inset-bottom))}
+.lat{color:var(--muted);font-weight:400}
+
+/* ---------- buttons ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:52px;padding:0 20px;border:0;border-radius:14px;background:var(--brand-soft);color:var(--brand);font-weight:700;font-size:16px;text-align:center;line-height:1.2}
+.btn.pri{background:var(--brand);color:#fff}
+.btn.big{min-height:58px;font-size:18px;width:100%}
+.btn.ghost{background:transparent;border:2px solid var(--line);color:var(--ink);font-weight:500}
+.btn.danger{background:var(--bad);color:#fff}
+.btn.link{background:none;min-height:44px;color:var(--brand);text-decoration:underline;font-weight:500}
+.btn[disabled]{opacity:.45;pointer-events:none}
+.stack{display:flex;flex-direction:column;gap:10px}
+.row{display:flex;gap:10px}
+.row>*{flex:1}
+
+/* ---------- cards / home ---------- */
+.hero{text-align:center;padding:10px 0 14px}
+.hero .logo{width:64px;height:64px;margin:0 auto 6px;border-radius:18px;background:var(--brand);display:grid;place-items:center}
+.hero h1{font-size:30px;font-weight:700;letter-spacing:-.5px}
+.hero p{color:var(--muted)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:12px}
+.card h2{font-size:17px;font-weight:700;margin-bottom:10px}
+.tips{padding-left:0;list-style:none;display:grid;gap:8px}
+.tips li{display:flex;gap:10px;align-items:flex-start}
+.tips .ic{flex:none;width:26px;text-align:center;font-family:var(--emoji)}
+label.fl{display:block;font-weight:500;margin:8px 0 4px}
+input[type=text]{width:100%;min-height:52px;border:2px solid var(--line);border-radius:14px;padding:0 14px;font-size:18px;background:#fff}
+input[type=text]:focus{border-color:var(--brand);outline:none}
+.rrow{border-top:1px solid var(--line);padding-top:10px}
+.rrow:first-child{border-top:0;padding-top:0}
+.btn.resume{flex-direction:column;align-items:flex-start;width:100%;min-height:64px;padding:8px 18px;text-align:left;gap:0}
+.btn.resume span{font-size:18px}
+.btn.resume small{font-weight:400;opacity:.9;font-size:13px;line-height:1.3}
+.btn.sm{min-height:44px;font-size:14px;padding:0 10px}
+.rrow .row{margin-top:8px}
+details.card>summary h2{display:inline;margin:0}
+details.card>summary::before{content:"▸ ";color:var(--muted)}
+details.card[open]>summary::before{content:"▾ "}
+details.card[open]>summary{margin-bottom:10px}
+.chip{display:flex;flex-direction:column;align-items:flex-start;min-height:52px;padding:6px 14px;border:2px solid var(--line);background:#fff;border-radius:14px}
+.chip small{color:var(--muted);font-size:12px}
+.chip[aria-pressed=true]{border-color:var(--brand);background:var(--brand-soft)}
+.seg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:6px}
+.seg button{min-height:52px;border:2px solid var(--line);background:#fff;border-radius:14px;font-weight:500;padding:4px 6px;line-height:1.15}
+.seg button[aria-checked=true]{border-color:var(--brand);background:var(--brand-soft);color:var(--brand);font-weight:700}
+.pack{display:flex;align-items:center;gap:12px;padding:10px 0;border-top:1px solid var(--line);cursor:pointer}
+.pack:first-of-type{border-top:0}
+.pack.sub{padding-left:26px}
+.pack input{flex:none;width:26px;height:26px;accent-color:var(--brand)}
+.pack .pk{flex:1;min-width:0}
+.pack .pk b{font-family:var(--cyr);font-size:18px}
+.pack .pk small{display:block;color:var(--muted);font-size:13px;line-height:1.3}
+.pack .pk-prog{flex:none;font-size:13px;color:var(--muted);text-align:right}
+.pack .pk-prog.done{color:var(--ok);font-weight:700}
+.pack.off{opacity:.45}
+.nbadge{display:inline-block;margin-left:4px;padding:1px 9px;border-radius:10px;background:var(--brand);color:#fff;font-size:12px;font-weight:700;vertical-align:2px;white-space:nowrap}
+.nbadge.ok{background:var(--ok-soft);color:var(--ok)}
+.newbtn{display:flex;align-items:center;gap:12px;width:100%;min-height:68px;margin-bottom:10px;padding:10px 14px;border:2px solid var(--brand);border-radius:16px;background:var(--brand-soft);color:var(--brand);text-align:left;font-size:16px;line-height:1.25}
+.newbtn .nb-i{flex:none;width:32px;height:32px;border:2px solid var(--brand);border-radius:50%;display:grid;place-items:center;font-size:18px;font-weight:700;background:#fff;color:transparent}
+.newbtn .nb-t{flex:1;min-width:0}
+.newbtn .nb-t b{display:block;font-size:17px}
+.newbtn .nb-t small{display:block;color:var(--muted);font-size:13px;font-weight:400}
+.newbtn[aria-pressed=true]{background:var(--brand);color:#fff}
+.newbtn[aria-pressed=true] .nb-i{color:var(--brand)}
+.newbtn[aria-pressed=true] small{color:#e4e1fb}
+.newbtn:disabled{border-color:var(--line);background:#fff;color:var(--ok)}
+.newbtn:disabled .nb-i{border-color:var(--ok);color:var(--ok)}
+.tag.ok{background:var(--ok-soft);color:var(--ok)}
+.total{margin-top:8px;padding-top:10px;border-top:2px solid var(--line);font-weight:500}
+.note{color:var(--muted);font-size:14px;text-align:center;margin-top:6px;min-height:1.4em}
+.foot{color:var(--muted);font-size:12px;text-align:center;margin-top:16px}
+.warnbox{border-radius:14px;padding:12px 14px;margin-bottom:12px;background:var(--warn-soft);color:#5c3305;font-size:14px}
+.warnbox.bad{background:var(--bad-soft);color:#6d1313}
+.warnbox b{display:block;margin-bottom:2px}
+.spkrow{display:flex;align-items:center;gap:10px;padding:8px 0;border-top:1px solid var(--line)}
+.spkrow:first-of-type{border-top:0}
+.spkrow .nm{flex:1;min-width:0}
+.spkrow .nm small{display:block;color:var(--muted);font-size:12px}
+.spkrow .btn{min-height:44px;padding:0 14px;font-size:14px}
+details.card>summary{cursor:pointer;font-weight:500;color:var(--muted);list-style:none;min-height:24px}
+details.card>summary::-webkit-details-marker{display:none}
+
+/* ---------- mic test ---------- */
+.back{display:inline-flex;align-items:center;gap:4px;min-height:44px;padding:0 6px 0 0;background:none;border:0;color:var(--brand);font-weight:500}
+.mstep{text-align:center;padding:6px 0 10px}
+.mstep .mi{font-size:40px;font-family:var(--emoji);line-height:1.2}
+.mstep .mt{font-size:20px;font-weight:700;margin-top:4px}
+.mstep .ms{color:var(--muted);margin-top:4px}
+.meter{height:12px;border-radius:7px;background:#e9e6df;overflow:hidden;position:relative}
+.meter i{display:block;height:100%;width:0;background:var(--ok);border-radius:7px;transition:none}
+.meter i.hot{background:var(--warn)}
+.meter i.clip{background:var(--bad)}
+.meter b{position:absolute;top:0;bottom:0;width:2px;background:rgba(28,34,51,.45);left:0}
+.prog{height:6px;border-radius:4px;background:#e9e6df;overflow:hidden;margin:10px 0}
+.prog i{display:block;height:100%;width:0;background:var(--brand)}
+.replay{display:flex;gap:10px;align-items:center;margin-top:8px;font-size:13px;line-height:1.3}
+.replay .btn{flex:none}
+.vrow{display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-top:1px solid var(--line)}
+.vrow:first-child{border-top:0}
+.vrow .vi{flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-weight:700;color:#fff;font-size:15px}
+.vrow .vi.ok{background:var(--ok)}.vrow .vi.w{background:var(--warn)}.vrow .vi.b{background:var(--bad)}
+.vrow .vt b{display:block}
+.vrow .vt span{color:var(--muted);font-size:14px}
+canvas.wave{display:block;width:100%;height:64px;background:#f3f1fb;border-radius:12px}
+
+/* ---------- recording screen ---------- */
+#s-rec{display:flex;flex-direction:column;height:100vh;height:100dvh;padding-bottom:0;padding-top:max(8px,env(safe-area-inset-top))}
+.rtop{flex:none;display:flex;align-items:center;gap:8px;min-height:44px}
+.rtop .ex{flex:none;width:44px;height:44px;border:0;border-radius:12px;background:var(--brand-soft);color:var(--brand);font-size:26px;line-height:1;font-weight:700}
+.rtop .tt{flex:1;min-width:0;line-height:1.2}
+.rtop .tt b{display:block;font-family:var(--cyr);font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rtop .tt span{font-size:13px;color:var(--muted)}
+.sw{flex:none;display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);cursor:pointer;min-height:44px;line-height:1.1}
+.sw input{position:absolute;opacity:0;width:1px;height:1px}
+.sw .tr{width:42px;height:24px;border-radius:12px;background:#c9c5ba;position:relative;transition:background .15s}
+.sw .tr::after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:transform .15s;box-shadow:0 1px 2px rgba(0,0,0,.3)}
+.sw input:checked+.tr{background:var(--ok)}
+.sw input:checked+.tr::after{transform:translateX(18px)}
+.sw input:focus-visible+.tr{outline:3px solid var(--brand);outline-offset:2px}
+.sw span.l{max-width:58px}
+.bars{flex:none;display:grid;gap:4px;margin:2px 0 8px}
+.bar{height:8px;border-radius:5px;background:#e3dfd5;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--brand);width:0;transition:width .25s}
+.bar.thin{height:4px}
+.bar.thin i{background:#9a93e8}
+.rmain{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch}
+.item{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:12px 14px;text-align:center}
+.item .em{font-family:var(--emoji);font-size:52px;line-height:1.15}
+.item .glyph{font-family:var(--cyr);font-weight:700;line-height:1.1;word-break:break-word;overflow-wrap:anywhere}
+.item .glyph.g-letter{font-size:112px}
+.item .glyph.g-word{font-size:56px}
+.item .glyph.g-sent{font-size:36px}
+.item .glyph.g-long{font-size:28px;font-weight:400;line-height:1.3}
+.item .alat{font-size:15px;color:var(--muted);margin-top:2px}
+.item .say{margin-top:6px;font-family:var(--cyr);font-size:24px}
+.item .say b{font-size:30px;color:var(--brand)}
+.item .exm{font-family:var(--cyr);font-size:17px}
+.tag{display:inline-block;margin-top:6px;padding:2px 10px;border-radius:10px;background:var(--brand-soft);color:var(--brand);font-size:13px;font-weight:500}
+.hint{margin-top:8px;padding:8px 12px;border-radius:12px;background:#f3f1fb;text-align:left;font-family:var(--cyr);font-size:16px;line-height:1.35}
+.hint small{display:block;font-family:var(--ui);font-size:12px;color:var(--muted);margin-top:2px;line-height:1.3}
+.take{margin-top:8px;display:none}
+.take.on{display:block}
+.take .tl{display:flex;align-items:center;gap:8px;margin-top:6px;flex-wrap:wrap}
+.badge{display:inline-flex;align-items:center;gap:6px;padding:3px 12px;border-radius:14px;font-weight:700;font-size:14px}
+.badge.ok{background:var(--ok-soft);color:var(--ok)}
+.badge.w{background:var(--warn-soft);color:var(--warn)}
+.badge.b{background:var(--bad-soft);color:var(--bad)}
+.take .dt{font-size:12px;color:var(--muted)}
+.take .tp{font-size:14px;color:var(--warn);margin-top:2px}
+.take .tp.b{color:var(--bad)}
+.rctl{flex:none;padding-top:6px;padding-bottom:max(10px,env(safe-area-inset-bottom));background:linear-gradient(to bottom,rgba(245,243,238,0),var(--bg) 14px)}
+.status{text-align:center;min-height:22px;font-size:15px;font-weight:500;margin:4px 0 2px}
+.status.live{color:var(--ok)}
+.recwrap{display:flex;justify-content:center;margin:4px 0 8px}
+.recbtn{position:relative;width:96px;height:96px;border-radius:50%;border:4px solid var(--rec);background:#fff;display:grid;place-items:center;padding:0;color:var(--rec);box-shadow:0 4px 14px rgba(229,50,45,.25)}
+.recbtn .d{width:46px;height:46px;border-radius:50%;background:var(--rec);transition:all .15s;display:block}
+.recbtn[data-st=rec]{background:var(--rec);animation:pulse 1.1s ease-out infinite}
+.recbtn[data-st=rec] .d{width:30px;height:30px;border-radius:7px;background:#fff}
+.recbtn[data-st=cd]{border-color:#f0a09d}
+.recbtn[data-st=cd]::after{content:"";position:absolute;inset:-9px;border-radius:50%;border:5px solid var(--rec);border-top-color:transparent;border-left-color:transparent;animation:spin var(--cd,600ms) linear forwards}
+.recbtn[data-st=busy] .d{background:#c9c5ba}
+.recbtn[data-st=rec].spk{background:#c3231f}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(229,50,45,.55)}100%{box-shadow:0 0 0 26px rgba(229,50,45,0)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+.nav{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.nav button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;min-height:58px;border:0;border-radius:14px;background:#fff;border:1px solid var(--line);font-size:12px;font-weight:500;padding:4px 2px;line-height:1.15}
+.nav button .i{font-size:20px;line-height:1;font-weight:700;color:var(--brand)}
+.nav button[disabled]{opacity:.4;pointer-events:none}
+.nav button.hot{border-color:var(--brand);background:var(--brand-soft)}
+.overlay{position:fixed;inset:0;z-index:20;background:var(--bg);display:flex;flex-direction:column;justify-content:center;padding:20px 16px max(20px,env(safe-area-inset-bottom));overflow-y:auto}
+.overlay .in{max-width:448px;width:100%;margin:0 auto}
+.overlay h2{font-size:22px;margin-bottom:6px}
+.overlay .pt{font-family:var(--cyr);font-size:30px;font-weight:700;margin-bottom:2px}
+.overlay .hint{margin:12px 0 16px}
+.overlay ol{margin:8px 0 14px 18px;padding:0;display:grid;gap:6px}
+
+/* ---------- finish ---------- */
+.sumrow{padding:12px 0;border-top:1px solid var(--line)}
+.sumrow:first-of-type{border-top:0}
+.sumrow .h{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.sumrow .h b{font-family:var(--cyr);font-size:17px}
+.sumrow .h span{font-size:14px;color:var(--muted);white-space:nowrap}
+.sumrow .bar{margin:6px 0}
+.sumrow .st{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:14px}
+.sumrow .st .ok{color:var(--ok)}.sumrow .st .w{color:var(--warn)}.sumrow .st .b{color:var(--bad)}
+.sumrow .items{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.sumrow .items button{border:1px solid var(--line);background:#fff;border-radius:10px;padding:4px 10px;font-family:var(--cyr);font-size:15px;min-height:36px}
+.sumrow .items button.w{border-color:#e9b97a;background:var(--warn-soft)}
+.sumrow .items button.b{border-color:#e7a5a1;background:var(--bad-soft)}
+.sumrow .items button.u{border-style:dashed}
+.exp-note{font-size:14px;color:var(--muted);margin-top:6px}
+.toast{position:fixed;left:16px;right:16px;bottom:max(18px,env(safe-area-inset-bottom));max-width:448px;margin:0 auto;background:#1c2233;color:#fff;border-radius:14px;padding:12px 16px;z-index:40;font-size:15px;box-shadow:0 6px 24px rgba(0,0,0,.25)}
+.dl{display:block;text-align:center;margin-top:8px;font-weight:500}
+@media (max-height:700px){
+  .item .em{font-size:40px}
+  .item .glyph.g-letter{font-size:84px}
+  .item .glyph.g-word{font-size:46px}
+  .item .glyph.g-sent{font-size:30px}
+  .item .say{font-size:20px;margin-top:2px}.item .say b{font-size:26px}
+  .recbtn{width:84px;height:84px}.recbtn .d{width:40px;height:40px}
+  .nav button{min-height:52px}
+  .hint{font-size:15px;padding:6px 10px;margin-top:6px}
+  .bars{margin-bottom:6px}
+}
+@media (max-height:600px){
+  .item{padding:8px 10px}
+  .item .em{font-size:34px}
+  .item .glyph.g-letter{font-size:64px}
+  .item .glyph.g-word{font-size:38px}
+  .hint small{display:none}
+  canvas.wave{height:48px}
+}
+@media (prefers-reduced-motion:reduce){.recbtn[data-st=rec]{animation:none}.recbtn[data-st=cd]::after{animation-duration:1ms}}
+</style>
+</head>
+<body>
+
+<noscript><p style="padding:20px;font:16px sans-serif">Za snimanje je potreban JavaScript. Otvori stranicu u Chrome-u ili Safari-ju.</p></noscript>
+<!-- ============ 1. START ============ -->
+<section id="s-home" class="screen">
+  <div class="hero">
+    <div class="logo"><svg width="34" height="34" viewBox="0 0 64 64" aria-hidden="true"><rect x="22" y="6" width="20" height="36" rx="10" fill="#fff"/><path d="M12 30a20 20 0 0 0 40 0M32 50v8" stroke="#fff" stroke-width="5" fill="none" stroke-linecap="round"/></svg></div>
+    <h1>Pip studio</h1>
+    <p>Snimanje glasova za igru „Пип учи речи“</p>
+  </div>
+  <div id="h-warn"></div>
+  <div class="card" id="h-resume" hidden>
+    <h2>Nastavi snimanje</h2>
+    <div class="stack" id="h-resume-list"></div>
+  </div>
+  <details class="card" id="h-intro" open>
+    <summary><h2>Pre nego što počneš</h2></summary>
+    <ul class="tips">
+      <li><span class="ic">🤫</span><span>Tiha soba. Ugasi TV, muziku i ventilator.</span></li>
+      <li><span class="ic">📱</span><span>Drži telefon oko 20 cm od usta i ne pokrivaj mikrofon prstom.</span></li>
+      <li><span class="ic">🗣️</span><span>Govori jasno i prirodno. Snimanje samo staje kad završiš reč.</span></li>
+      <li><span class="ic">👤</span><span>Jedna osoba po snimanju. Snimci ostaju na telefonu dok ih ne pošalješ.</span></li>
+    </ul>
+  </details>
+  <div class="card" id="h-form">
+    <h2>Ko snima?</h2>
+    <label class="fl" for="h-name">Ime</label>
+    <input id="h-name" type="text" placeholder="npr. Tata, Mama, Ana" maxlength="24" autocomplete="off" autocapitalize="words" enterkeyhint="done">
+    <div class="seg" id="h-type" role="radiogroup" aria-label="Ko snima">
+      <button type="button" role="radio" aria-checked="false" data-type="odrasla_zena">Odrasla žena</button>
+      <button type="button" role="radio" aria-checked="false" data-type="odrasli_muskarac">Odrasli muškarac</button>
+      <button type="button" role="radio" aria-checked="false" data-type="dete">Dete</button>
+    </div>
+  </div>
+  <div class="card">
+    <h2>Šta snimaš?</h2>
+    <div id="h-new"></div>
+    <div id="h-packs"></div>
+    <div class="total" id="h-total"></div>
+  </div>
+  <div class="stack">
+    <button class="btn pri big" id="h-go" disabled>Dalje</button>
+    <div class="note" id="h-note"></div>
+  </div>
+  <details class="card" id="h-del" style="margin-top:14px" hidden>
+    <summary>Obriši moje snimke</summary>
+    <div id="h-del-list" style="margin-top:8px"></div>
+  </details>
+  <p class="foot" id="h-foot"></p>
+</section>
+
+<!-- ============ 2. MIC TEST ============ -->
+<section id="s-mic" class="screen" hidden>
+  <button class="back" id="m-back" type="button">‹ Nazad</button>
+  <div class="card">
+    <h2>Test mikrofona</h2>
+    <div class="mstep" id="m-step">
+      <div class="mi">🎙️</div>
+      <div class="mt">Proveri mikrofon i sobu</div>
+      <div class="ms">Traje oko 10 sekundi. Prvo tišina, pa kratka rečenica.</div>
+    </div>
+    <div class="meter"><i id="m-meter"></i></div>
+    <div class="lat" style="font-size:12px;margin-top:3px">nivo zvuka sa mikrofona</div>
+    <div class="prog"><i id="m-prog"></i></div>
+    <canvas class="wave" id="m-wave" hidden></canvas>
+    <div class="replay" id="m-play-row" hidden><button class="btn sm" id="m-replay" type="button">▶ Preslušaj</button><span class="lat">Ne čuješ sebe? Pojačaj zvuk (na iPhone-u isključi nečujni režim).</span></div>
+    <div id="m-result"></div>
+  </div>
+  <div id="m-err"></div>
+  <div class="stack" id="m-actions">
+    <button class="btn pri big" id="m-start" type="button">● Počni test</button>
+    <button class="btn link" id="m-skip" type="button" hidden>Preskoči test</button>
+  </div>
+</section>
+
+<!-- ============ 3. RECORDING ============ -->
+<section id="s-rec" class="screen" hidden>
+  <div class="rtop">
+    <button class="ex" id="r-exit" type="button" aria-label="Izlaz i pregled">‹</button>
+    <div class="tt"><b id="r-pack"></b><span id="r-count"></span></div>
+    <label class="sw"><input type="checkbox" id="r-cont"><span class="tr"></span><span class="l">neprekidno</span></label>
+  </div>
+  <div class="bars">
+    <div class="bar" title="Ovaj paket"><i id="r-bar-pack"></i></div>
+    <div class="bar thin" title="Ukupno"><i id="r-bar-all"></i></div>
+  </div>
+  <div class="rmain" id="r-main">
+    <div class="item" id="r-item"></div>
+    <div class="take" id="r-take">
+      <canvas class="wave" id="r-wave"></canvas>
+      <div class="tl"><span class="badge" id="r-badge"></span><span class="dt" id="r-dt"></span></div>
+      <div class="tp" id="r-tip"></div>
+    </div>
+  </div>
+  <div class="rctl">
+    <div class="meter"><i id="r-meter"></i></div>
+    <div class="status" id="r-status" aria-live="polite"></div>
+    <div class="recwrap"><button class="recbtn" id="r-rec" type="button" data-st="idle" aria-label="Snimaj"><span class="d"></span></button></div>
+    <div class="nav">
+      <button id="r-back" type="button"><span class="i">◀</span>nazad</button>
+      <button id="r-redo" type="button"><span class="i">↻</span>ponovi</button>
+      <button id="r-play" type="button"><span class="i">▶</span>preslušaj</button>
+      <button id="r-skip" type="button"><span class="i">▶▶</span>preskoči</button>
+    </div>
+  </div>
+  <div class="overlay" id="r-intro" hidden>
+    <div class="in">
+      <p class="lat" id="i-count"></p>
+      <div class="pt" id="i-title"></div>
+      <h2 id="i-latin"></h2>
+      <p id="i-desc" class="lat"></p>
+      <div class="hint" id="i-hint"></div>
+      <div class="stack"><button class="btn pri big" id="i-go" type="button">Kreni ▶</button></div>
+    </div>
+  </div>
+  <div class="overlay" id="r-err" hidden><div class="in" id="r-err-in"></div></div>
+</section>
+
+<!-- ============ 4. FINISH ============ -->
+<section id="s-done" class="screen" hidden>
+  <button class="back" id="d-back" type="button">‹ Početna</button>
+  <div class="card">
+    <h2 id="d-title">Pregled snimaka</h2>
+    <div id="d-sum"></div>
+  </div>
+  <div class="card" id="d-send">
+    <h2>Pošalji snimke</h2>
+    <p class="lat" id="d-info" style="margin-bottom:10px"></p>
+    <div class="stack" id="d-main">
+      <button class="btn pri big" id="d-share" type="button" disabled>Pošalji snimke</button>
+      <button class="btn big" id="d-dl" type="button" disabled>Preuzmi</button>
+    </div>
+    <div class="exp-note" id="d-note"></div>
+    <a class="dl" id="d-link" hidden>Ako preuzimanje nije počelo, dodirni ovde</a>
+    <div id="d-packs"></div>
+  </div>
+  <div class="stack" style="margin-bottom:12px">
+    <button class="btn" id="d-more" type="button">Nastavi snimanje</button>
+  </div>
+  <details class="card" id="d-del"><summary>Obriši moje snimke</summary><div id="d-del-in" style="margin-top:8px"></div></details>
+</section>
+
+<div class="toast" id="toast" hidden role="status"></div>
+
+<script src="items.js?v=00cec1c87b"></script>
+<script>
+(function () {
+"use strict";
+
+/* =====================================================================================================
+   Pip studio: records human voices for the reading game. Everything stays on the phone (IndexedDB).
+   Sections: 1 constants  2 helpers  3 storage  4 DSP + WAV + ZIP  5 microphone  6 capture (VAD)
+             7 state + screens  8 recording flow  9 finish / export  10 start
+   ===================================================================================================== */
+
+/* ---------------------------------------- 1. constants ---------------------------------------- */
+var DATA = window.PIP_STUDIO;
+var CFG = {
+  outRate: 24000,        /* rate of the stored WAV files */
+  frameMs: 10,           /* VAD frame */
+  preRollMs: 300,        /* audio kept from before an automatic start */
+  blindMs: 150,          /* after a tap on the screen: ignore the thump of the finger */
+  padMs: 200,            /* kept around the detected speech */
+  vadOffsetDb: 15,       /* speech threshold = noise floor + 15 dB */
+  endHystDb: 3,
+  absMinDb: -58,         /* never below this, even in a very quiet room */
+  stopMs: 800,           /* silence after speech that ends a take */
+  stopLongMs: 1200,      /* the same for long letter sounds */
+  capMs: 6000,           /* hard limit of one take */
+  capLongMs: 9000,       /* long phrases */
+  noSpeechMs: 5000,
+  pauseMs: 600,          /* countdown before an automatic start */
+  childPauseMs: 2500,
+  reviewOkMs: 1000,      /* the take is shown this long before moving on */
+  reviewBadMs: 2600,
+  quietDb: -26,          /* peak below this: too quiet */
+  clipPeak: 0.985,
+  noisySnrDb: 15,
+  noiseWarnDb: -48,
+  sizeLimit: 50 * 1024 * 1024
+};
+var QUALITY = {
+  ok:        { label: "U redu",     cls: "ok", tip: "" },
+  pretiho:   { label: "Pretiho",    cls: "w",  tip: "Približi telefon (oko 20 cm) i govori malo glasnije." },
+  preglasno: { label: "Preglasno",  cls: "b",  tip: "Krči. Udalji telefon ili govori malo tiše." },
+  prekratko: { label: "Prekratko",  cls: "w",  tip: "Čuje se samo kratak zvuk. Izgovori celu reč." },
+  predugo:   { label: "Prekinuto",  cls: "w",  tip: "Snimak je stigao do kraja ograničenja pre nego što si završio." },
+  prekinuto: { label: "Prerano",    cls: "w",  tip: "Počeo si pre snimanja. Sačekaj crveno pa govori." },
+  bucno:     { label: "Bučno",      cls: "w",  tip: "Čuje se buka u pozadini. Probaj u tišoj prostoriji." }
+};
+var TYPE_LABEL = { odrasla_zena: "odrasla žena", odrasli_muskarac: "odrasli muškarac", dete: "dete" };
+
+/* ---------------------------------------- 2. helpers ---------------------------------------- */
+var $ = function (s, r) { return (r || document).querySelector(s); };
+var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+function sleep(ms) { return new Promise(function (r) { setTimeout(r, ms); }); }
+function clamp(v, a, b) { return v < a ? a : v > b ? b : v; }
+function pl(n, a, b, c) { var m10 = n % 10, m100 = n % 100; if (m10 === 1 && m100 !== 11) return a; if (m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14)) return b; return c; }
+function fmtMB(b) { return (b / 1048576).toFixed(b < 10485760 ? 1 : 0).replace(".", ",") + " MB"; }
+function fmtS(ms) { return (ms / 1000).toFixed(1).replace(".", ",") + " s"; }
+function pad2(n) { return (n < 10 ? "0" : "") + n; }
+function today() { var d = new Date(); return d.getFullYear() + "-" + pad2(d.getMonth() + 1) + "-" + pad2(d.getDate()); }
+function lsGet(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+function lsSet(k, v) { try { localStorage.setItem(k, v); } catch (e) { /* ignore */ } }
+
+var C2L = { "А": "A", "Б": "B", "В": "V", "Г": "G", "Д": "D", "Ђ": "Đ", "Е": "E", "Ж": "Ž", "З": "Z", "И": "I", "Ј": "J", "К": "K", "Л": "L", "Љ": "Lj", "М": "M", "Н": "N", "Њ": "Nj", "О": "O", "П": "P", "Р": "R", "С": "S", "Т": "T", "Ћ": "Ć", "У": "U", "Ф": "F", "Х": "H", "Ц": "C", "Ч": "Č", "Џ": "Dž", "Ш": "Š" };
+function toLat(s) {
+  var allCaps = s === s.toUpperCase() && /[А-Ша-ш]/.test(s) && s.length > 1;
+  var out = "";
+  for (var i = 0; i < s.length; i++) {
+    var c = s[i], u = c.toUpperCase(), m = C2L[u];
+    if (m) out += (c === u && !allCaps) ? m : m.toLowerCase(); else out += c;
+  }
+  if (allCaps && out) out = out[0].toUpperCase() + out.slice(1);
+  return out;
+}
+function slugify(name) {
+  var s = toLat(String(name)).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/đ/g, "dj");
+  s = s.replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 24).replace(/-+$/g, "");
+  return s || "snimac";
+}
+var _toastT = 0;
+function toast(msg, ms) {
+  var t = $("#toast"); t.textContent = msg; t.hidden = false;
+  clearTimeout(_toastT); _toastT = setTimeout(function () { t.hidden = true; }, ms || 3200);
+}
+
+/* all items, with pointers to their pack */
+var PACKS = DATA.packs;
+var PACK_BY_ID = {}, ITEM_BY_KEY = {};
+PACKS.forEach(function (p) {
+  PACK_BY_ID[p.id] = p;
+  p.items.forEach(function (it, i) { it.pack = p; it.pi = i; ITEM_BY_KEY[it.k] = it; });
+});
+function packMinutes(p, n) { return Math.max(1, Math.round((n == null ? p.items.length : n) * p.sec / 60)); }
+/* items.js marks "d":1 on every item that already has a human voice in the game; the rest is still computer TTS = "new" */
+function newOf(p) { var c = 0; p.items.forEach(function (it) { if (!it.d) c++; }); return c; }
+
+/* ---------------------------------------- 3. storage (IndexedDB, memory fallback) ---------------------------------------- */
+var DB = {
+  db: null, mem: null, persistent: false,
+  open: function () {
+    var self = this;
+    return new Promise(function (resolve) {
+      function fallback() { self.mem = { speakers: new Map(), takes: new Map(), wavs: new Map() }; resolve(false); }
+      try {
+        if (!window.indexedDB) return fallback();
+        var rq = indexedDB.open("pip-studio", 1);
+        rq.onupgradeneeded = function () {
+          var d = rq.result;
+          d.createObjectStore("speakers", { keyPath: "id" });
+          d.createObjectStore("takes", { keyPath: "id" }).createIndex("speaker", "speaker");
+          d.createObjectStore("wavs", { keyPath: "id" }).createIndex("speaker", "speaker");
+        };
+        rq.onsuccess = function () { self.db = rq.result; self.persistent = true; resolve(true); };
+        rq.onerror = rq.onblocked = function () { fallback(); };
+      } catch (e) { fallback(); }
+    });
+  },
+  _req: function (store, mode, fn) {
+    var self = this;
+    return new Promise(function (resolve, reject) {
+      var tx = self.db.transaction(store, mode), out;
+      tx.oncomplete = function () { resolve(out); };
+      tx.onerror = tx.onabort = function () { reject(tx.error || new Error("db")); };
+      var r = fn(tx.objectStore(store));
+      if (r) r.onsuccess = function () { out = r.result; };
+    });
+  },
+  get: function (store, key) { if (this.mem) return Promise.resolve(this.mem[store].get(key)); return this._req(store, "readonly", function (s) { return s.get(key); }); },
+  put: function (store, val) { if (this.mem) { this.mem[store].set(val.id, val); return Promise.resolve(); } return this._req(store, "readwrite", function (s) { return s.put(val); }); },
+  del: function (store, key) { if (this.mem) { this.mem[store].delete(key); return Promise.resolve(); } return this._req(store, "readwrite", function (s) { return s.delete(key); }); },
+  all: function (store) { if (this.mem) return Promise.resolve(Array.from(this.mem[store].values())); return this._req(store, "readonly", function (s) { return s.getAll(); }); },
+  bySpeaker: function (store, sp) {
+    if (this.mem) return Promise.resolve(Array.from(this.mem[store].values()).filter(function (v) { return v.speaker === sp; }));
+    return this._req(store, "readonly", function (s) { return s.index("speaker").getAll(sp); });
+  },
+  delSpeaker: function (sp) {
+    var self = this;
+    return Promise.all([self.bySpeaker("takes", sp), self.bySpeaker("wavs", sp)]).then(function (r) {
+      return Promise.all(r[0].map(function (t) { return self.del("takes", t.id); }).concat(r[1].map(function (w) { return self.del("wavs", w.id); }), [self.del("speakers", sp)]));
+    });
+  }
+};
+
+/* ---------------------------------------- 4. DSP, WAV, ZIP ---------------------------------------- */
+/* 10 ms frames of a first-order high-passed (about 100 Hz) signal, level in dBFS */
+function frameDbs(x, rate) {
+  var F = Math.round(rate * CFG.frameMs / 1000), n = Math.floor(x.length / F), out = new Float32Array(n);
+  var a = Math.exp(-2 * Math.PI * 100 / rate), hx = x.length ? x[0] : 0, hy = 0, p = 0;
+  for (var i = 0; i < n; i++) {
+    var ss = 0;
+    for (var j = 0; j < F; j++) { var v = x[p++]; hy = a * (hy + v - hx); hx = v; ss += hy * hy; }
+    out[i] = 10 * Math.log10(ss / F + 1e-12);
+  }
+  return out;
+}
+/* windowed-sinc resampler (quality low-pass included) */
+function resample(x, inRate, outRate) {
+  if (inRate === outRate) return Float32Array.from(x);
+  var ratio = inRate / outRate, n = Math.floor(x.length / ratio), out = new Float32Array(n);
+  var fc = Math.min(1, 1 / ratio) * 0.95, L = 12, W = Math.ceil(L / fc), R = 256;
+  var tab = new Float32Array((2 * W + 1) * R + 1);
+  for (var k = 0; k < tab.length; k++) {
+    var d = k / R - W, u = d / W, s = d === 0 ? 1 : Math.sin(Math.PI * fc * d) / (Math.PI * fc * d);
+    tab[k] = fc * s * (0.42 + 0.5 * Math.cos(Math.PI * u) + 0.08 * Math.cos(2 * Math.PI * u));
+  }
+  for (var i = 0; i < n; i++) {
+    var t = i * ratio, c = Math.floor(t), lo = Math.max(0, c - W + 1), hi = Math.min(x.length - 1, c + W), acc = 0, ws = 0;
+    for (var m = lo; m <= hi; m++) { var w = tab[Math.round((m - t + W) * R)]; acc += x[m] * w; ws += w; }
+    out[i] = ws > 0.0001 ? acc / ws : 0;
+  }
+  return out;
+}
+function encodeWav(f32, rate) {
+  var n = f32.length, buf = new ArrayBuffer(44 + n * 2), dv = new DataView(buf);
+  function str(o, s) { for (var i = 0; i < s.length; i++) dv.setUint8(o + i, s.charCodeAt(i)); }
+  str(0, "RIFF"); dv.setUint32(4, 36 + n * 2, true); str(8, "WAVE"); str(12, "fmt "); dv.setUint32(16, 16, true);
+  dv.setUint16(20, 1, true); dv.setUint16(22, 1, true); dv.setUint32(24, rate, true); dv.setUint32(28, rate * 2, true);
+  dv.setUint16(32, 2, true); dv.setUint16(34, 16, true); str(36, "data"); dv.setUint32(40, n * 2, true);
+  for (var i = 0; i < n; i++) { var s = clamp(f32[i], -1, 1); dv.setInt16(44 + i * 2, s < 0 ? Math.round(s * 32768) : Math.round(s * 32767), true); }
+  return buf;
+}
+function decodeWav(buf) {
+  var dv = new DataView(buf), n = (buf.byteLength - 44) >> 1, out = new Float32Array(n);
+  for (var i = 0; i < n; i++) out[i] = dv.getInt16(44 + i * 2, true) / 32768;
+  return { samples: out, rate: dv.getUint32(24, true) };
+}
+function toDb(v) { return 20 * Math.log10(Math.max(v, 1e-6)); }
+
+/* Cuts a raw take to the speech (+-200 ms), removes DC, converts to 24 kHz, measures. */
+function analyze(raw, rate, nf, o) {
+  o = o || {};
+  var x = raw;
+  if (o.manualStop) x = x.subarray(0, Math.max(0, x.length - Math.round(rate * 0.15)));      /* the tap that stopped it */
+  var F = Math.round(rate * CFG.frameMs / 1000), fd = frameDbs(x, rate), n = fd.length;
+  nf = clamp(nf, -80, -35);
+  var thr = Math.max(nf + CFG.vadOffsetDb, CFG.absMinDb), thrEnd = thr - CFG.endHystDb;
+  var skip = o.skipFrames || 0, a = -1, i;
+  for (i = skip; i < n - 1; i++) if (fd[i] > thr && fd[i + 1] > thr) { a = i; break; }
+  if (a < 0) {
+    var pk0 = 0; for (i = 0; i < x.length; i++) { var q = Math.abs(x[i]); if (q > pk0) pk0 = q; }
+    return { empty: true, peakDb: toDb(pk0), thr: thr };
+  }
+  var b = a + 1;
+  for (i = n - 1; i > a; i--) if (fd[i] > thrEnd && fd[i - 1] > thrEnd) { b = i; break; }
+  var a2 = a, b2 = b;
+  while (a2 > 0 && a - a2 < 30 && fd[a2 - 1] > nf + 8) a2--;
+  while (b2 < n - 1 && b2 - b < 40 && fd[b2 + 1] > nf + 8) b2++;
+  var pad = Math.round(rate * CFG.padMs / 1000);
+  var s0 = Math.max(0, a2 * F - pad), s1 = Math.min(x.length, (b2 + 1) * F + pad);
+  var seg = x.subarray(s0, s1), mean = 0, clipped = 0;
+  for (i = 0; i < seg.length; i++) { mean += seg[i]; if (Math.abs(seg[i]) >= CFG.clipPeak) clipped++; }
+  mean /= Math.max(1, seg.length);
+  var tmp = new Float32Array(seg.length);
+  for (i = 0; i < seg.length; i++) tmp[i] = seg[i] - mean;
+  var out = resample(tmp, rate, CFG.outRate);
+  var fi = Math.min(out.length >> 2, Math.round(CFG.outRate * 0.008)), fo = Math.min(out.length >> 2, Math.round(CFG.outRate * 0.02));
+  for (i = 0; i < fi; i++) out[i] *= i / fi;
+  for (i = 0; i < fo; i++) out[out.length - 1 - i] *= i / fo;
+  var pk = 0; for (i = 0; i < out.length; i++) { var m = Math.abs(out[i]); if (m > pk) pk = m; }
+  if (pk > 1) pk = 1;                      /* the WAV clamps at full scale */
+  /* speech level = mean power of the speech frames */
+  var pw = 0; for (i = a2; i <= b2; i++) pw += Math.pow(10, fd[i] / 10);
+  var speechDb = 10 * Math.log10(pw / Math.max(1, b2 - a2 + 1) + 1e-12);
+  /* the take's own background level: median of the frames around the speech (not the assumed floor), so a fan that
+     started after the mic test still shows up as "bucno" */
+  var outside = [];
+  for (i = 0; i < n; i++) if (i < a2 - 3 || i > b2 + 3) outside.push(fd[i]);
+  var bg = nf;
+  if (outside.length >= 20) { outside.sort(function (u, v) { return u - v; }); bg = outside[outside.length >> 1]; }
+  return {
+    empty: false, out: out, rate: CFG.outRate, durationMs: Math.round(out.length / CFG.outRate * 1000),
+    speechMs: (b2 - a2 + 1) * CFG.frameMs, peakDb: toDb(pk), rmsDb: speechDb, snrDb: speechDb - bg, bgDb: bg, clipped: clipped,
+    cutStart: a <= skip + 1 && fd[a] > thr + 6, cutEnd: !!(o.reason === "cap" && o.stillSpeaking), thr: thr, nf: nf
+  };
+}
+function classify(an, minMs) {
+  if (an.clipped >= 3 || an.peakDb > -0.3) return "preglasno";
+  if (an.peakDb < CFG.quietDb) return "pretiho";
+  if (an.speechMs < minMs) return "prekratko";
+  if (an.cutEnd) return "predugo";
+  if (an.cutStart) return "prekinuto";
+  if (an.snrDb < CFG.noisySnrDb) return "bucno";
+  return "ok";
+}
+function minMsFor(it) { return it.pack.id === "l" ? (it.kind === "long" ? 500 : 20) : it.pack.min_ms; }
+
+var CRC_T = (function () { var t = new Uint32Array(256); for (var n = 0; n < 256; n++) { var c = n; for (var k = 0; k < 8; k++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1; t[n] = c >>> 0; } return t; })();
+function crc32(u8) { var c = 0xFFFFFFFF; for (var i = 0; i < u8.length; i++) c = CRC_T[(c ^ u8[i]) & 255] ^ (c >>> 8); return (c ^ 0xFFFFFFFF) >>> 0; }
+/* uncompressed ("STORE") zip; entries = [{name, data: Uint8Array}] */
+function zipStore(entries, when) {
+  var enc = new TextEncoder(), d = when || new Date();
+  var dtime = (d.getHours() << 11) | (d.getMinutes() << 5) | (d.getSeconds() >> 1);
+  var ddate = (clamp(d.getFullYear() - 1980, 0, 127) << 9) | ((d.getMonth() + 1) << 5) | d.getDate();
+  var parts = [], central = [], off = 0, cdSize = 0;
+  if (entries.length > 65535) throw new Error("zip: too many files");
+  entries.forEach(function (e) {
+    var name = enc.encode(e.name), crc = crc32(e.data), size = e.data.length;
+    var lh = new Uint8Array(30 + name.length), v = new DataView(lh.buffer);
+    v.setUint32(0, 0x04034b50, true); v.setUint16(4, 20, true); v.setUint16(6, 0x0800, true); v.setUint16(8, 0, true);
+    v.setUint16(10, dtime, true); v.setUint16(12, ddate, true); v.setUint32(14, crc, true); v.setUint32(18, size, true); v.setUint32(22, size, true);
+    v.setUint16(26, name.length, true); v.setUint16(28, 0, true); lh.set(name, 30);
+    var ch = new Uint8Array(46 + name.length), c = new DataView(ch.buffer);
+    c.setUint32(0, 0x02014b50, true); c.setUint16(4, 20, true); c.setUint16(6, 20, true); c.setUint16(8, 0x0800, true); c.setUint16(10, 0, true);
+    c.setUint16(12, dtime, true); c.setUint16(14, ddate, true); c.setUint32(16, crc, true); c.setUint32(20, size, true); c.setUint32(24, size, true);
+    c.setUint16(28, name.length, true); c.setUint32(42, off, true); ch.set(name, 46);
+    parts.push(lh, e.data); central.push(ch); off += lh.length + size; cdSize += ch.length;
+    if (off > 4000000000) throw new Error("zip: too large");
+  });
+  var end = new Uint8Array(22), ev = new DataView(end.buffer);
+  ev.setUint32(0, 0x06054b50, true); ev.setUint16(8, entries.length, true); ev.setUint16(10, entries.length, true);
+  ev.setUint32(12, cdSize, true); ev.setUint32(16, off, true);
+  return new Blob(parts.concat(central, [end]), { type: "application/zip" });
+}
+
+/* ---------------------------------------- 5. microphone ---------------------------------------- */
+var WORKLET_SRC = "class T extends AudioWorkletProcessor{constructor(){super();this.b=new Float32Array(512);this.n=0}" +
+  "process(i){var c=i[0]&&i[0][0];if(c){for(var k=0;k<c.length;k++){this.b[this.n++]=c[k];if(this.n===512){var o=this.b.slice(0);this.port.postMessage(o,[o.buffer]);this.n=0}}}return true}}" +
+  "registerProcessor('pip-tap',T);";
+
+var Mic = {
+  ctx: null, stream: null, src: null, node: null, mute: null, rate: 48000, frameLen: 480, mode: "", settings: null,
+  workletReady: false, ring: [], ringLen: 0, chunkCbs: new Set(), frameCbs: new Set(), lastDb: -120, lastPk: 0,
+  hy: 0, hx: 0, acc: 0, accN: 0, accPk: 0, a: 0, frames: 0, ended: false,
+  live: function () {
+    return !!(this.stream && this.ctx && this.ctx.state !== "closed" && !this.ended && this.stream.getAudioTracks().some(function (t) { return t.readyState === "live"; }));
+  },
+  prepareCtx: function () {
+    if (!this.ctx || this.ctx.state === "closed") {
+      var AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) throw Object.assign(new Error("no audio"), { code: "noaudio" });
+      this.ctx = new AC();
+    }
+    var p = this.ctx.state === "suspended" ? this.ctx.resume() : null;
+    return p ? p.catch(function () { }) : Promise.resolve();
+  },
+  ensure: async function () {
+    if (this.live()) { if (this.ctx.state !== "running") await this.ctx.resume().catch(function () { }); return; }
+    await this.open();
+  },
+  open: async function () {
+    this.close();
+    if (!window.isSecureContext || !navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) throw Object.assign(new Error("insecure"), { code: "insecure" });
+    await this.prepareCtx();
+    var cons = { audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false, channelCount: 1 } };
+    var stream;
+    try { stream = await navigator.mediaDevices.getUserMedia(cons); }
+    catch (e) {
+      if (e && (e.name === "OverconstrainedError" || e.name === "ConstraintNotSatisfiedError" || e.name === "TypeError")) stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      else throw e;
+    }
+    var self = this;
+    this.stream = stream; this.ended = false;
+    var tr = stream.getAudioTracks()[0];
+    try { this.settings = tr.getSettings(); } catch (e) { this.settings = null; }
+    tr.onended = function () { self.ended = true; };
+    if (this.ctx.state !== "running") await this.ctx.resume().catch(function () { });
+    this.rate = this.ctx.sampleRate; this.frameLen = Math.round(this.rate * CFG.frameMs / 1000);
+    this.hy = 0; this.hx = 0; this.acc = 0; this.accN = 0; this.accPk = 0; this.a = Math.exp(-2 * Math.PI * 100 / this.rate);
+    this.ring = []; this.ringLen = 0;
+    this.src = this.ctx.createMediaStreamSource(stream);
+    this.node = null; this.mode = "";
+    var useWorklet = !/[?&]script=1/.test(location.search) && this.ctx.audioWorklet && typeof AudioWorkletNode !== "undefined";
+    if (useWorklet) {
+      try {
+        if (!this.workletReady) {
+          var url = URL.createObjectURL(new Blob([WORKLET_SRC], { type: "application/javascript" }));
+          await this.ctx.audioWorklet.addModule(url);
+          URL.revokeObjectURL(url);
+          this.workletReady = true;
+        }
+        this.node = new AudioWorkletNode(this.ctx, "pip-tap", { numberOfInputs: 1, numberOfOutputs: 1, outputChannelCount: [1] });
+        this.node.port.onmessage = function (e) { self.handle(e.data); };
+        this.mode = "worklet";
+      } catch (e) { this.node = null; }
+    }
+    if (!this.node) {
+      var sp = this.ctx.createScriptProcessor(2048, 1, 1);
+      sp.onaudioprocess = function (e) { self.handle(new Float32Array(e.inputBuffer.getChannelData(0))); };
+      this.node = sp; this.mode = "script";
+    }
+    this.mute = this.ctx.createGain(); this.mute.gain.value = 0;
+    this.src.connect(this.node); this.node.connect(this.mute); this.mute.connect(this.ctx.destination);
+  },
+  close: function () {
+    try { if (this.node) { this.node.disconnect(); if (this.node.port) this.node.port.onmessage = null; if ("onaudioprocess" in this.node) this.node.onaudioprocess = null; } } catch (e) { }
+    try { if (this.src) this.src.disconnect(); } catch (e) { }
+    try { if (this.mute) this.mute.disconnect(); } catch (e) { }
+    if (this.stream) this.stream.getTracks().forEach(function (t) { try { t.onended = null; t.stop(); } catch (e) { } });
+    this.stream = null; this.src = null; this.node = null; this.mute = null; this.lastDb = -120; this.lastPk = 0;
+  },
+  handle: function (chunk) {
+    this.ring.push(chunk); this.ringLen += chunk.length;
+    var keep = Math.round(this.rate * 1.2);
+    while (this.ring.length > 1 && this.ringLen - this.ring[0].length >= keep) this.ringLen -= this.ring.shift().length;
+    this.chunkCbs.forEach(function (cb) { cb(chunk); });
+    var F = this.frameLen, a = this.a, hx = this.hx, hy = this.hy, acc = this.acc, n = this.accN, pk = this.accPk;
+    for (var i = 0; i < chunk.length; i++) {
+      var v = chunk[i];
+      hy = a * (hy + v - hx); hx = v; acc += hy * hy;
+      var av = v < 0 ? -v : v; if (av > pk) pk = av;
+      if (++n === F) {
+        this.lastDb = 10 * Math.log10(acc / F + 1e-12); this.lastPk = pk; this.frames++;
+        var db = this.lastDb, p = pk;
+        this.frameCbs.forEach(function (cb) { cb(db, p); });
+        acc = 0; n = 0; pk = 0;
+      }
+    }
+    this.hx = hx; this.hy = hy; this.acc = acc; this.accN = n; this.accPk = pk;
+  },
+  recent: function (ms) {
+    var want = Math.round(this.rate * ms / 1000), out = new Float32Array(Math.min(want, this.ringLen)), pos = out.length;
+    for (var i = this.ring.length - 1; i >= 0 && pos > 0; i--) {
+      var c = this.ring[i], take = Math.min(c.length, pos);
+      out.set(c.subarray(c.length - take), pos - take); pos -= take;
+    }
+    return out;
+  },
+  onFrame: function (cb) { this.frameCbs.add(cb); var s = this; return function () { s.frameCbs.delete(cb); }; }
+};
+
+function micErrorInfo(e) {
+  var n = (e && e.name) || "", code = e && e.code;
+  if (code === "insecure") return { t: "Mikrofon nije dostupan na ovoj adresi", b: "Otvori stranicu preko pravog linka (počinje sa https://) u Chrome-u na Androidu ili u Safari-ju na iPhone-u." };
+  if (code === "noaudio") return { t: "Ovaj pregledač ne podržava snimanje zvuka", b: "Otvori link u Chrome-u (Android) ili Safari-ju (iPhone)." };
+  if (n === "NotAllowedError" || n === "PermissionDeniedError" || n === "SecurityError")
+    return { t: "Mikrofon nije dozvoljen", b: "Stranica ne sme da koristi mikrofon. Da dozvoliš u Chrome-u:",
+      steps: ["Dodirni ikonu sa bravom (ili podešavanjima) levo od adrese, na vrhu.", "Izaberi „Dozvole“, pa „Mikrofon“ i postavi na „Dozvoli“.", "Osveži stranicu (povuci nadole) i probaj ponovo."],
+      extra: "Na iPhone-u: Podešavanja → Safari → Mikrofon → Pitaj ili Dozvoli. Ako ništa ne pomaže: Chrome meni ⋮ → Podešavanja → Podešavanja sajtova → Mikrofon." };
+  if (n === "NotFoundError" || n === "DevicesNotFoundError" || n === "OverconstrainedError") return { t: "Telefon ne nalazi mikrofon", b: "Proveri da mikrofon nije isključen ili zauzet. Ako koristiš slušalice, probaj bez njih." };
+  if (n === "NotReadableError" || n === "TrackStartError" || n === "AbortError") return { t: "Mikrofon koristi druga aplikacija", b: "Zatvori ostale aplikacije koje snimaju (poziv, Viber, snimač) i probaj ponovo." };
+  return { t: "Mikrofon ne radi", b: "Nešto je pošlo naopako (" + esc(n || (e && e.message) || "greška") + "). Osveži stranicu i probaj ponovo." };
+}
+
+/* ---------------------------------------- 6. capture with automatic stop ---------------------------------------- */
+/* o: {preroll, blindMs, stopMs, capMs, noSpeechMs, nf, onFrame(info)}  ->  {promise, stop(), cancel()} */
+function startCapture(o) {
+  var parts = [], total = 0, n = 0, speaking = false, run = 0, silence = 0, nf = clamp(o.nf, -80, -35), done = false, resolveFn;
+  var p = new Promise(function (r) { resolveFn = r; });
+  if (o.preroll) { var r0 = Mic.recent(CFG.preRollMs); if (r0.length) { parts.push(r0); total += r0.length; } }
+  var blind = o.blindMs || 0;
+  function onChunk(c) { if (!done) { parts.push(c); total += c.length; } }
+  function finish(reason) {
+    if (done) return; done = true; offF(); Mic.chunkCbs.delete(onChunk);
+    var s = new Float32Array(total), q = 0;
+    for (var i = 0; i < parts.length; i++) { s.set(parts[i], q); q += parts[i].length; }
+    resolveFn({ samples: s, rate: Mic.rate, reason: reason, nf: nf, speaking: speaking, stillSpeaking: speaking && silence === 0, blindFrames: Math.round(blind / CFG.frameMs) });
+  }
+  function onFrame(db) {
+    if (done) return;
+    n++; var ms = n * CFG.frameMs, thr = Math.max(nf + CFG.vadOffsetDb, CFG.absMinDb);
+    if (ms > blind) {
+      if (!speaking) {
+        if (db > thr) { if (++run >= 2) { speaking = true; silence = 0; } }
+        else { run = 0; if (db < nf + 8) nf = clamp(nf + 0.02 * (db - nf), -80, -35); }
+      } else if (db < thr - CFG.endHystDb) silence++; else silence = 0;
+    }
+    if (o.onFrame) o.onFrame({ db: db, thr: thr, speaking: speaking, ms: ms, silenceMs: silence * CFG.frameMs });
+    if (speaking && silence * CFG.frameMs >= o.stopMs) finish("silence");
+    else if (ms >= o.capMs) finish("cap");
+    else if (!speaking && ms >= o.noSpeechMs) finish("nospeech");
+  }
+  Mic.chunkCbs.add(onChunk);
+  var offF = Mic.onFrame(onFrame);
+  return { promise: p, stop: function () { finish("manual"); }, cancel: function () { finish("cancel"); } };
+}
+
+/* ---------------------------------------- playback ---------------------------------------- */
+var Play = {
+  src: null, token: 0,
+  stop: function () { this.token++; var s = this.src; this.src = null; if (s) { try { s.onended = null; s.stop(); } catch (e) { } } },
+  play: async function (f32, rate) {
+    this.stop(); var t = this.token;
+    await Mic.prepareCtx();
+    if (t !== this.token) return;
+    var ctx = Mic.ctx, buf = ctx.createBuffer(1, f32.length, rate);
+    if (buf.copyToChannel) buf.copyToChannel(f32, 0); else buf.getChannelData(0).set(f32);
+    var s = ctx.createBufferSource(); s.buffer = buf; s.connect(ctx.destination);
+    var self = this;
+    return new Promise(function (res) { s.onended = function () { if (self.src === s) self.src = null; res(); }; self.src = s; s.start(); });
+  }
+};
+
+/* ---------------------------------------- waveform / meter ---------------------------------------- */
+function drawWave(cv, f32, color) {
+  var w = cv.clientWidth, h = cv.clientHeight; if (!w || !h) return;
+  var dpr = Math.min(3, window.devicePixelRatio || 1);
+  cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr);
+  var g = cv.getContext("2d"); g.setTransform(dpr, 0, 0, dpr, 0, 0); g.clearRect(0, 0, w, h);
+  var pk = 0.2; for (var i = 0; i < f32.length; i += 7) { var v = Math.abs(f32[i]); if (v > pk) pk = v; }
+  var mid = h / 2, step = f32.length / w; g.fillStyle = color || "#4b3fd9";
+  for (var x = 0; x < w; x += 2) {
+    var s = Math.floor(x * step), e = Math.min(f32.length, Math.max(s + 1, Math.floor((x + 2) * step))), mn = 1, mx = -1;
+    for (var k = s; k < e; k++) { var q = f32[k]; if (q < mn) mn = q; if (q > mx) mx = q; }
+    if (mn > mx) { mn = 0; mx = 0; }
+    var y0 = mid - (mx / pk) * mid * 0.92, y1 = mid - (mn / pk) * mid * 0.92;
+    g.fillRect(x, y0, 1.5, Math.max(1.5, y1 - y0));
+  }
+}
+var Meter = {
+  level: 0, els: [], raf: 0, off: null, thr: null,
+  start: function () {
+    var self = this;
+    if (this.off) return;
+    this.off = Mic.onFrame(function (db, pk) {
+      var v = clamp((db + 70) / 64, 0, 1); /* -70 .. -6 dBFS */
+      self.level = v > self.level ? v : self.level * 0.85 + v * 0.15; self.peak = pk;
+    });
+    var loop = function () {
+      self.raf = requestAnimationFrame(loop);
+      var cls = self.peak > 0.97 ? "clip" : self.peak > 0.7 ? "hot" : "";
+      self.els.forEach(function (e) { e.style.width = (self.level * 100).toFixed(1) + "%"; if (e.className !== cls) e.className = cls; });
+      self.peak *= 0.9;
+    };
+    this.peak = 0; loop();
+  },
+  stop: function () { if (this.off) this.off(); this.off = null; cancelAnimationFrame(this.raf); this.level = 0; this.els.forEach(function (e) { e.style.width = "0"; }); }
+};
+
+/* ---------------------------------------- 7. state + screens ---------------------------------------- */
+var S = {
+  speakers: [], meta: {}, sp: null, takes: new Map(), seq: [], pos: 0, phase: "idle", run: 0, noiseDb: -60, 
+  timers: {}, cap: null, micOkFor: "", intro: new Set(), screen: "home", exp: null, wl: null, cache: null
+};
+var H = { name: "", type: "", packs: new Set(), matched: "", only: false };
+
+function show(name) {
+  S.screen = name;
+  ["home", "mic", "rec", "done"].forEach(function (n) { $("#s-" + n).hidden = n !== name; });
+  try {
+    var st = history.state && history.state.s;
+    if (name !== "home") { if (!st) history.pushState({ s: name }, ""); else history.replaceState({ s: name }, ""); }
+  } catch (e) { }
+  window.scrollTo(0, 0);
+  wake(name === "mic" || name === "rec");
+}
+window.addEventListener("popstate", function () {
+  if (S.screen !== "home") { leaveToHome(true); }
+});
+function leaveToHome(fromPop) {
+  stopAll(); Meter.stop(); Mic.close(); S.phase = "idle"; hideErr();
+  show("home"); renderHome();
+  if (!fromPop) { try { if (history.state && history.state.s) history.back(); } catch (e) { } }
+}
+
+async function wake(on) {
+  try {
+    if (on) { if (!("wakeLock" in navigator) || S.wl) return; S.wl = await navigator.wakeLock.request("screen"); S.wl.addEventListener("release", function () { S.wl = null; }); }
+    else if (S.wl) { var w = S.wl; S.wl = null; await w.release(); }
+  } catch (e) { S.wl = null; }
+}
+document.addEventListener("visibilitychange", function () {
+  if (document.hidden) {
+    if (S.screen === "rec" && (S.phase === "recording" || S.phase === "countdown")) { stopAll(); S.phase = "idle"; setRecBtn("idle"); renderRec(); setStatus("Snimanje je prekinuto jer si napustio stranicu. Tapni ● da nastaviš."); }
+    if (S.screen === "mic") micAbort();
+  } else if (S.screen === "mic" || S.screen === "rec") wake(true);
+});
+
+/* ---------- speakers / progress helpers ---------- */
+function metaOf(spId) { return S.meta[spId] || (S.meta[spId] = new Map()); }
+function doneCount(spId, packIds) {
+  var m = metaOf(spId), c = 0;
+  PACKS.forEach(function (p) { if (packIds && packIds.indexOf(p.id) < 0) return; p.items.forEach(function (it) { var t = m.get(it.k); if (t && t.status === "ok") c++; }); });
+  return c;
+}
+function totalCount(packIds) { var c = 0; PACKS.forEach(function (p) { if (!packIds || packIds.indexOf(p.id) >= 0) c += p.items.length; }); return c; }
+async function saveSpeaker(sp) { await DB.put("speakers", sp); }
+async function loadAll() {
+  S.speakers = await DB.all("speakers");
+  S.meta = {};
+  var takes = await DB.all("takes");
+  takes.forEach(function (t) { metaOf(t.speaker).set(t.key, t); });
+}
+function seqDone(seq, m) { var c = 0; seq.forEach(function (x) { var t = m.get(x.it.k); if (t && t.status === "ok") c++; }); return c; }
+/* "Samo nove": the packs this kind of speaker records by default that still have items without a human voice */
+function onlyPacks(type) { var d = defaultPacks(type); return PACKS.filter(function (p) { return d.indexOf(p.id) >= 0 && newOf(p) > 0; }).map(function (p) { return p.id; }); }
+function defaultPacks(type) { return type === "dete" ? ["pp", "p"] : PACKS.filter(function (p) { return !p.child; }).map(function (p) { return p.id; }); }
+
+/* ---------- HOME ---------- */
+function sortedSpeakers() { return S.speakers.slice().sort(function (a, b) { return (b.lastUsed || 0) - (a.lastUsed || 0); }); }
+function packsOf(sp) { return sp.packs && sp.packs.length ? sp.packs : defaultPacks(sp.type); }
+function renderWarnings() {
+  var warn = "", ua = navigator.userAgent || "";
+  if (/FBAN|FBAV|Instagram|Viber|Line\/|; wv\)|Messenger/i.test(ua)) warn += '<div class="warnbox"><b>Otvori u Chrome-u</b>Ova stranica je otvorena unutar druge aplikacije (Viber, Messenger...), gde mikrofon često ne radi. Dodirni ⋮ pa „Otvori u pregledaču“ ili kopiraj link u Chrome.</div>';
+  if (!window.isSecureContext || !navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) warn += '<div class="warnbox bad"><b>Snimanje ne radi u ovom prozoru</b>Otvori stranicu preko https linka u Chrome-u (Android) ili Safari-ju (iPhone).</div>';
+  if (S.ready && !DB.persistent) warn += '<div class="warnbox bad"><b>Snimci se neće sačuvati</b>Ovaj pregledač ne dozvoljava čuvanje (privatni prozor?). Snimci će nestati kad zatvoriš stranicu. Otvori običan prozor.</div>';
+  $("#h-warn").innerHTML = warn;
+}
+function renderResume() {
+  var list = sortedSpeakers().filter(function (s) { return metaOf(s.id).size > 0; });
+  $("#h-resume").hidden = !list.length;
+  if (!list.length) return;
+  $("#h-resume-list").innerHTML = list.map(function (s) {
+    var packs = packsOf(s), m = metaOf(s.id), seq = buildSeq(packs, s.only, m), idx = firstOpen(seq, m), n = seqDone(seq, m), tot = seq.length;
+    var skipped = 0; seq.forEach(function (x) { var t = m.get(x.it.k); if (t && t.status === "skip") skipped++; });
+    var title = idx < 0 ? (n ? "Pošalji snimke: " : "Pregled: ") + esc(s.name) : "Nastavi: " + esc(s.name) + (s.only ? " (samo nove)" : "");
+    var sub = idx < 0 ? "Sve je obrađeno ✓ · snimljeno " + n + (skipped ? ", preskočeno " + skipped : "") : "Sledeće: " + esc(seq[idx].p.title) + ", " + (seq[idx].i + 1) + ". od " + seq[idx].n + " · snimljeno " + n + " / " + tot;
+    return '<div class="rrow"><button type="button" class="btn pri resume" data-resume="' + esc(s.id) + '"><span>' + title + "</span><small>" + sub + "</small></button>" +
+      '<div class="row"><button type="button" class="btn ghost sm" data-setup="' + esc(s.id) + '">Podesi pakete</button><button type="button" class="btn ghost sm" data-send="' + esc(s.id) + '">Pošalji / preuzmi</button></div></div>';
+  }).join("");
+}
+function renderTypes() { $$("#h-type button").forEach(function (b) { b.setAttribute("aria-checked", String(b.dataset.type === H.type)); }); }
+function matchedSpeaker() { return H.name.trim() ? S.speakers.find(function (s) { return s.id === slugify(H.name); }) : null; }
+function renderPacks() {
+  var ex = matchedSpeaker(), m = ex ? metaOf(ex.id) : null, only = H.only, inOnly = onlyPacks(H.type);
+  var newTot = 0, newSecs = 0; PACKS.forEach(function (p) { if (inOnly.indexOf(p.id) >= 0) { newTot += newOf(p); newSecs += newOf(p) * p.sec; } });
+  $("#h-new").innerHTML = newTot
+    ? '<button type="button" class="newbtn" id="h-only" aria-pressed="' + String(!!only) + '"><span class="nb-i" aria-hidden="true">✓</span><span class="nb-t"><b>Samo nove (još nesnimljene)</b>' +
+      "<small>" + newTot + " " + pl(newTot, "nova stavka", "nove stavke", "novih stavki") + ", oko " + Math.max(1, Math.round(newSecs / 60)) + " min. Ostalo je već snimljeno u igri.</small></span></button>"
+    : '<button type="button" class="newbtn" id="h-only" disabled><span class="nb-i" aria-hidden="true">✓</span><span class="nb-t"><b>Sve je već snimljeno u igri</b><small>Nema novih stavki za snimanje.</small></span></button>';
+  $("#h-packs").innerHTML = PACKS.map(function (p) {
+    var done = 0; if (m) p.items.forEach(function (it) { var t = m.get(it.k); if (t && t.status === "ok") done++; });
+    var prog = m ? '<span class="pk-prog' + (done === p.items.length ? " done" : "") + '">' + (done === p.items.length ? "✓ " : "") + done + "/" + p.items.length + "</span>" : "";
+    var nw = newOf(p), on = only ? inOnly.indexOf(p.id) >= 0 : H.packs.has(p.id);
+    var badge = nw ? '<span class="nbadge">' + nw + " novih</span>" : (nw < p.items.length ? '<span class="nbadge ok">✓ sve u igri</span>' : "");
+    var sm = only ? (nw ? "oko " + packMinutes(p, nw) + " min" : "nema novih") :
+      p.desc + " · " + p.items.length + " " + pl(p.items.length, "snimak", "snimka", "snimaka") + ", oko " + packMinutes(p) + " min" + (nw && nw < p.items.length ? " · " + (p.items.length - nw) + " već u igri" : "");
+    return '<label class="pack' + (p.parent ? " sub" : "") + (only && !on ? " off" : "") + '"><input type="checkbox" data-pack="' + p.id + '"' + (on ? " checked" : "") + (only ? " disabled" : "") + '>' +
+      '<span class="pk"><b>' + esc(p.title) + '</b> <span class="lat">' + esc(toLat(p.title)) + "</span>" + badge + "<small>" + esc(sm) + "</small></span>" + prog + "</label>";
+  }).join("");
+}
+function renderCta() {
+  var ex = matchedSpeaker(), m = ex ? metaOf(ex.id) : null;
+  var inOnly = H.only ? onlyPacks(H.type) : null;
+  var sel = PACKS.filter(function (p) { return inOnly ? inOnly.indexOf(p.id) >= 0 : H.packs.has(p.id); });
+  var amt = function (p) { return H.only ? newOf(p) : p.items.length; };
+  var cnt = sel.reduce(function (a, p) { return a + amt(p); }, 0), secs = sel.reduce(function (a, p) { return a + amt(p) * p.sec; }, 0);
+  $("#h-total").textContent = sel.length ? (H.only ? "Samo nove: " : "Izabrano: ") + cnt + " " + pl(cnt, "stavka", "stavke", "stavki") + ", oko " + Math.max(1, Math.round(secs / 60)) + " min snimanja" : (H.only ? "Nema novih stavki." : "Izaberi bar jedan paket.");
+  var go = $("#h-go"), note = $("#h-note"), ok = H.name.trim() && H.type && sel.length;
+  var ids = sel.map(function (p) { return p.id; });
+  go.disabled = !(ok && S.ready);
+  if (!H.name.trim()) { go.textContent = "Dalje"; note.textContent = "Upiši ime (npr. Tata, Mama, Ana)."; }
+  else if (!H.type) { go.textContent = "Dalje"; note.textContent = "Izaberi ko snima: žena, muškarac ili dete."; }
+  else if (!sel.length) { go.textContent = "Dalje"; note.textContent = H.only ? "Sve je već snimljeno u igri." : "Izaberi bar jedan paket."; }
+  else if (ex && doneCount(ex.id, ids) > 0) {
+    var seq = buildSeq(ids, H.only, m), idx = firstOpen(seq, m);
+    if (idx < 0) { go.textContent = "Sve je snimljeno ✓  Pošalji snimke"; note.textContent = H.only ? "" : "Možeš i da dodaš još pakete."; }
+    else { go.textContent = "Nastavi gde si stao ▶"; var nx = seq[idx]; note.textContent = "Sledeće: " + nx.p.title + ", " + (nx.i + 1) + ". od " + nx.n; }
+  } else { go.textContent = "Dalje: test mikrofona ▶"; note.textContent = ex ? "" : "Sve se snima na ovom telefonu."; }
+}
+function renderHome() {
+  renderWarnings(); renderResume(); renderTypes(); renderPacks(); renderCta();
+  var withTakes = S.speakers.filter(function (s) { return metaOf(s.id).size; });
+  $("#h-del").hidden = !withTakes.length;
+  $("#h-del-list").innerHTML = withTakes.map(function (s) { return delRowHtml(s); }).join("");
+  var intro = $("#h-intro"); if (!S._introSet) { intro.open = !withTakes.length; S._introSet = true; }
+  $("#h-foot").textContent = "Pip studio · stavke " + DATA.version + " · " + (DB.persistent ? "snimci se čuvaju na ovom telefonu" : "bez trajnog čuvanja");
+}
+function delRowHtml(s) {
+  var n = doneCount(s.id), pending = S._delAsk === s.id;
+  var warn = !s.lastExport ? '<small style="color:var(--bad)">Ovi snimci još nisu poslati ni preuzeti!</small>' : '<small>Poslato/preuzeto ' + new Date(s.lastExport).toLocaleDateString("sr-Latn") + '</small>';
+  return '<div class="spkrow"><div class="nm"><b>' + esc(s.name) + '</b> · ' + n + " " + pl(n, "snimak", "snimka", "snimaka") + warn + "</div>" +
+    (pending ? '<button type="button" class="btn danger" data-del-yes="' + esc(s.id) + '">Da, obriši</button><button type="button" class="btn ghost" data-del-no="1">Ne</button>'
+      : '<button type="button" class="btn ghost" data-del="' + esc(s.id) + '">Obriši</button>') + "</div>";
+}
+/* The order of one recording run. only = "Samo nove": items that already have a human voice in the game ("d") are left out,
+   unless this person has a take of them here. i / n = position inside the pack as shown in this run (the whole pack when not "only"). */
+function buildSeq(packIds, only, m) {
+  var seq = [];
+  PACKS.forEach(function (p) {
+    if (packIds.indexOf(p.id) < 0) return;
+    var part = p.items.filter(function (it) { return !(only && it.d && !(m && m.has(it.k))); });
+    part.forEach(function (it, i) { seq.push({ p: p, it: it, i: i, n: part.length }); });
+  });
+  return seq;
+}
+function firstOpen(seq, m) { for (var i = 0; i < seq.length; i++) { if (!m.has(seq[i].it.k)) return i; } return -1; }
+
+function applySpeakerToForm(sp, typing) {
+  H.type = sp.type; H.packs = new Set(packsOf(sp)); H.matched = sp.id; H.only = !!sp.only;
+  if (!typing) { H.name = sp.name; $("#h-name").value = sp.name; }
+}
+function onNameInput() {
+  H.name = $("#h-name").value;
+  var ex = matchedSpeaker();
+  if (ex && H.matched !== ex.id) applySpeakerToForm(ex, true);
+  else if (!ex) H.matched = "";
+  renderTypes(); renderPacks(); renderCta();
+}
+$("#h-name").addEventListener("input", onNameInput);
+$("#h-name").addEventListener("keydown", function (e) { if (e.key === "Enter") e.target.blur(); });
+$("#h-resume-list").addEventListener("click", async function (e) {
+  var b = e.target.closest("button"); if (!b) return;
+  var id = b.dataset.resume || b.dataset.setup || b.dataset.send, sp = S.speakers.find(function (s) { return s.id === id; }); if (!sp) return;
+  if (b.dataset.resume) { applySpeakerToForm(sp); beginSession(); }
+  else if (b.dataset.setup) { applySpeakerToForm(sp); renderHome(); $("#h-form").scrollIntoView({ behavior: "smooth", block: "start" }); }
+  else { await openSpeaker(sp, false); showDone(); }
+});
+$("#h-type").addEventListener("click", function (e) {
+  var b = e.target.closest("[data-type]"); if (!b) return;
+  var changed = H.type !== b.dataset.type; H.type = b.dataset.type;
+  if (changed && !matchedSpeaker()) H.packs = new Set(defaultPacks(H.type));
+  if (changed) renderPacks();
+  renderTypes(); renderCta();
+});
+$("#h-new").addEventListener("click", function (e) {
+  var b = e.target.closest("#h-only"); if (!b || b.disabled) return;
+  H.only = !H.only; renderPacks(); renderCta();
+});
+$("#h-packs").addEventListener("change", function (e) {
+  var cb = e.target.closest("[data-pack]"); if (!cb) return;
+  if (cb.checked) H.packs.add(cb.dataset.pack); else H.packs.delete(cb.dataset.pack);
+  renderCta();
+});
+function delClick(e) {
+  var b = e.target.closest("button"); if (!b) return;
+  if (b.dataset.del) { S._delAsk = b.dataset.del; }
+  else if (b.dataset.delNo) { S._delAsk = null; }
+  else if (b.dataset.delYes) { deleteSpeaker(b.dataset.delYes); return; }
+  else return;
+  renderHome(); if (S.screen === "done") renderDeleteBox();
+}
+$("#h-del-list").addEventListener("click", delClick);
+$("#d-del-in").addEventListener("click", delClick);
+async function deleteSpeaker(id) {
+  S._delAsk = null;
+  try { await DB.delSpeaker(id); } catch (e) { toast("Brisanje nije uspelo."); return; }
+  S.speakers = S.speakers.filter(function (s) { return s.id !== id; }); delete S.meta[id];
+  if (S.sp && S.sp.id === id) { S.sp = null; S.takes = new Map(); S.exp = null; S.micOkFor = ""; }
+  if (H.matched === id || slugify(H.name) === id) { H.name = ""; H.type = ""; H.matched = ""; H.packs = new Set(); $("#h-name").value = ""; }
+  toast("Snimci su obrisani.");
+  if (S.screen === "done") leaveToHome(); else renderHome();
+}
+
+$("#h-go").addEventListener("click", beginSession);
+async function openSpeaker(sp, touch) {
+  S.sp = sp; S.takes = metaOf(sp.id); S.exp = null;
+  S.seq = buildSeq(sp.packs && sp.packs.length ? sp.packs : defaultPacks(sp.type), sp.only, S.takes); S.pos = Math.max(0, firstOpen(S.seq, S.takes));
+  if (touch) { sp.lastUsed = Date.now(); await saveSpeaker(sp); }
+}
+async function beginSession() {
+  var name = H.name.trim().replace(/\s+/g, " "), id = slugify(name), type = H.type;
+  var only = !!H.only && onlyPacks(type).length > 0;
+  if (!name || !type || !(only || H.packs.size)) return;
+  var sp = S.speakers.find(function (s) { return s.id === id; });
+  /* "Samo nove" keeps all default packs of this kind of speaker (items added later to any of them show up by themselves); the run skips what is already in the game */
+  var packs = only ? defaultPacks(type) : PACKS.filter(function (p) { return H.packs.has(p.id); }).map(function (p) { return p.id; });
+  if (!sp) {
+    sp = { id: id, name: name, type: type, packs: packs, cont: type !== "dete", noiseDb: null, created: Date.now(), lastUsed: Date.now(), lastExport: 0, only: only };
+    S.speakers.push(sp);
+  } else {
+    if (sp.type !== type && type === "dete") sp.cont = false;
+    sp.name = name; sp.type = type; sp.packs = packs; sp.only = only; sp.lastUsed = Date.now();
+  }
+  try { await saveSpeaker(sp); } catch (e) { toast("Čuvanje nije uspelo. Proveri slobodno mesto na telefonu."); return; }
+  await openSpeaker(sp, false);
+  S.seq = buildSeq(packs, sp.only, S.takes);
+  var idx = firstOpen(S.seq, S.takes);
+  if (idx < 0) { if (doneCount(sp.id, packs)) { showDone(true); return; } idx = 0; }
+  S.pos = idx;
+  try { if (navigator.storage && navigator.storage.persist) navigator.storage.persist(); } catch (e) { }
+  startRecFlow();
+}
+/* mic test once per person per page visit; later "continue" goes straight to recording */
+function startRecFlow() {
+  if (S.micOkFor === S.sp.id) {
+    Mic.ensure().then(function () { enterRec(); }).catch(function (e) { gotoMic(); showMicError("#m-err", e); });
+  } else gotoMic();
+}
+
+/* ---------- MIC TEST ---------- */
+var MT = { token: 0, running: false, take: null };
+function gotoMic() {
+  show("mic"); MT.token++; MT.running = false; MT.take = null; $("#m-start").dataset.act = ""; $("#m-skip").dataset.act = "";
+  $("#m-step").innerHTML = '<div class="mi">🎙️</div><div class="mt">Proveri mikrofon i sobu</div><div class="ms">Traje oko 10 sekundi: prvo tišina, pa jedna kratka rečenica.</div>';
+  $("#m-result").innerHTML = ""; $("#m-err").innerHTML = ""; $("#m-wave").hidden = true; $("#m-play-row").hidden = true; $("#m-prog").style.width = "0";
+  $("#m-start").textContent = "● Počni test"; $("#m-start").hidden = false; $("#m-start").disabled = false;
+  $("#m-skip").hidden = !(S.sp && typeof S.sp.noiseDb === "number");
+  Meter.els = [$("#m-meter")]; Meter.stop();
+}
+function micAbort() {
+  var was = MT.running; MT.token++; MT.running = false; if (MT.cap) { MT.cap.cancel(); MT.cap = null; }
+  if (was && S.screen === "mic") { gotoMic(); }
+}
+function mStep(icon, title, sub) { $("#m-step").innerHTML = '<div class="mi">' + icon + '</div><div class="mt">' + title + '</div><div class="ms">' + sub + "</div>"; }
+function progAnim(ms) { var p = $("#m-prog"); p.style.transition = "none"; p.style.width = "0"; void p.offsetWidth; p.style.transition = "width " + ms + "ms linear"; p.style.width = "100%"; }
+async function runMicTest() {
+  if (MT.running) return; MT.running = true; var tk = ++MT.token;
+  $("#m-err").innerHTML = ""; $("#m-result").innerHTML = ""; $("#m-wave").hidden = true; $("#m-play-row").hidden = true; $("#m-skip").hidden = true;
+  $("#m-start").disabled = true;
+  mStep("🔓", "Dozvoli mikrofon", "Kad telefon pita, izaberi „Dozvoli“.");
+  try { await Mic.ensure(); }
+  catch (e) { if (tk === MT.token) { MT.running = false; $("#m-start").disabled = false; showMicError("#m-err", e); mStep("🎙️", "Mikrofon nije spreman", "Pogledaj objašnjenje ispod."); } return; }
+  if (tk !== MT.token) return;
+  Meter.start();
+  /* A: silence */
+  mStep("🤫", "Tišina", "Ne govori 1 sekundu…"); progAnim(1400);
+  var dbs = [], t0 = performance.now();
+  var off = Mic.onFrame(function (db) { if (performance.now() - t0 > 350) dbs.push(db); });
+  await sleep(1450); off();
+  if (tk !== MT.token) return;
+  dbs.sort(function (a, b) { return a - b; });
+  var noise = dbs.length ? dbs[Math.floor(dbs.length * 0.75)] : -60;
+  noise = clamp(noise, -80, -20); S.noiseDb = noise;
+  /* B: speech */
+  mStep("🗣️", "Sad reci glasno:", '<span style="font-family:var(--cyr);font-size:22px;color:var(--ink)">Здраво, ја сам Пип!</span><br>(Zdravo, ja sam Pip)'); progAnim(3500);
+  MT.cap = startCapture({ preroll: false, blindMs: 0, stopMs: 900, capMs: 7000, noSpeechMs: 7000, nf: noise });
+  var res = await MT.cap.promise; MT.cap = null;
+  if (tk !== MT.token || res.reason === "cancel") return;
+  MT.running = false; $("#m-prog").style.transition = "none"; $("#m-prog").style.width = "0";
+  var an = analyze(res.samples, res.rate, res.nf, { reason: res.reason, stillSpeaking: res.stillSpeaking, manualStop: res.reason === "manual" });
+  micVerdict(noise, an);
+}
+function micVerdict(noise, an) {
+  var rows = [], good = true, rep = false;
+  var nz = noise <= -58 ? ["ok", "Tiho je", "Soba je dovoljno tiha."] : noise <= CFG.noiseWarnDb ? ["ok", "Prihvatljivo", "Malo se čuje pozadina. Ako možeš, ugasi TV, ventilator ili muziku."] :
+    ["b", "Bučno", "Ugasi TV, muziku i ventilator, zatvori prozor, pa ponovi test."];
+  rows.push(nz); if (nz[0] !== "ok") good = false;
+  if (an.empty) { rows.push(["b", "Ništa se nije čulo", "Proveri da li je mikrofon dozvoljen i da ga ne pokrivaš prstom. Govori glasnije i bliže (oko 20 cm)."]); good = false; }
+  else {
+    var q = an.clipped >= 3 || an.peakDb > -0.3 ? ["b", "Preglasno", "Krči. Udalji telefon ili govori tiše."] : an.peakDb < CFG.quietDb ? ["w", "Pretiho", "Približi telefon ustima (oko 20 cm) i govori glasnije."] :
+      ["ok", "Jačina je dobra", "Tako treba da zvučiš."];
+    rows.push(q); if (q[0] !== "ok") good = false;
+    var q2 = an.snrDb < CFG.noisySnrDb ? ["w", "Glas se jedva razdvaja od buke", "Uđi u tišu prostoriju ili se približi telefonu."] : null;
+    if (q2 && q[0] === "ok") { rows.push(q2); good = false; }
+  }
+  $("#m-result").innerHTML = rows.map(function (r) {
+    return '<div class="vrow"><span class="vi ' + (r[0] === "ok" ? "ok" : r[0]) + '">' + (r[0] === "ok" ? "✓" : "!") + '</span><span class="vt"><b>' + r[1] + "</b><span>" + r[2] + "</span></span></div>";
+  }).join("");
+  if (good) mStep("✅", "Sve je u redu", "Preslušaj sebe pa kreni.");
+  else mStep("⚠️", "Može bolje", "Pogledaj savete ispod.");
+  if (!an.empty) {
+    var cv = $("#m-wave"); cv.hidden = false; drawWave(cv, an.out); MT.take = an;
+    $("#m-play-row").hidden = false;
+    Play.play(an.out, an.rate);
+  }
+  var st = $("#m-start"); st.hidden = false; st.disabled = false;
+  var skip = $("#m-skip");
+  if (good) {
+    st.textContent = "Počni snimanje ▶"; st.dataset.act = "go";
+    skip.textContent = "Ponovi test"; skip.dataset.act = "again"; skip.hidden = false;
+    if (S.sp) { S.sp.noiseDb = noise; saveSpeaker(S.sp).catch(function () { }); }
+  } else {
+    st.textContent = "Ponovi test"; st.dataset.act = "start";
+    skip.textContent = "Ipak nastavi"; skip.dataset.act = "go"; skip.hidden = false;
+    if (S.sp) { S.sp.noiseDb = noise; saveSpeaker(S.sp).catch(function () { }); }
+  }
+}
+$("#m-start").addEventListener("click", function () {
+  var act = this.dataset.act; this.dataset.act = "";
+  if (act === "go") { micDone(); } else { runMicTest(); }
+});
+$("#m-skip").addEventListener("click", function () {
+  var act = this.dataset.act; this.dataset.act = "";
+  if (act === "go") micDone(); else if (act === "again") { Play.stop(); runMicTest(); }
+  else { /* skip the test: use the saved noise level */
+    Mic.ensure().then(function () { S.noiseDb = S.sp.noiseDb; micDone(); }).catch(function (e) { showMicError("#m-err", e); });
+  }
+});
+$("#m-replay").addEventListener("click", function () {
+  if (!MT.take) return;
+  if (Play.src) { Play.stop(); this.textContent = "▶ Preslušaj"; return; }
+  var b = this; b.textContent = "■ Stop";
+  Play.play(MT.take.out, MT.take.rate).then(function () { b.textContent = "▶ Preslušaj"; });
+});
+$("#m-back").addEventListener("click", function () { micAbort(); Play.stop(); leaveToHome(); });
+function micDone() {
+  Play.stop(); micAbort(); S.micOkFor = S.sp.id;
+  if (typeof S.noiseDb !== "number" || S.noiseDb > 0) S.noiseDb = -60;
+  enterRec();
+}
+function showMicError(sel, e) {
+  var i = micErrorInfo(e);
+  $(sel).innerHTML = '<div class="warnbox bad"><b>' + i.t + "</b>" + i.b +
+    (i.steps ? "<ol style='margin:8px 0 8px 18px;padding:0'>" + i.steps.map(function (s) { return "<li>" + s + "</li>"; }).join("") + "</ol>" : "") + (i.extra ? "<div style='font-size:13px;margin-top:6px'>" + i.extra + "</div>" : "") + "</div>";
+}
+
+/* ---------- RECORDING SCREEN ---------- */
+function cur() { return S.seq[S.pos]; }
+function introKey(p) { return S.sp.id + ":" + p.id; }
+function curKey() { return cur().it.k; }
+function clearTimers() { Object.keys(S.timers).forEach(function (k) { clearTimeout(S.timers[k]); }); S.timers = {}; }
+function stopAll() { clearTimers(); if (S.cap) { var c = S.cap; S.cap = null; c.cancel(); } Play.stop(); S.run++; }
+var elStatus = $("#r-status");
+function setStatus(t, live) { t = t || ""; if (elStatus.textContent !== t) elStatus.textContent = t; elStatus.classList.toggle("live", !!live); }
+function setRecBtn(st) { var b = $("#r-rec"); b.dataset.st = st; b.classList.remove("spk"); b.setAttribute("aria-label", st === "rec" ? "Stani" : "Snimaj"); }
+
+function enterRec() {
+  show("rec");
+  Meter.els = [$("#r-meter")]; Meter.start();
+  $("#r-cont").checked = !!S.sp.cont;
+  var c = cur();
+  if (c.i === 0 && !S.takes.get(c.it.k) && !S.intro.has(introKey(c.p))) openIntro(); else { renderRec(); S.phase = "idle"; setIdleStatus(); }
+}
+function openIntro() {
+  var c = cur(), p = c.p; S.intro.add(introKey(p)); S.phase = "intro";
+  var pk = []; S.seq.forEach(function (x) { if (pk.indexOf(x.p) < 0) pk.push(x.p); });
+  $("#i-count").textContent = "Paket " + (pk.indexOf(p) + 1) + " od " + pk.length + (S.sp.only ? " · samo nove" : "");
+  $("#i-title").textContent = p.title; $("#i-latin").textContent = toLat(p.title);
+  $("#i-desc").textContent = p.desc + " · " + (S.sp.only ? c.n + " novih" : c.n + " " + pl(c.n, "snimak", "snimka", "snimaka")) + ", oko " + packMinutes(p, c.n) + " min";
+  var extra = p.id === "l" ? "Izgovaraj glas, a ne ime slova (m kao u MAMA, ne „em“)." : p.child ? "Snima se dete: odrasli čita, dete ponavlja. Tapni ● tek posle odraslog." : "";
+  $("#i-hint").innerHTML = (p.hint ? esc(p.hint) + "<small>" + esc(toLat(p.hint)) + "</small>" : "") + (extra ? '<div style="font-family:var(--ui);font-size:14px;margin-top:6px">' + esc(extra) + "</div>" : "");
+  $("#i-hint").hidden = !p.hint && !extra;
+  $("#r-intro").hidden = false; renderRec();
+  setRecBtn("idle");
+}
+$("#i-go").addEventListener("click", function () {
+  $("#r-intro").hidden = true;
+  Mic.ensure().then(function () {
+    S.phase = "idle";
+    if (S.sp.cont) startCountdown(); else setIdleStatus();
+  }).catch(function (e) { showErr(e); });
+});
+
+function renderRec() {
+  var c = cur(), it = c.it, p = c.p;
+  $("#r-pack").textContent = p.title;
+  $("#r-count").textContent = (c.i + 1) + " od " + c.n + " · ukupno " + (S.pos + 1) + "/" + S.seq.length;
+  var done = 0; S.seq.forEach(function (x) { var t = x.p === p && S.takes.get(x.it.k); if (t && t.status === "ok") done++; });
+  $("#r-bar-pack").style.width = (done / c.n * 100) + "%";
+  var allDone = 0; S.seq.forEach(function (x) { var t = S.takes.get(x.it.k); if (t && t.status === "ok") allDone++; });
+  $("#r-bar-all").style.width = (allDone / S.seq.length * 100) + "%";
+  var h = "";
+  if (p.id === "l") {
+    h += '<div class="glyph g-letter">' + esc(it.t) + '</div><div class="alat">' + esc(toLat(it.t)) + "</div>";
+    h += '<div class="say">Реци: <b>' + esc(it.say) + '</b></div><div class="exm">Пример: ' + esc(it.ex) + ' <span class="lat">(' + esc(toLat(it.ex)) + ")</span></div>";
+  } else {
+    if (it.e) h += '<div class="em">' + esc(it.e) + "</div>";
+    var cls = p.id === "s" ? "g-sent" : (p.id === "ph" || p.id === "pp") ? "g-long" : "g-word";
+    if (it.t.length > 9 && cls === "g-word") cls = "g-sent";
+    h += '<div class="glyph ' + cls + '">' + esc(it.t) + '</div><div class="alat">' + esc(toLat(it.t)) + "</div>";
+  }
+  if (it.d) h += '<div class="tag ok">✓ snimljeno u igri</div> ';
+  if (it.g) h += '<div class="tag">' + (it.g === "f" ? "oblik za devojčicu (ženski rod)" : "oblik za dečaka (muški rod)") + "</div>";
+  var hint = it.h || p.hint;
+  if (hint) h += '<div class="hint">' + esc(hint) + "<small>" + esc(toLat(hint)) + "</small></div>";
+  $("#r-item").innerHTML = h;
+  renderTake();
+  var has = S.takes.get(it.k), ok = has && has.status === "ok";
+  $("#r-skip").innerHTML = ok ? '<span class="i">▶▶</span>dalje' : '<span class="i">▶▶</span>preskoči';
+  $("#r-back").disabled = S.pos === 0;
+  $("#r-redo").disabled = !ok && S.phase !== "review";
+  $("#r-play").disabled = !ok;
+  $("#r-play").innerHTML = '<span class="i">▶</span>preslušaj';
+  $("#r-main").scrollTop = 0;
+}
+function setIdleStatus() {
+  var t = S.takes.get(curKey());
+  if (t && t.status === "skip") setStatus("Preskočeno. Tapni ● da snimiš.");
+  else if (t && t.status === "ok") setStatus("");
+  else setStatus(S.sp.cont ? "Tapni ● — sledeće ide samo od sebe" : "Tapni ● pa reci");
+  setRecBtn("idle");
+}
+async function renderTake() {
+  var it = cur().it, t = S.takes.get(it.k), box = $("#r-take");
+  if (!t || t.status !== "ok") { box.classList.remove("on"); return; }
+  box.classList.add("on");
+  var q = QUALITY[t.quality] || QUALITY.ok;
+  var b = $("#r-badge"); b.className = "badge " + q.cls; b.textContent = (q.cls === "ok" ? "✓ " : "! ") + q.label;
+  $("#r-dt").textContent = fmtS(t.ms) + " · vrh " + Math.round(t.peakDb) + " dB";
+  var tp = $("#r-tip"); tp.textContent = q.tip; tp.className = "tp" + (q.cls === "b" ? " b" : "");
+  var f32 = S.cache && S.cache.key === it.k ? S.cache.f32 : null;
+  if (!f32) {
+    var w = await DB.get("wavs", S.sp.id + "|" + it.k);
+    if (curKey() !== it.k || !w) return;
+    f32 = decodeWav(w.buf).samples; S.cache = { key: it.k, f32: f32 };
+  }
+  drawWave($("#r-wave"), f32);
+}
+
+/* ---------- the recording flow ---------- */
+function startCountdown() {
+  clearTimers(); var pause = S.sp.type === "dete" ? CFG.childPauseMs : CFG.pauseMs;
+  S.phase = "countdown"; setRecBtn("cd"); $("#r-rec").style.setProperty("--cd", pause + "ms");
+  setStatus(S.sp.type === "dete" ? "Pročitaj detetu, pa nek ponovi…" : "Spremi se…");
+  var run = S.run;
+  S.timers.cd = setTimeout(function () { if (run === S.run && S.phase === "countdown") startRecording({ auto: true }); }, pause);
+}
+async function startRecording(o) {
+  o = o || {};
+  if (S.phase === "recording" || S.phase === "busy") return;
+  clearTimers(); Play.stop(); $("#r-intro").hidden = true;
+  var run = ++S.run, c = cur(), it = c.it;
+  try {
+    if (o.auto) { if (!Mic.live() || Mic.ctx.state !== "running") { S.phase = "idle"; setIdleStatus(); setStatus("Mikrofon je stao. Tapni ● da nastaviš."); return; } }
+    else await Mic.ensure();
+    Meter.els = [$("#r-meter")]; Meter.start();
+  } catch (e) { S.phase = "idle"; setRecBtn("idle"); showErr(e); return; }
+  if (run !== S.run) return;
+  S.phase = "recording"; setRecBtn("rec"); setStatus("Govori…");
+  var long = it.pack.id === "l" && it.kind === "long";
+  var manual = !o.auto;
+  var cap = startCapture({
+    preroll: !manual, blindMs: manual ? CFG.blindMs : 0,
+    stopMs: long ? CFG.stopLongMs : CFG.stopMs,
+    capMs: it.t.length > 28 ? CFG.capLongMs : CFG.capMs, noSpeechMs: CFG.noSpeechMs,
+    nf: typeof S.noiseDb === "number" ? S.noiseDb : -60,
+    onFrame: function (f) {
+      if (run !== S.run) return;
+      var b = $("#r-rec");
+      b.classList.toggle("spk", f.speaking);
+      if (f.speaking) setStatus(f.silenceMs > 250 ? "Gotovo?…" : "Slušam…", true); else setStatus("Govori…");
+    }
+  });
+  S.cap = cap;
+  var res = await cap.promise;
+  if (S.cap === cap) S.cap = null;
+  if (run !== S.run || res.reason === "cancel") return;
+  S.phase = "busy"; setRecBtn("busy"); setStatus("Obrađujem…");
+  await sleep(0);
+  var an = analyze(res.samples, res.rate, res.nf, { reason: res.reason, stillSpeaking: res.stillSpeaking, manualStop: res.reason === "manual", skipFrames: manual ? res.blindFrames : 0 });
+  if (run !== S.run) return;
+  S.noiseDb = clamp(res.nf, -80, -35);
+  if (an.empty) {
+    S.phase = "nospeech"; setRecBtn("idle");
+    setStatus("Ništa se nije čulo. Proveri mikrofon, približi telefon i tapni ● ponovo.");
+    renderRec(); return;
+  }
+  var q = classify(an, minMsFor(it));
+  var wav = encodeWav(an.out, an.rate);
+  var meta = { id: S.sp.id + "|" + it.k, speaker: S.sp.id, key: it.k, status: "ok", ms: an.durationMs, peakDb: Math.round(an.peakDb * 10) / 10, rmsDb: Math.round(an.rmsDb * 10) / 10,
+    snrDb: Math.round(an.snrDb * 10) / 10, quality: q, bytes: wav.byteLength, speechMs: an.speechMs, ts: Date.now() };
+  try {
+    await DB.put("wavs", { id: meta.id, speaker: S.sp.id, buf: wav });
+    await DB.put("takes", meta);
+  } catch (e) {
+    S.phase = "idle"; setRecBtn("idle"); renderRec();
+    setStatus("Čuvanje nije uspelo (možda nema slobodnog mesta na telefonu).");
+    return;
+  }
+  if (run !== S.run) return;
+  S.takes.set(it.k, meta); S.cache = { key: it.k, f32: an.out }; S.exp = null;
+  S.phase = "review"; setRecBtn("idle"); renderRec(); setStatus("");
+  var delay = q === "ok" ? CFG.reviewOkMs : CFG.reviewBadMs;
+  S.timers.adv = setTimeout(function () { if (run === S.run && S.phase === "review") advance(); }, delay);
+}
+function advance() {
+  clearTimers();
+  if (S.pos >= S.seq.length - 1) { showDone(false); return; }
+  goto(S.pos + 1, { auto: true });
+}
+function goto(i, o) {
+  o = o || {};
+  stopAll(); i = clamp(i, 0, S.seq.length - 1);
+  var prevPack = S.seq[S.pos] && S.seq[S.pos].p;
+  S.pos = i; S.phase = "idle"; hideErr();
+  var c = cur(), has = S.takes.get(c.it.k);
+  if (c.p !== prevPack && c.i === 0 && !has && !S.intro.has(introKey(c.p)) && o.auto) { setRecBtn("idle"); openIntro(); return; }
+  renderRec();
+  if (o.auto && S.sp.cont && !(has && has.status === "ok")) startCountdown(); else { setIdleStatus(); }
+}
+$("#r-rec").addEventListener("click", function () {
+  if (S.phase === "recording") { if (S.cap) S.cap.stop(); return; }
+  if (S.phase === "busy") return;
+  if (S.phase === "intro") return;
+  startRecording({ auto: false });
+});
+$("#r-redo").addEventListener("click", function () {
+  if (S.phase === "recording" || S.phase === "busy") return;
+  clearTimers(); S.run++; Play.stop();
+  setStatus("…"); setTimeout(function () { startRecording({ auto: false }); }, 250);
+});
+$("#r-back").addEventListener("click", function () { if (S.pos > 0) goto(S.pos - 1, { auto: false }); });
+$("#r-skip").addEventListener("click", async function () {
+  if (S.phase === "busy") return;
+  var it = cur().it, t = S.takes.get(it.k);
+  if (!t) {
+    var meta = { id: S.sp.id + "|" + it.k, speaker: S.sp.id, key: it.k, status: "skip", ts: Date.now() };
+    try { await DB.put("takes", meta); } catch (e) { }
+    S.takes.set(it.k, meta); S.exp = null;
+  }
+  if (S.pos >= S.seq.length - 1) { showDone(false); return; }
+  goto(S.pos + 1, { auto: true });
+});
+$("#r-play").addEventListener("click", async function () {
+  var it = cur().it, t = S.takes.get(it.k); if (!t || t.status !== "ok") return;
+  if (Play.src) { Play.stop(); renderPlayBtn(false); return; }
+  var wasReview = S.phase === "review", run = S.run;
+  clearTimers();
+  var f32 = S.cache && S.cache.key === it.k ? S.cache.f32 : null, rate = CFG.outRate;
+  if (!f32) { var w = await DB.get("wavs", S.sp.id + "|" + it.k); if (!w) return; var d = decodeWav(w.buf); f32 = d.samples; rate = d.rate; S.cache = { key: it.k, f32: f32 }; }
+  if (S.phase === "countdown") { S.phase = "idle"; setIdleStatus(); }
+  renderPlayBtn(true);
+  await Play.play(f32, rate);
+  if (run !== S.run) return;
+  renderPlayBtn(false);
+  if (wasReview && S.phase === "review") { S.timers.adv = setTimeout(function () { if (run === S.run && S.phase === "review") advance(); }, 900); }
+});
+function renderPlayBtn(on) { $("#r-play").innerHTML = on ? '<span class="i">■</span>stop' : '<span class="i">▶</span>preslušaj'; }
+$("#r-cont").addEventListener("change", function () {
+  S.sp.cont = this.checked; saveSpeaker(S.sp).catch(function () { });
+  if (!this.checked && S.phase === "countdown") { clearTimers(); S.run++; S.phase = "idle"; setIdleStatus(); }
+  else if (this.checked && S.phase === "idle" && !(S.takes.get(curKey()) || {}).status) setIdleStatus();
+});
+$("#r-exit").addEventListener("click", function () { stopAll(); S.phase = "idle"; showDone(false); });
+
+function showErr(e) {
+  var i = micErrorInfo(e);
+  $("#r-err-in").innerHTML = '<h2>' + i.t + "</h2><p>" + i.b + "</p>" + (i.steps ? "<ol>" + i.steps.map(function (s) { return "<li>" + s + "</li>"; }).join("") + "</ol>" : "") +
+    (i.extra ? '<p class="lat" style="font-size:13px">' + i.extra + "</p>" : "") + '<div class="stack" style="margin-top:14px"><button class="btn pri big" id="e-retry" type="button">Probaj ponovo</button><button class="btn" id="e-close" type="button">Zatvori</button></div>';
+  $("#r-err").hidden = false;
+  $("#e-retry").onclick = function () { hideErr(); startRecording({ auto: false }); };
+  $("#e-close").onclick = hideErr;
+}
+function hideErr() { $("#r-err").hidden = true; }
+
+/* ---------- FINISH ---------- */
+function summarize() {
+  var sp = S.sp, m = S.takes;
+  var rows = [];
+  PACKS.forEach(function (p) {
+    var sel = sp.packs.indexOf(p.id) >= 0, ok = 0, skip = 0, sus = [], skipped = [], missing = [];
+    p.items.forEach(function (it) {
+      var t = m.get(it.k);
+      if (t && t.status === "ok") { ok++; if (t.quality !== "ok") sus.push(it); }
+      else if (t && t.status === "skip") { skip++; skipped.push(it); }
+      else if (!(sp.only && it.d)) missing.push(it);
+    });
+    var tot = ok + skip + missing.length;   /* in "Samo nove" the items already in the game do not count */
+    if ((sel && tot) || ok || skip) rows.push({ p: p, ok: ok, skip: skip, sus: sus, skipped: skipped, missing: missing, sel: sel, tot: tot });
+  });
+  return rows;
+}
+async function showDone(push) {
+  stopAll(); Meter.stop(); Mic.close();
+  S.phase = "idle"; hideErr(); renderDone(); show("done"); prepareExport();
+}
+function renderDone() {
+  var sp = S.sp, rows = summarize();
+  $("#d-title").innerHTML = "Pregled: " + esc(sp.name) + ' <span class="lat">(' + TYPE_LABEL[sp.type] + ")</span>";
+  var total = 0, okAll = 0;
+  $("#d-sum").innerHTML = rows.map(function (r) {
+    total += r.tot; okAll += r.ok;
+    var pct = r.ok / r.tot * 100;
+    var b = function (it, cls) { return '<button type="button" class="' + cls + '" data-goto="' + esc(it.k) + '">' + esc(it.t) + "</button>"; };
+    return '<div class="sumrow"><div class="h"><b>' + esc(r.p.title) + " <span class='lat'>" + esc(toLat(r.p.title)) + "</span></b><span>" + r.ok + " / " + r.tot + "</span></div>" +
+      '<div class="bar"><i style="width:' + pct + '%"></i></div><div class="st"><span class="ok">snimljeno ' + r.ok + "</span>" +
+      (r.skip ? '<span class="w">preskočeno ' + r.skip + "</span>" : "") + (r.sus.length ? '<span class="w">sumnjivo ' + r.sus.length + "</span>" : "") +
+      (r.missing.length && r.sel ? '<span class="lat">još ' + r.missing.length + "</span>" : "") + "</div>" +
+      ((r.sus.length || r.skipped.length) ? '<div class="items">' + r.sus.map(function (it) { return b(it, (QUALITY[S.takes.get(it.k).quality].cls === "b" ? "b" : "w")); }).join("") + r.skipped.map(function (it) { return b(it, "u"); }).join("") + "</div>" : "") + "</div>";
+  }).join("") || '<p class="lat">Još ništa nije snimljeno.</p>';
+  var left = S.seq.length ? S.seq.filter(function (x) { return !S.takes.has(x.it.k); }).length : 0;
+  $("#d-more").hidden = !S.seq.length; $("#d-more").textContent = left ? "Nastavi snimanje (" + left + " " + pl(left, "preostala", "preostale", "preostalih") + ")" : "Snimi ponovo neku stavku";
+  renderDeleteBox();
+}
+function renderDeleteBox() { $("#d-del-in").innerHTML = delRowHtml(S.sp); }
+$("#d-sum").addEventListener("click", function (e) {
+  var b = e.target.closest("[data-goto]"); if (!b) return;
+  var k = b.dataset.goto, i = S.seq.findIndex(function (x) { return x.it.k === k; });
+  if (i < 0) { S.sp.packs = PACKS.filter(function (p) { return S.sp.packs.indexOf(p.id) >= 0 || p.id === ITEM_BY_KEY[k].pack.id; }).map(function (p) { return p.id; }); S.seq = buildSeq(S.sp.packs, S.sp.only, S.takes); i = S.seq.findIndex(function (x) { return x.it.k === k; }); saveSpeaker(S.sp).catch(function () { }); }
+  S.intro.add(introKey(S.seq[i].p)); S.pos = i;
+  if (S.micOkFor === S.sp.id) Mic.ensure().then(function () { show("rec"); Meter.els = [$("#r-meter")]; Meter.start(); S.phase = "idle"; renderRec(); setIdleStatus(); }).catch(function (er) { show("rec"); renderRec(); showErr(er); });
+  else gotoMic();
+});
+$("#d-more").addEventListener("click", function () {
+  var i = firstOpen(S.seq, S.takes); if (i < 0) i = 0;
+  S.pos = i; startRecFlow();
+});
+$("#d-back").addEventListener("click", function () { leaveToHome(); });
+
+/* export */
+function exportName(packId) { return "pip-snimci-" + S.sp.id + (packId ? "-" + packId : "") + "-" + today() + ".zip"; }
+async function buildZip(packIds) {
+  var sp = S.sp, entries = [], items = [], enc = new TextEncoder(), skipped = [];
+  var folder = sp.id;
+  var list = [];
+  PACKS.forEach(function (p) { if (packIds && packIds.indexOf(p.id) < 0) return; p.items.forEach(function (it) { var t = S.takes.get(it.k); if (t && t.status === "ok") list.push({ it: it, t: t }); else if (t && t.status === "skip") skipped.push(it.k); }); });
+  for (var i = 0; i < list.length; i++) {
+    var w = await DB.get("wavs", sp.id + "|" + list[i].it.k);
+    if (!w) continue;
+    var t = list[i].t, it = list[i].it;
+    entries.push({ name: folder + "/" + it.f, data: new Uint8Array(w.buf) });
+    items.push({ key: it.k, text: it.t, file: folder + "/" + it.f, durationMs: t.ms, peakDb: t.peakDb, quality: t.quality, rmsDb: t.rmsDb, snrDb: t.snrDb });
+    if (i % 25 === 24) await sleep(0);
+  }
+  var man = { speaker: sp.name, speakerId: sp.id, type: sp.type, typeLabel: TYPE_LABEL[sp.type], date: new Date().toISOString(), device: navigator.userAgent,
+    format: "wav 16-bit mono " + CFG.outRate + " Hz", studioVersion: DATA.version, noiseFloorDb: Math.round(S.noiseDb * 10) / 10, skipped: skipped, items: items };
+  entries.push({ name: "manifest.json", data: enc.encode(JSON.stringify(man, null, 2)) });
+  var blob = zipStore(entries);
+  return { blob: blob, size: blob.size, count: items.length };
+}
+var _exportToken = 0;
+async function prepareExport() {
+  var tk = ++_exportToken, sp = S.sp; S.exp = null;
+  var share = $("#d-share"), dl = $("#d-dl"), info = $("#d-info"), note = $("#d-note");
+  share.disabled = true; dl.disabled = true; $("#d-link").hidden = true; $("#d-packs").innerHTML = ""; $("#d-main").hidden = false;
+  var n = 0; S.takes.forEach(function (t) { if (t.status === "ok") n++; });
+  if (!n) { info.textContent = "Još nema snimaka za slanje."; note.textContent = ""; return; }
+  var est = 0; S.takes.forEach(function (t) { if (t.status === "ok") est += (t.bytes || 0) + 70; });
+  var big = est > CFG.sizeLimit || /[?&]limit=small/.test(location.search) && est > 200000;
+  info.textContent = n + " " + pl(n, "snimak", "snimka", "snimaka") + ", oko " + fmtMB(est) + (big ? "." : ". Biće spakovano u jedan ZIP fajl.");
+  if (big) {
+    note.innerHTML = '<span style="color:var(--bad)"><b>Snimaka je mnogo (preko 50 MB).</b> Većina aplikacija ne prima toliko odjednom. Pošalji po paketima:</span>';
+    var rows = summarize().filter(function (r) { return r.ok; });
+    $("#d-main").hidden = true;
+    $("#d-packs").innerHTML = '<div class="stack" style="margin-top:10px">' + rows.map(function (r) {
+      return '<div class="row"><button type="button" class="btn pri" style="flex:2" data-exp-pack="' + r.p.id + '" data-kind="share">Pošalji: ' + esc(r.p.title) + " (" + r.ok + ')</button>' +
+        '<button type="button" class="btn" data-exp-pack="' + r.p.id + '" data-kind="download">Preuzmi</button></div>';
+    }).join("") + "</div>";
+    return;
+  }
+  note.textContent = "Pripremam fajl…";
+  try {
+    var z = await buildZip(null);
+    if (tk !== _exportToken) return;
+    S.exp = { all: z, name: exportName(null) };
+    note.textContent = "Spremno: " + z.count + " snimaka, " + fmtMB(z.size) + ".";
+    share.disabled = false; dl.disabled = false;
+  } catch (e) { note.textContent = "Priprema nije uspela. Probaj ponovo ili obriši neki paket."; }
+}
+async function doExport(kind, packId) {
+  var sp = S.sp, z, name;
+  if (packId) { $("#d-note").textContent = "Pripremam paket…"; z = await buildZip([packId]); name = exportName(packId); }
+  else { if (!S.exp) { await prepareExport(); } if (!S.exp) return; z = S.exp.all; name = S.exp.name; }
+  if (kind === "share") {
+    var file = new File([z.blob], name, { type: "application/zip" }), can = false;
+    try { can = !!(navigator.canShare && navigator.canShare({ files: [file] }) && navigator.share); } catch (e) { can = false; }
+    if (can) {
+      try {
+        await navigator.share({ files: [file], title: "Pip snimci", text: "Pip snimci: " + sp.name + " (" + z.count + ")" });
+        markExported(); $("#d-note").innerHTML = "Poslato ✓ Sačuvaj primljeni ZIP u folder <b>snimci</b> na računaru."; return;
+      } catch (e) {
+        if (e && e.name === "AbortError") { $("#d-note").textContent = "Slanje je otkazano."; return; }
+        /* NotAllowedError etc.: fall through to the download */
+      }
+    }
+    $("#d-note").textContent = "Ovaj telefon ne može direktno da pošalje ZIP, pa je fajl preuzet. Pošalji ga iz Preuzimanja (Viber, Gmail, Drive).";
+  }
+  download(z.blob, name);
+  markExported();
+}
+function download(blob, name) {
+  var url = URL.createObjectURL(blob), a = document.createElement("a");
+  a.href = url; a.download = name; a.style.display = "none"; document.body.appendChild(a); a.click();
+  var l = $("#d-link"); l.href = url; l.download = name; l.hidden = false;
+  setTimeout(function () { a.remove(); }, 1000);
+  if (!/preuzet/.test($("#d-note").textContent)) $("#d-note").textContent = "Preuzeto: " + name + ". Pošalji taj fajl (Viber, Gmail, Drive) i sačuvaj ga u folder snimci.";
+}
+function markExported() { S.sp.lastExport = Date.now(); saveSpeaker(S.sp).catch(function () { }); renderDeleteBox(); }
+$("#d-share").addEventListener("click", function () { doExport("share"); });
+$("#d-dl").addEventListener("click", function () { doExport("download"); });
+$("#d-packs").addEventListener("click", function (e) {
+  var b = e.target.closest("[data-exp-pack]"); if (b) doExport(b.dataset.kind, b.dataset.expPack);
+});
+
+/* ---------------------------------------- test hooks (read-only helpers for the automated tests) ---------------------------------------- */
+window.__studio = { jump: function (k) { var i = S.seq.findIndex(function (x) { return x.it.k === k; }); if (i >= 0) { goto(i, { auto: false }); } return i; }, showDone: showDone, showErr: showErr, S: S, H: H, CFG: CFG, Mic: Mic, DB: DB, Play: Play, lib: { analyze: analyze, classify: classify, resample: resample, encodeWav: encodeWav, decodeWav: decodeWav, zipStore: zipStore, crc32: crc32, toLat: toLat, slugify: slugify, frameDbs: frameDbs, startCapture: startCapture } };
+
+/* ---------------------------------------- 10. start ---------------------------------------- */
+(async function init() {
+  renderHome();
+  await DB.open();
+  try { await loadAll(); } catch (e) { S.speakers = []; S.meta = {}; }
+  var last = S.speakers.slice().sort(function (a, b) { return (b.lastUsed || 0) - (a.lastUsed || 0); })[0];
+  if (last) applySpeakerToForm(last);
+  S.ready = true;
+  renderHome();
+  if ("serviceWorker" in navigator && /^https?:$/.test(location.protocol) && !/[?&]nosw=1/.test(location.search)) {
+    navigator.serviceWorker.register("sw.js", { scope: "./" }).catch(function () { });
+  }
+})();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,1169 @@
+{
+ "frameW": 320,
+ "frameH": 346,
+ "fps": 12,
+ "cols": 6,
+ "anims": {
+  "idle": {
+   "frames": 24,
+   "cols": 6,
+   "loop": true,
+   "file": "body_idle.webp",
+   "mouth": [
+    [
+     160.0,
+     258.3
+    ],
+    [
+     160.0,
+     256.7
+    ],
+    [
+     160.0,
+     255.4
+    ],
+    [
+     160.0,
+     254.2
+    ],
+    [
+     160.0,
+     253.4
+    ],
+    [
+     160.0,
+     253.0
+    ],
+    [
+     160.0,
+     253.0
+    ],
+    [
+     160.0,
+     253.5
+    ],
+    [
+     160.0,
+     254.3
+    ],
+    [
+     160.0,
+     255.4
+    ],
+    [
+     160.0,
+     256.8
+    ],
+    [
+     160.0,
+     258.3
+    ],
+    [
+     160.0,
+     259.9
+    ],
+    [
+     160.0,
+     261.4
+    ],
+    [
+     160.0,
+     262.8
+    ],
+    [
+     160.0,
+     263.9
+    ],
+    [
+     160.0,
+     264.7
+    ],
+    [
+     160.0,
+     265.1
+    ],
+    [
+     160.0,
+     265.1
+    ],
+    [
+     160.0,
+     264.7
+    ],
+    [
+     160.0,
+     263.9
+    ],
+    [
+     160.0,
+     262.8
+    ],
+    [
+     160.0,
+     261.4
+    ],
+    [
+     160.0,
+     259.9
+    ]
+   ]
+  },
+  "happy": {
+   "frames": 12,
+   "cols": 6,
+   "loop": false,
+   "file": "body_happy.webp",
+   "mouth": [
+    [
+     160.0,
+     269.2
+    ],
+    [
+     160.0,
+     274.7
+    ],
+    [
+     160.0,
+     276.1
+    ],
+    [
+     160.0,
+     248.3
+    ],
+    [
+     160.0,
+     235.6
+    ],
+    [
+     160.0,
+     231.9
+    ],
+    [
+     160.0,
+     231.9
+    ],
+    [
+     160.0,
+     236.9
+    ],
+    [
+     160.0,
+     246.3
+    ],
+    [
+     160.0,
+     258.0
+    ],
+    [
+     160.0,
+     273.3
+    ],
+    [
+     160.0,
+     267.2
+    ]
+   ]
+  },
+  "listen": {
+   "frames": 18,
+   "cols": 6,
+   "loop": true,
+   "file": "body_listen.webp",
+   "mouth": [
+    [
+     160.0,
+     260.1
+    ],
+    [
+     161.3,
+     259.4
+    ],
+    [
+     162.5,
+     258.8
+    ],
+    [
+     163.3,
+     258.4
+    ],
+    [
+     163.8,
+     258.2
+    ],
+    [
+     163.8,
+     258.2
+    ],
+    [
+     163.3,
+     258.4
+    ],
+    [
+     162.5,
+     258.8
+    ],
+    [
+     161.3,
+     259.4
+    ],
+    [
+     160.0,
+     260.1
+    ],
+    [
+     158.7,
+     260.8
+    ],
+    [
+     157.5,
+     261.4
+    ],
+    [
+     156.7,
+     261.9
+    ],
+    [
+     156.2,
+     262.2
+    ],
+    [
+     156.2,
+     262.2
+    ],
+    [
+     156.7,
+     261.9
+    ],
+    [
+     157.5,
+     261.4
+    ],
+    [
+     158.7,
+     260.8
+    ]
+   ]
+  },
+  "thinking": {
+   "frames": 12,
+   "cols": 6,
+   "loop": false,
+   "file": "body_thinking.webp",
+   "hold": true,
+   "mouth": [
+    [
+     160.0,
+     261.1
+    ],
+    [
+     160.9,
+     261.1
+    ],
+    [
+     163.2,
+     261.2
+    ],
+    [
+     166.1,
+     261.4
+    ],
+    [
+     169.0,
+     261.7
+    ],
+    [
+     171.3,
+     262.1
+    ],
+    [
+     172.2,
+     262.3
+    ],
+    [
+     172.2,
+     262.3
+    ],
+    [
+     172.2,
+     262.3
+    ],
+    [
+     172.2,
+     262.3
+    ],
+    [
+     172.2,
+     262.3
+    ],
+    [
+     172.2,
+     262.3
+    ]
+   ]
+  },
+  "eat": {
+   "frames": 22,
+   "cols": 6,
+   "loop": false,
+   "file": "body_eat.webp",
+   "mouth": [
+    [
+     160.0,
+     262.1
+    ],
+    [
+     160.0,
+     261.0
+    ],
+    [
+     160.0,
+     259.1
+    ],
+    [
+     160.0,
+     258.0
+    ],
+    [
+     160.0,
+     258.0
+    ],
+    [
+     160.0,
+     258.0
+    ],
+    [
+     160.0,
+     258.0
+    ],
+    [
+     160.0,
+     270.3
+    ],
+    [
+     160.0,
+     262.4
+    ],
+    [
+     160.0,
+     263.3
+    ],
+    [
+     160.0,
+     264.1
+    ],
+    [
+     160.0,
+     262.1
+    ],
+    [
+     160.0,
+     264.1
+    ],
+    [
+     160.0,
+     263.3
+    ],
+    [
+     160.0,
+     262.4
+    ],
+    [
+     160.0,
+     264.5
+    ],
+    [
+     160.0,
+     262.1
+    ],
+    [
+     160.0,
+     258.0
+    ],
+    [
+     160.0,
+     258.0
+    ],
+    [
+     160.0,
+     262.1
+    ],
+    [
+     160.0,
+     262.1
+    ],
+    [
+     160.0,
+     262.1
+    ]
+   ]
+  },
+  "yum": {
+   "frames": 16,
+   "cols": 6,
+   "loop": false,
+   "file": "body_yum.webp",
+   "mouth": [
+    [
+     160.0,
+     264.1
+    ],
+    [
+     161.2,
+     259.0
+    ],
+    [
+     162.3,
+     254.7
+    ],
+    [
+     163.0,
+     251.8
+    ],
+    [
+     163.3,
+     250.8
+    ],
+    [
+     163.0,
+     251.8
+    ],
+    [
+     162.3,
+     254.7
+    ],
+    [
+     161.2,
+     259.0
+    ],
+    [
+     160.0,
+     264.1
+    ],
+    [
+     158.8,
+     259.0
+    ],
+    [
+     157.7,
+     254.7
+    ],
+    [
+     157.0,
+     251.8
+    ],
+    [
+     156.7,
+     250.8
+    ],
+    [
+     157.0,
+     251.8
+    ],
+    [
+     157.7,
+     254.7
+    ],
+    [
+     158.8,
+     259.0
+    ]
+   ]
+  },
+  "yuck": {
+   "frames": 16,
+   "cols": 6,
+   "loop": false,
+   "file": "body_yuck.webp",
+   "mouth": [
+    [
+     160.0,
+     263.1
+    ],
+    [
+     158.6,
+     264.3
+    ],
+    [
+     163.9,
+     266.6
+    ],
+    [
+     154.8,
+     267.9
+    ],
+    [
+     165.2,
+     267.9
+    ],
+    [
+     154.8,
+     267.9
+    ],
+    [
+     165.2,
+     267.9
+    ],
+    [
+     154.8,
+     267.9
+    ],
+    [
+     165.2,
+     267.9
+    ],
+    [
+     154.8,
+     267.9
+    ],
+    [
+     165.2,
+     267.9
+    ],
+    [
+     154.8,
+     267.9
+    ],
+    [
+     164.4,
+     267.9
+    ],
+    [
+     157.4,
+     267.9
+    ],
+    [
+     160.6,
+     266.6
+    ],
+    [
+     160.0,
+     264.3
+    ]
+   ]
+  },
+  "wave": {
+   "frames": 18,
+   "cols": 6,
+   "loop": false,
+   "file": "body_wave.webp",
+   "mouth": [
+    [
+     160.0,
+     261.1
+    ],
+    [
+     158.8,
+     260.1
+    ],
+    [
+     156.7,
+     259.2
+    ],
+    [
+     155.5,
+     258.6
+    ],
+    [
+     155.5,
+     258.3
+    ],
+    [
+     155.5,
+     258.3
+    ],
+    [
+     155.5,
+     258.6
+    ],
+    [
+     155.5,
+     259.3
+    ],
+    [
+     155.5,
+     260.2
+    ],
+    [
+     155.5,
+     261.3
+    ],
+    [
+     155.5,
+     262.3
+    ],
+    [
+     155.5,
+     263.2
+    ],
+    [
+     155.5,
+     263.9
+    ],
+    [
+     155.5,
+     264.2
+    ],
+    [
+     155.5,
+     264.2
+    ],
+    [
+     156.7,
+     263.8
+    ],
+    [
+     158.8,
+     263.0
+    ],
+    [
+     160.0,
+     262.1
+    ]
+   ]
+  },
+  "dance": {
+   "frames": 24,
+   "cols": 6,
+   "loop": true,
+   "file": "body_dance.webp",
+   "mouth": [
+    [
+     160.0,
+     265.8
+    ],
+    [
+     161.6,
+     257.8
+    ],
+    [
+     162.9,
+     252.0
+    ],
+    [
+     164.1,
+     250.1
+    ],
+    [
+     165.1,
+     252.5
+    ],
+    [
+     165.9,
+     258.5
+    ],
+    [
+     166.4,
+     266.6
+    ],
+    [
+     165.9,
+     258.5
+    ],
+    [
+     165.1,
+     252.5
+    ],
+    [
+     164.1,
+     250.1
+    ],
+    [
+     162.9,
+     252.0
+    ],
+    [
+     161.6,
+     257.8
+    ],
+    [
+     160.0,
+     265.8
+    ],
+    [
+     158.4,
+     257.8
+    ],
+    [
+     157.1,
+     252.0
+    ],
+    [
+     155.9,
+     250.1
+    ],
+    [
+     154.9,
+     252.5
+    ],
+    [
+     154.1,
+     258.5
+    ],
+    [
+     153.6,
+     266.6
+    ],
+    [
+     154.1,
+     258.5
+    ],
+    [
+     154.9,
+     252.5
+    ],
+    [
+     155.9,
+     250.1
+    ],
+    [
+     157.1,
+     252.0
+    ],
+    [
+     158.4,
+     257.8
+    ]
+   ]
+  },
+  "giggle": {
+   "frames": 14,
+   "cols": 6,
+   "loop": false,
+   "file": "body_giggle.webp",
+   "mouth": [
+    [
+     164.7,
+     258.9
+    ],
+    [
+     155.8,
+     260.6
+    ],
+    [
+     164.7,
+     258.9
+    ],
+    [
+     155.8,
+     260.6
+    ],
+    [
+     164.7,
+     258.9
+    ],
+    [
+     155.8,
+     260.6
+    ],
+    [
+     164.7,
+     258.9
+    ],
+    [
+     155.8,
+     260.6
+    ],
+    [
+     164.7,
+     258.9
+    ],
+    [
+     155.8,
+     260.6
+    ],
+    [
+     164.7,
+     258.9
+    ],
+    [
+     156.8,
+     261.0
+    ],
+    [
+     161.2,
+     261.2
+    ],
+    [
+     160.0,
+     262.1
+    ]
+   ]
+  },
+  "sleepy": {
+   "frames": 24,
+   "cols": 6,
+   "loop": true,
+   "file": "body_sleepy.webp",
+   "mouth": [
+    [
+     160.0,
+     261.1
+    ],
+    [
+     161.2,
+     260.3
+    ],
+    [
+     162.2,
+     259.6
+    ],
+    [
+     163.2,
+     259.0
+    ],
+    [
+     163.9,
+     258.6
+    ],
+    [
+     164.3,
+     258.3
+    ],
+    [
+     164.5,
+     258.2
+    ],
+    [
+     164.3,
+     258.3
+    ],
+    [
+     163.9,
+     257.9
+    ],
+    [
+     163.2,
+     257.5
+    ],
+    [
+     162.3,
+     257.6
+    ],
+    [
+     161.2,
+     258.3
+    ],
+    [
+     160.0,
+     259.1
+    ],
+    [
+     158.8,
+     259.9
+    ],
+    [
+     157.7,
+     260.6
+    ],
+    [
+     156.8,
+     261.8
+    ],
+    [
+     156.1,
+     263.2
+    ],
+    [
+     155.7,
+     264.1
+    ],
+    [
+     155.5,
+     264.3
+    ],
+    [
+     155.7,
+     264.2
+    ],
+    [
+     156.1,
+     263.8
+    ],
+    [
+     156.8,
+     263.3
+    ],
+    [
+     157.8,
+     262.6
+    ],
+    [
+     158.8,
+     261.9
+    ]
+   ]
+  },
+  "sleeping": {
+   "frames": 24,
+   "cols": 6,
+   "loop": true,
+   "file": "body_sleeping.webp",
+   "mouth": [
+    [
+     165.7,
+     265.4
+    ],
+    [
+     165.8,
+     264.9
+    ],
+    [
+     165.8,
+     264.4
+    ],
+    [
+     165.9,
+     263.9
+    ],
+    [
+     165.9,
+     263.6
+    ],
+    [
+     165.9,
+     263.4
+    ],
+    [
+     165.9,
+     263.4
+    ],
+    [
+     165.9,
+     263.4
+    ],
+    [
+     165.9,
+     263.6
+    ],
+    [
+     165.9,
+     263.9
+    ],
+    [
+     165.8,
+     264.4
+    ],
+    [
+     165.8,
+     264.9
+    ],
+    [
+     165.7,
+     265.4
+    ],
+    [
+     165.7,
+     265.9
+    ],
+    [
+     165.6,
+     266.4
+    ],
+    [
+     165.6,
+     266.8
+    ],
+    [
+     165.6,
+     267.1
+    ],
+    [
+     165.6,
+     267.3
+    ],
+    [
+     165.6,
+     267.4
+    ],
+    [
+     165.6,
+     267.3
+    ],
+    [
+     165.6,
+     267.1
+    ],
+    [
+     165.6,
+     266.8
+    ],
+    [
+     165.6,
+     266.4
+    ],
+    [
+     165.7,
+     265.9
+    ]
+   ]
+  }
+ },
+ "items": {
+  "cap": {
+   "slot": "head",
+   "back": false,
+   "files": {
+    "idle": "cap_idle.webp",
+    "happy": "cap_happy.webp",
+    "listen": "cap_listen.webp",
+    "thinking": "cap_thinking.webp",
+    "eat": "cap_eat.webp",
+    "yum": "cap_yum.webp",
+    "yuck": "cap_yuck.webp",
+    "wave": "cap_wave.webp",
+    "dance": "cap_dance.webp",
+    "giggle": "cap_giggle.webp",
+    "sleepy": "cap_sleepy.webp",
+    "sleeping": "cap_sleeping.webp"
+   }
+  },
+  "crown": {
+   "slot": "head",
+   "back": false,
+   "files": {
+    "idle": "crown_idle.webp",
+    "happy": "crown_happy.webp",
+    "listen": "crown_listen.webp",
+    "thinking": "crown_thinking.webp",
+    "eat": "crown_eat.webp",
+    "yum": "crown_yum.webp",
+    "yuck": "crown_yuck.webp",
+    "wave": "crown_wave.webp",
+    "dance": "crown_dance.webp",
+    "giggle": "crown_giggle.webp",
+    "sleepy": "crown_sleepy.webp",
+    "sleeping": "crown_sleeping.webp"
+   }
+  },
+  "hat": {
+   "slot": "head",
+   "back": false,
+   "files": {
+    "idle": "hat_idle.webp",
+    "happy": "hat_happy.webp",
+    "listen": "hat_listen.webp",
+    "thinking": "hat_thinking.webp",
+    "eat": "hat_eat.webp",
+    "yum": "hat_yum.webp",
+    "yuck": "hat_yuck.webp",
+    "wave": "hat_wave.webp",
+    "dance": "hat_dance.webp",
+    "giggle": "hat_giggle.webp",
+    "sleepy": "hat_sleepy.webp",
+    "sleeping": "hat_sleeping.webp"
+   }
+  },
+  "flower": {
+   "slot": "head",
+   "back": false,
+   "files": {
+    "idle": "flower_idle.webp",
+    "happy": "flower_happy.webp",
+    "listen": "flower_listen.webp",
+    "thinking": "flower_thinking.webp",
+    "eat": "flower_eat.webp",
+    "yum": "flower_yum.webp",
+    "yuck": "flower_yuck.webp",
+    "wave": "flower_wave.webp",
+    "dance": "flower_dance.webp",
+    "giggle": "flower_giggle.webp",
+    "sleepy": "flower_sleepy.webp",
+    "sleeping": "flower_sleeping.webp"
+   }
+  },
+  "glasses": {
+   "slot": "face",
+   "back": false,
+   "files": {
+    "idle": "glasses_idle.webp",
+    "happy": "glasses_happy.webp",
+    "listen": "glasses_listen.webp",
+    "thinking": "glasses_thinking.webp",
+    "eat": "glasses_eat.webp",
+    "yum": "glasses_yum.webp",
+    "yuck": "glasses_yuck.webp",
+    "wave": "glasses_wave.webp",
+    "dance": "glasses_dance.webp",
+    "giggle": "glasses_giggle.webp",
+    "sleepy": "glasses_sleepy.webp",
+    "sleeping": "glasses_sleeping.webp"
+   }
+  },
+  "scarf": {
+   "slot": "neck",
+   "back": false,
+   "files": {
+    "idle": "scarf_idle.webp",
+    "happy": "scarf_happy.webp",
+    "listen": "scarf_listen.webp",
+    "thinking": "scarf_thinking.webp",
+    "eat": "scarf_eat.webp",
+    "yum": "scarf_yum.webp",
+    "yuck": "scarf_yuck.webp",
+    "wave": "scarf_wave.webp",
+    "dance": "scarf_dance.webp",
+    "giggle": "scarf_giggle.webp",
+    "sleepy": "scarf_sleepy.webp",
+    "sleeping": "scarf_sleeping.webp"
+   }
+  },
+  "bow": {
+   "slot": "neck",
+   "back": false,
+   "files": {
+    "idle": "bow_idle.webp",
+    "happy": "bow_happy.webp",
+    "listen": "bow_listen.webp",
+    "thinking": "bow_thinking.webp",
+    "eat": "bow_eat.webp",
+    "yum": "bow_yum.webp",
+    "yuck": "bow_yuck.webp",
+    "wave": "bow_wave.webp",
+    "dance": "bow_dance.webp",
+    "giggle": "bow_giggle.webp",
+    "sleepy": "bow_sleepy.webp",
+    "sleeping": "bow_sleeping.webp"
+   }
+  },
+  "cape": {
+   "slot": "back",
+   "back": true,
+   "files": {
+    "idle": "cape_idle.webp",
+    "happy": "cape_happy.webp",
+    "listen": "cape_listen.webp",
+    "thinking": "cape_thinking.webp",
+    "eat": "cape_eat.webp",
+    "yum": "cape_yum.webp",
+    "yuck": "cape_yuck.webp",
+    "wave": "cape_wave.webp",
+    "dance": "cape_dance.webp",
+    "giggle": "cape_giggle.webp",
+    "sleepy": "cape_sleepy.webp",
+    "sleeping": "cape_sleeping.webp"
+   }
+  },
+  "backpack": {
+   "slot": "back",
+   "back": true,
+   "files": {
+    "idle": "backpack_idle.webp",
+    "happy": "backpack_happy.webp",
+    "listen": "backpack_listen.webp",
+    "thinking": "backpack_thinking.webp",
+    "eat": "backpack_eat.webp",
+    "yum": "backpack_yum.webp",
+    "yuck": "backpack_yuck.webp",
+    "wave": "backpack_wave.webp",
+    "dance": "backpack_dance.webp",
+    "giggle": "backpack_giggle.webp",
+    "sleepy": "backpack_sleepy.webp",
+    "sleeping": "backpack_sleeping.webp"
+   }
+  }
+ },
+ "mouth": {
+  "x": 160.0,
+  "y": 258.3
+ }
+}
